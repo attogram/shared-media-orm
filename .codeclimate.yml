@@ -1,0 +1,24 @@
+# attogram/shared-media-orm - codeclimate.yml - v0.0.1
+version: "2"
+exclude_patterns:
+- "vendor/"
+plugins:
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php"
+      standard: "PSR1,PSR2"
+  phpmd:
+    enabled: true
+  phan:
+    enabled: true
+  duplication:
+    enabled: true
+  csslint:
+    enabled: true
+  stylelint:
+    enabled: true
+  fixme:
+    enabled: true
+  git-legal:
+    enabled: true

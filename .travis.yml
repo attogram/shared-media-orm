@@ -1,0 +1,21 @@
+# attogram/shared-media-orm - .travis.yml - v0.0.1
+
+language: php
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+  - nightly
+  
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
+
+before_script:
+  - composer install
+  
+script:
+  - if find src/ -name "*.php" -exec php -l {} 2>&1 \; | grep "syntax error, unexpected"; then exit 1; fi;
+  - vendor/bin/phpunit
