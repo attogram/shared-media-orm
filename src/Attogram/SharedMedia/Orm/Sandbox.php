@@ -57,24 +57,22 @@ class Sandbox extends ApiSandbox
 
     public function getFooter()
     {
-        return '<footer><hr />'
-        .'<a href="./">shared-media-orm</a> : <a href="'.$this->self.'">sandbox</a>'
+        return '<footer><hr /><a href="./">shared-media-orm</a> : <a href="'.$this->self.'">sandbox</a>'
         .'<pre>Attogram\SharedMedia\Orm'
-		.'<br />Category      v'.OrmCategory::VERSION
-		.'<br />CategoryQuery v'.CategoryQuery::VERSION
-		.'<br />Media         v'.OrmMedia::VERSION
-		.'<br />MediaQuery    v'.MediaQuery::VERSION
-		.'<br />Page          v'.OrmPage::VERSION
-		.'<br />PageQuery     v'.PageQuery::VERSION
-		.'<br />C2M           v'.C2M::VERSION
-		.'<br />C2MQuery      v'.C2MQuery::VERSION
-		.'<br />C2P           v'.C2P::VERSION
-		.'<br />C2PQuery      v'.C2PQuery::VERSION
-		.'<br />M2P           v'.M2P::VERSION
-		.'<br />M2PQuery      v'.M2PQuery::VERSION
+        .'<br />Category      v'.OrmCategory::VERSION
+        .'<br />CategoryQuery v'.CategoryQuery::VERSION
+        .'<br />Media         v'.OrmMedia::VERSION
+        .'<br />MediaQuery    v'.MediaQuery::VERSION
+        .'<br />Page          v'.OrmPage::VERSION
+        .'<br />PageQuery     v'.PageQuery::VERSION
+        .'<br />C2M           v'.C2M::VERSION
+        .'<br />C2MQuery      v'.C2MQuery::VERSION
+        .'<br />C2P           v'.C2P::VERSION
+        .'<br />C2PQuery      v'.C2PQuery::VERSION
+        .'<br />M2P           v'.M2P::VERSION
+        .'<br />M2PQuery      v'.M2PQuery::VERSION
         .'<br />Sandbox       v'.self::VERSION
-        .'<br />'
-		.'<br />Attogram\SharedMedia\Api'
+        .'<br /><br />Attogram\SharedMedia\Api'
         .'<br />Transport v'.Transport::VERSION
         .'<br />Base      v'.Base::VERSION
         .'<br />Category  v'.Category::VERSION
@@ -84,8 +82,7 @@ class Sandbox extends ApiSandbox
         .'<br />Sources   v'.Sources::VERSION
         .'<br />Logger    v'.Logger::VERSION
         .'<br />Sandbox   v'.ApiSandbox::VERSION
-        .'</pre>'
-        .'</footer></body></html>';
+        .'</pre></footer></body></html>';
     }
-
 }
+
