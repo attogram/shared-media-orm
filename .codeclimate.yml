@@ -16,7 +16,11 @@ plugins:
   phan:
     enabled: true
     checks:
+      PhanUndeclaredClassConstant:
+        enabled: false
       PhanUndeclaredExtendedClass:
+        enabled: false
+      PhanUndeclaredProperty:
         enabled: false
   duplication:
     enabled: true
