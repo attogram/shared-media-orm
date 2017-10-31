@@ -1,0 +1,20 @@
+<?php
+
+namespace Attogram\SharedMedia\Orm;
+
+use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
+
+/**
+ * Skeleton subclass for performing query and update operations on the 'media' table.
+ *
+ *
+ *
+ * You should add additional methods to this class to meet the
+ * application requirements.  This class will only be generated as
+ * long as it does not already exist in the output directory.
+ *
+ */
+class MediaQuery extends BaseMediaQuery
+{
+    const VERSION = '0.0.1';
+}

@@ -12,7 +12,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Attogram\\SharedMedia\\Orm\\": "src/"
+            "Attogram\\SharedMedia\\Orm\\": "src/Attogram/SharedMedia/Orm/"
         }
     }
 }

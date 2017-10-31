@@ -1,0 +1,117 @@
+<!-- attogram/shared-media-orm  -  schema.xml  -  v0.0.1  -->
+<database name="default" defaultIdMethod="native"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd"
+          namespace="Attogram\SharedMedia\Orm"
+        >
+
+    <table name="category" phpName="Category">
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="pageid" type="INTEGER" />
+        <column name="title" type="VARCHAR" size="255" />
+        <column name="files" type="INTEGER" />
+        <column name="subcats" type="INTEGER" />
+        <column name="pages" type="INTEGER" />
+        <column name="size" type="INTEGER" />
+        <column name="hidden" type="BOOLEAN" />
+		<unique>
+			<unique-column name="pageid"/>
+			<unique-column name="title"/>
+		</unique>
+    </table>
+
+    <table name="media" phpName="Media">
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="pageid" type="INTEGER" />
+        <column name="title" type="VARCHAR" size="255" />
+        <column name="url" type="VARCHAR" size="255" />
+        <column name="mime" type="VARCHAR" size="255" />
+        <column name="width" type="INTEGER" />
+        <column name="height" type="INTEGER" />
+        <column name="size" type="INTEGER" />
+        <column name="sha1" type="VARCHAR" size="255" />
+        <column name="thumburl" type="VARCHAR" size="255" />
+        <column name="thumbmime" type="VARCHAR" size="255" />
+        <column name="thumbwidth" type="INTEGER" />
+        <column name="thumbheight" type="INTEGER" />
+        <column name="thumbsize" type="INTEGER" />
+        <column name="descriptionurl" type="VARCHAR" size="255" />
+        <column name="descriptionurlshort" type="VARCHAR" size="255" />
+        <column name="imagedescription" type="CLOB" />
+        <column name="datetimeoriginal" type="VARCHAR" size="255" />
+        <column name="artist" type="VARCHAR" size="255" />
+        <column name="licenseshortname" type="VARCHAR" size="255" />
+        <column name="usageterms" type="VARCHAR" size="255" />
+        <column name="attributionrequired" type="VARCHAR" size="255" />
+        <column name="restrictions" type="VARCHAR" size="255" />
+        <column name="timestamp" type="TIMESTAMP" size="255" />
+        <column name="user" type="VARCHAR" size="255" />
+        <column name="userid" type="INTEGER" />
+		<unique>
+			<unique-column name="pageid"/>
+			<unique-column name="title"/>
+		</unique>
+    </table>
+
+    <table name="page" phpName="Page">
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="pageid" type="INTEGER" />
+        <column name="title" type="VARCHAR" size="255" />
+        <column name="displaytitle" type="VARCHAR" size="255" />
+        <column name="page_image_free" type="VARCHAR" size="255" />
+        <column name="wikibase_item" type="VARCHAR" size="255" />
+        <column name="disambiguation" type="VARCHAR" size="255" />
+        <column name="defaultsort" type="VARCHAR" size="255" />
+		<unique>
+			<unique-column name="pageid"/>
+			<unique-column name="title"/>
+		</unique>
+    </table>
+
+    <table name="c2m" phpName="C2M">
+        <column name="category_id" type="INTEGER" primaryKey="true" />
+        <column name="media_id" type="INTEGER" primaryKey="true" />
+		<unique>
+			<unique-column name="category_id"/>
+			<unique-column name="media_id"/>
+		</unique>
+        <foreign-key foreignTable="category">
+            <reference local="category_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="media">
+            <reference local="media_id" foreign="id" />
+        </foreign-key>
+    </table>
+
+    <table name="c2p" phpName="C2P">
+        <column name="category_id" type="INTEGER" primaryKey="true" />
+        <column name="page_id" type="INTEGER" primaryKey="true" />
+		<unique>
+			<unique-column name="category_id"/>
+			<unique-column name="page_id"/>
+		</unique>
+        <foreign-key foreignTable="category">
+            <reference local="category_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="page">
+            <reference local="page_id" foreign="id" />
+        </foreign-key>
+    </table>
+
+    <table name="m2p" phpName="M2P">
+        <column name="media_id" type="INTEGER" primaryKey="true" />
+        <column name="page_id" type="INTEGER" primaryKey="true" />
+		<unique>
+			<unique-column name="media_id"/>
+			<unique-column name="page_id"/>
+		</unique>
+        <foreign-key foreignTable="media">
+            <reference local="media_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="page">
+            <reference local="page_id" foreign="id" />
+        </foreign-key>
+    </table>
+
+</database>
+
