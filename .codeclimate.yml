@@ -20,6 +20,8 @@ plugins:
         enabled: false
       PhanUndeclaredExtendedClass:
         enabled: false
+      PhanUndeclaredMethod:
+        enabled: false
       PhanUndeclaredProperty:
         enabled: false
   duplication:
