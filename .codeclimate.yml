@@ -2,6 +2,7 @@
 version: "2"
 exclude_patterns:
 - "vendor/"
+- "config/"
 - "src/Attogram/SharedMedia/Orm/Base/"
 - "src/Attogram/SharedMedia/Orm/Map/"
 plugins:
@@ -14,6 +15,9 @@ plugins:
     enabled: true
   phan:
     enabled: true
+    checks:
+      PhanUndeclaredExtendedClass:
+        enabled: false
   duplication:
     enabled: true
   csslint:
