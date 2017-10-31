@@ -2,6 +2,8 @@
 version: "2"
 exclude_patterns:
 - "vendor/"
+- "src/Attogram/SharedMedia/Orm/Base/"
+- "src/Attogram/SharedMedia/Orm/Map/"
 plugins:
   phpcodesniffer:
     enabled: true
