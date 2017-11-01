@@ -6,7 +6,7 @@
     "homepage": "https://github.com/attogram/shared-media-orm",
     "minimum-stability": "dev",
     "require": {
-        "php": ">=7.0",
+        "php": ">=5.5",
         "attogram/shared-media-api": "dev-master",
         "propel/propel": "^2.0@dev"
     },
