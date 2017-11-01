@@ -35,8 +35,4 @@ class Sandbox extends ApiSandbox
         'Attogram\SharedMedia\Api\Sandbox',
     ];
     public $versionsPad = 38;
-
-
-
-
 }
