@@ -1,4 +1,4 @@
-# attogram/shared-media-orm - codeclimate.yml - v0.0.2
+# attogram/shared-media-orm - codeclimate.yml - v0.0.3
 version: "2"
 exclude_patterns:
 - "vendor/"
@@ -31,6 +31,8 @@ plugins:
       PhanUndeclaredExtendedClass:
         enabled: false
       PhanUndeclaredInterface:
+        enabled: false
+      PhanUndeclaredMethod:
         enabled: false
       PhanUndeclaredTypeParameter:
         enabled: false
