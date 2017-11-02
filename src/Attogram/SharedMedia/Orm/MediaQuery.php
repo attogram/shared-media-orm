@@ -10,58 +10,22 @@ use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
  */
 class MediaQuery extends BaseMediaQuery
 {
-    const VERSION = '0.0.3';
+    const VERSION = '0.0.4';
 
-    public $media;
+    public $api;
 
     public function __construct($logger = null)
     {
-        $this->media = new ApiMedia($logger);
+        $this->api = new ApiMedia($logger);
     }
 
-    /**
-     * @param int $pageid
-     */
-    public function setPageid($pageid = null)
-    {
-        $this->media->setPageid($pageid);
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title = null)
-    {
-        $this->media->setTitle($title);
-    }
-
-    public function search($query)
-    {
-        return $this->media->search($query);
-    }
-
-    public function info()
-    {
-        return $this->media->info();
-    }
-
-    public function getMediaInCategory()
-    {
-        return $this->media->getMediaInCategory();
-    }
-
-    public function getMediaOnPage()
-    {
-        return $this->media->getMediaOnPage();
-    }
-
-    public function setEndpoint($endpoint)
-    {
-        return $this->media->setEndpoint($endpoint);
-    }
-
-    public function setLimit($limit)
-    {
-        return $this->media->setLimit($limit);
+    public function __call($name, $arguments = null) {
+        if (!is_callable([$this->api, $name])) {
+            return false;
+        }
+        if (empty($arguments)) {
+            return $this->api->{$name}();
+        }
+        return $this->api->{$name}($arguments[0]);
     }
 }
