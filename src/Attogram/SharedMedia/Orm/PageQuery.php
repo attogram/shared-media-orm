@@ -10,21 +10,29 @@ use Attogram\SharedMedia\Orm\Base\PageQuery as BasePageQuery;
  */
 class PageQuery extends BasePageQuery
 {
-    const VERSION = '0.0.2';
+    const VERSION = '0.0.3';
 
     public $page;
-    public $pageid;
-    public $title;
 
     public function __construct($logger = null)
     {
         $this->page = new ApiPage($logger);
     }
 
-    public function setIdentifiers()
+    /**
+     * @param int $pageid
+     */
+    public function setPageid($pageid = null)
     {
-        $this->page->pageid = $this->pageid;
-        $this->page->title = $this->title;
+        $this->page->setPageid($pageid);
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title = null)
+    {
+        $this->page->setTitle($title);
     }
 
     public function search($query)

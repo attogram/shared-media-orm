@@ -10,21 +10,29 @@ use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
  */
 class MediaQuery extends BaseMediaQuery
 {
-    const VERSION = '0.0.2';
+    const VERSION = '0.0.3';
 
     public $media;
-    public $pageid;
-    public $title;
 
     public function __construct($logger = null)
     {
         $this->media = new ApiMedia($logger);
     }
 
-    public function setIdentifiers()
+    /**
+     * @param int $pageid
+     */
+    public function setPageid($pageid = null)
     {
-        $this->media->pageid = $this->pageid;
-        $this->media->title = $this->title;
+        $this->media->setPageid($pageid);
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title = null)
+    {
+        $this->media->setTitle($title);
     }
 
     public function search($query)
@@ -34,19 +42,16 @@ class MediaQuery extends BaseMediaQuery
 
     public function info()
     {
-        $this->setIdentifiers();
         return $this->media->info();
     }
 
     public function getMediaInCategory()
     {
-        $this->setIdentifiers();
         return $this->media->getMediaInCategory();
     }
 
     public function getMediaOnPage()
     {
-        $this->setIdentifiers();
         return $this->media->getMediaOnPage();
     }
 

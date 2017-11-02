@@ -10,21 +10,29 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '0.0.2';
+    const VERSION = '0.0.3';
 
     public $category;
-    public $pageid;
-    public $title;
 
     public function __construct($logger = null)
     {
         $this->category = new ApiCategory($logger);
     }
 
-    public function setIdentifiers()
+    /**
+     * @param int $pageid
+     */
+    public function setPageid($pageid = null)
     {
-        $this->category->pageid = $this->pageid;
-        $this->category->title = $this->title;
+        $this->category->setPageid($pageid);
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title = null)
+    {
+        $this->category->setTitle($title);
     }
 
     public function search($query)
@@ -34,19 +42,16 @@ class CategoryQuery extends BaseCategoryQuery
 
     public function info()
     {
-        $this->setIdentifiers();
         return $this->category->info();
     }
 
     public function subcats()
     {
-        $this->setIdentifiers();
         return $this->category->subcats();
     }
 
     public function getCategoryfromPage()
     {
-        $this->setIdentifiers();
         return $this->category->getCategoryfromPage();
     }
 
