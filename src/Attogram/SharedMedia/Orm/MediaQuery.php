@@ -19,7 +19,8 @@ class MediaQuery extends BaseMediaQuery
         $this->api = new ApiMedia($logger);
     }
 
-    public function __call($name, $arguments = null) {
+    public function __call($name, $arguments = null)
+    {
         if (!is_callable([$this->api, $name])) {
             return false;
         }

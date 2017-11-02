@@ -19,7 +19,8 @@ class PageQuery extends BasePageQuery
         $this->api = new ApiPage($logger);
     }
 
-    public function __call($name, $arguments = null) {
+    public function __call($name, $arguments = null)
+    {
         if (!is_callable([$this->api, $name])) {
             return false;
         }

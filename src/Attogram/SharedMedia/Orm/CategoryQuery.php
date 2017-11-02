@@ -19,7 +19,8 @@ class CategoryQuery extends BaseCategoryQuery
         $this->api = new ApiCategory($logger);
     }
 
-    public function __call($name, $arguments = null) {
+    public function __call($name, $arguments = null)
+    {
         if (!is_callable([$this->api, $name])) {
             return false;
         }
