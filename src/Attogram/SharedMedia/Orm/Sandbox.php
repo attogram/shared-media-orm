@@ -7,7 +7,6 @@ use Attogram\SharedMedia\Orm\CategoryQuery;
 use Attogram\SharedMedia\Orm\MediaQuery;
 use Attogram\SharedMedia\Orm\PageQuery;
 
-
 class Sandbox extends ApiSandbox
 {
     const VERSION = '0.0.3';
