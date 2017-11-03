@@ -14,10 +14,10 @@
         <column name="pages" type="INTEGER" />
         <column name="size" type="INTEGER" />
         <column name="hidden" type="BOOLEAN" />
-		<unique>
-			<unique-column name="pageid"/>
-			<unique-column name="title"/>
-		</unique>
+        <unique>
+            <unique-column name="pageid"/>
+            <unique-column name="title"/>
+        </unique>
     </table>
 
     <table name="media" phpName="Media">
@@ -47,10 +47,10 @@
         <column name="timestamp" type="TIMESTAMP" size="255" />
         <column name="user" type="VARCHAR" size="255" />
         <column name="userid" type="INTEGER" />
-		<unique>
-			<unique-column name="pageid"/>
-			<unique-column name="title"/>
-		</unique>
+        <unique>
+            <unique-column name="pageid"/>
+            <unique-column name="title"/>
+        </unique>
     </table>
 
     <table name="page" phpName="Page">
@@ -62,19 +62,19 @@
         <column name="wikibase_item" type="VARCHAR" size="255" />
         <column name="disambiguation" type="VARCHAR" size="255" />
         <column name="defaultsort" type="VARCHAR" size="255" />
-		<unique>
-			<unique-column name="pageid"/>
-			<unique-column name="title"/>
-		</unique>
+        <unique>
+            <unique-column name="pageid"/>
+            <unique-column name="title"/>
+        </unique>
     </table>
 
     <table name="c2m" phpName="C2M">
         <column name="category_id" type="INTEGER" primaryKey="true" />
         <column name="media_id" type="INTEGER" primaryKey="true" />
-		<unique>
-			<unique-column name="category_id"/>
-			<unique-column name="media_id"/>
-		</unique>
+        <unique>
+            <unique-column name="category_id"/>
+            <unique-column name="media_id"/>
+        </unique>
         <foreign-key foreignTable="category">
             <reference local="category_id" foreign="id" />
         </foreign-key>
@@ -86,10 +86,10 @@
     <table name="c2p" phpName="C2P">
         <column name="category_id" type="INTEGER" primaryKey="true" />
         <column name="page_id" type="INTEGER" primaryKey="true" />
-		<unique>
-			<unique-column name="category_id"/>
-			<unique-column name="page_id"/>
-		</unique>
+        <unique>
+            <unique-column name="category_id"/>
+            <unique-column name="page_id"/>
+        </unique>
         <foreign-key foreignTable="category">
             <reference local="category_id" foreign="id" />
         </foreign-key>
@@ -101,10 +101,10 @@
     <table name="m2p" phpName="M2P">
         <column name="media_id" type="INTEGER" primaryKey="true" />
         <column name="page_id" type="INTEGER" primaryKey="true" />
-		<unique>
-			<unique-column name="media_id"/>
-			<unique-column name="page_id"/>
-		</unique>
+        <unique>
+            <unique-column name="media_id"/>
+            <unique-column name="page_id"/>
+        </unique>
         <foreign-key foreignTable="media">
             <reference local="media_id" foreign="id" />
         </foreign-key>
