@@ -10,13 +10,15 @@ use Attogram\SharedMedia\Orm\Base\PageQuery as BasePageQuery;
  */
 class PageQuery extends BasePageQuery
 {
-    const VERSION = '0.0.4';
+    const VERSION = '0.0.5';
 
     public $api;
+    public $logger;
 
     public function __construct($logger = null)
     {
         $this->api = new ApiPage($logger);
+        $this->logger = $this->api->logger;
     }
 
     public function __call($name, $arguments = null)

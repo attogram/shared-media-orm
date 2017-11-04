@@ -10,13 +10,15 @@ use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
  */
 class MediaQuery extends BaseMediaQuery
 {
-    const VERSION = '0.0.4';
+    const VERSION = '0.0.5';
 
     public $api;
+    public $logger;
 
     public function __construct($logger = null)
     {
         $this->api = new ApiMedia($logger);
+        $this->logger = $this->api->logger;
     }
 
     public function __call($name, $arguments = null)

@@ -10,13 +10,15 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '0.0.4';
+    const VERSION = '0.0.5';
 
     public $api;
+    public $logger;
 
     public function __construct($logger = null)
     {
         $this->api = new ApiCategory($logger);
+        $this->logger = $this->api->logger;
     }
 
     public function __call($name, $arguments = null)
