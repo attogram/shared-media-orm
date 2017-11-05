@@ -10,7 +10,7 @@ use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
  */
 class MediaQuery extends BaseMediaQuery
 {
-    const VERSION = '0.0.5';
+    const VERSION = '1.0.0';
 
     public $api;
     public $logger;

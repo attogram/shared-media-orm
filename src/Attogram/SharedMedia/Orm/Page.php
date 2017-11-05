@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\Page as BasePage;
  */
 class Page extends BasePage
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

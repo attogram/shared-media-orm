@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\C2PQuery as BaseC2PQuery;
  */
 class C2PQuery extends BaseC2PQuery
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

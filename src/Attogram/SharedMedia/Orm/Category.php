@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\Category as BaseCategory;
  */
 class Category extends BaseCategory
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

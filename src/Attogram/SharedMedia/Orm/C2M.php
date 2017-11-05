@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\C2M as BaseC2M;
  */
 class C2M extends BaseC2M
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

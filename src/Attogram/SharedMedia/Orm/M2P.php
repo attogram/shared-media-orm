@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\M2P as BaseM2P;
  */
 class M2P extends BaseM2P
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

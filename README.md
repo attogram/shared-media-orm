@@ -1,4 +1,4 @@
-# shared-media-orm v0.0
+# shared-media-orm v1.0
 
 ORM for attogram/shared-media-api
 

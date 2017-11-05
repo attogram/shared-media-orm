@@ -10,7 +10,7 @@ use Attogram\SharedMedia\Orm\Base\PageQuery as BasePageQuery;
  */
 class PageQuery extends BasePageQuery
 {
-    const VERSION = '0.0.5';
+    const VERSION = '1.0.0';
 
     public $api;
     public $logger;

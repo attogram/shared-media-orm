@@ -10,7 +10,7 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '0.0.5';
+    const VERSION = '1.0.0';
 
     public $api;
     public $logger;

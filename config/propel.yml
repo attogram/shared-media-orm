@@ -2,7 +2,7 @@ propel:
 
     general:
         project: attogram/shared-media-orm
-        version: 0.0.1
+        version: 1.0.0
 
     database:
         connections:

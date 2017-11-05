@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\M2PQuery as BaseM2PQuery;
  */
 class M2PQuery extends BaseM2PQuery
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

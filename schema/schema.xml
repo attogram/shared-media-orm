@@ -1,4 +1,4 @@
-<!-- attogram/shared-media-orm  -  schema.xml  -  v0.0.1  -->
+<!-- attogram/shared-media-orm  -  schema.xml  -  v1.0.0  -->
 <database name="default" defaultIdMethod="native"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd"

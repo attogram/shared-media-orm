@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\C2MQuery as BaseC2MQuery;
  */
 class C2MQuery extends BaseC2MQuery
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }

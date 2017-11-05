@@ -16,5 +16,5 @@ use Attogram\SharedMedia\Orm\Base\C2P as BaseC2P;
  */
 class C2P extends BaseC2P
 {
-    const VERSION = '0.0.1';
+    const VERSION = '1.0.0';
 }
