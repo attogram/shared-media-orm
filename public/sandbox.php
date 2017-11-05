@@ -1,21 +1,26 @@
-<?php // attogram/shared-media-orm - sandbox.php - v0.0.2
+<?php // attogram/shared-media-orm - sandbox.php - v0.0.3
 
 use Attogram\SharedMedia\Api\Sources;
 use Attogram\SharedMedia\Sandbox\Sandbox;
 
 $lib = '../vendor/autoload.php';
 if (!is_readable($lib)) {
-    print 'ERROR: Autoloader not found: ' . $lib;
+    print 'ERROR: Autoloader Not Found: ' . $lib;
     return false;
 }
 require_once($lib);
 
 $lib = '../config/config.php';
 if (!is_readable($lib)) {
-    print 'ERROR: Propel config not found: ' . $lib;
+    print 'ERROR: Propel Config Not Found: ' . $lib;
     return false;
 }
 require_once($lib);
+
+if (!class_exists('Attogram\SharedMedia\Sandbox\Sandbox')) {
+    print 'ERROR: Sandbox Class Not Found';
+    return false;
+}
 
 $sandbox = new Sandbox();
 
