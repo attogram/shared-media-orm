@@ -34,11 +34,11 @@ $sandbox->setMethods([
 ]);
 
 $sandbox->setVersions([
-    'Attogram\SharedMedia\Orm\Category',
+    //'Attogram\SharedMedia\Orm\Category',
     'Attogram\SharedMedia\Orm\CategoryQuery',
-    'Attogram\SharedMedia\Orm\Media',
+    //'Attogram\SharedMedia\Orm\Media',
     'Attogram\SharedMedia\Orm\MediaQuery',
-    'Attogram\SharedMedia\Orm\Page',
+    //'Attogram\SharedMedia\Orm\Page',
     'Attogram\SharedMedia\Orm\PageQuery',
     //'Attogram\SharedMedia\Orm\C2M',
     //'Attogram\SharedMedia\Orm\C2MQuery',
