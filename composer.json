@@ -10,6 +10,9 @@
         "attogram/shared-media-api": "dev-master",
         "propel/propel": "^2.0@dev"
     },
+    "require-dev": {
+        "attogram/shared-media-sandbox": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "Attogram\\SharedMedia\\Orm\\": "src/Attogram/SharedMedia/Orm/"
