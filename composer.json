@@ -7,7 +7,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.5",
-        "attogram/shared-media-api": "dev-master",
+        "attogram/shared-media-api": "^1.0",
         "propel/propel": "^2.0@dev"
     },
     "require-dev": {
@@ -18,8 +18,8 @@
             "Attogram\\SharedMedia\\Orm\\": "src/Attogram/SharedMedia/Orm/"
         }
     },
-	"suggest": {
-		"attogram/shared-media-api": "MediaWiki Query API wrapper that easily gets Category and Media file information into simple PHP arrays. Fine-tuned for WikiMedia Commmons.",
-		"attogram/shared-media-sandbox": "Web Sandbox for testing attogram/shared-media-* packages"
-	}
+    "suggest": {
+        "attogram/shared-media-api": "MediaWiki Query API wrapper that easily gets Category and Media file information into simple PHP arrays. Fine-tuned for WikiMedia Commmons.",
+        "attogram/shared-media-sandbox": "Web Sandbox for testing attogram/shared-media-* packages"
+    }
 }
