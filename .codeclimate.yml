@@ -27,6 +27,8 @@ plugins:
         enabled: false
       PhanTypeMismatchProperty:
         enabled: false
+      PhanUndeclaredClass:
+        enabled: false
       PhanUndeclaredClassCatch:
         enabled: false
       PhanUndeclaredClassConstant:
