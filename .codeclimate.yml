@@ -1,4 +1,4 @@
-# attogram/shared-media-orm - codeclimate.yml - v1.0.0
+# attogram/shared-media-orm - codeclimate.yml - v1.0.1
 version: "2"
 exclude_patterns:
 - "vendor/"
@@ -13,6 +13,13 @@ plugins:
       standard: "PSR1,PSR2"
   phpmd:
     enabled: true
+    checks:
+      CleanCode/StaticAccess: # allow Object::method()
+        enabled: false
+      #Controversial/Superglobals: # allow $_GET in sandbox
+      #  enabled: false
+      Design/DevelopmentCodeFragment: # allow print_r()
+        enabled: false
   phan:
     enabled: true
     checks:
