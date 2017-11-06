@@ -32,20 +32,20 @@ class CategoryQuery extends BaseCategoryQuery
         return $this->getCategoriesFromApiResponse($this->api->search($query));
     }
 
-	public function info()
-	{
+    public function info()
+    {
         return $this->getCategoriesFromApiResponse($this->api->info());
-	}
+    }
 
-	public function subcats()
-	{
+    public function subcats()
+    {
         return $this->getCategoriesFromApiResponse($this->api->subcats());
-	}
-	
-	public function getCategoryfromPage()
-	{
+    }
+
+    public function getCategoryfromPage()
+    {
         return $this->getCategoriesFromApiResponse($this->api->getCategoryfromPage());
-	}
+    }
 
     protected function getCategoriesFromApiResponse($response)
     {
