@@ -11,7 +11,7 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '1.0.2';
+    const VERSION = '1.0.3';
 
     public $api;
 
@@ -46,24 +46,19 @@ class CategoryQuery extends BaseCategoryQuery
 
     protected function getCategoryFromApiResponse($response)
     {
+        $fields = [
+            ['pageid', 'setPageid'],
+            ['title',  'setTitle'],
+            ['files',  'setFiles'],
+            ['pages',  'setPages'],
+            ['size',   'setSize'],
+            ['hidden', 'setHidden'],
+        ];
         $category = new Category();
-        if (isset($response['pageid'])) {
-            $category->setPageid($response['pageid']);
-        }
-        if (isset($response['title'])) {
-            $category->setTitle($response['title']);
-        }
-        if (isset($response['files'])) {
-            $category->setFiles($response['files']);
-        }
-        if (isset($response['pages'])) {
-            $category->setPages($response['pages']);
-        }
-        if (isset($response['size'])) {
-            $category->setSize($response['size']);
-        }
-        if (isset($response['hidden'])) {
-            $category->setHidden($response['hidden']);
+        foreach ($fields as list($field, $setter)) {
+            if (isset($response[$field])) {
+                $category->{$setter}($response[$field]);
+            }
         }
         return $category;
     }
