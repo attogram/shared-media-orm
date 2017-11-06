@@ -11,7 +11,7 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.2';
 
     public $api;
 
@@ -35,32 +35,37 @@ class CategoryQuery extends BaseCategoryQuery
     protected function getCategoriesFromApiResponse($response)
     {
         $categories = [];
-        foreach ($response as $apiCategory) {
-            if (empty($apiCategory)) {
+        foreach ($response as $category) {
+            if (empty($category)) {
                 continue;
             }
-            $category = new Category();
-            if (isset($apiCategory['pageid'])) {
-                $category->setPageid($apiCategory['pageid']);
-            }
-            if (isset($apiCategory['title'])) {
-                $category->setTitle($apiCategory['title']);
-            }
-            if (isset($apiCategory['files'])) {
-                $category->setFiles($apiCategory['files']);
-            }
-            if (isset($apiCategory['pages'])) {
-                $category->setPages($apiCategory['pages']);
-            }
-            if (isset($apiCategory['size'])) {
-                $category->setSize($apiCategory['size']);
-            }
-            if (isset($apiCategory['hidden'])) {
-                $category->setHidden($apiCategory['hidden']);
-            }
-            $categories[] = $category;
+            $categories[] = $this->getCategoryFromApiResponse($category);
         }
         return $categories;
+    }
+
+    protected function getCategoryFromApiResponse($response)
+    {
+        $category = new Category();
+        if (isset($response['pageid'])) {
+            $category->setPageid($response['pageid']);
+        }
+        if (isset($response['title'])) {
+            $category->setTitle($response['title']);
+        }
+        if (isset($response['files'])) {
+            $category->setFiles($response['files']);
+        }
+        if (isset($response['pages'])) {
+            $category->setPages($response['pages']);
+        }
+        if (isset($response['size'])) {
+            $category->setSize($response['size']);
+        }
+        if (isset($response['hidden'])) {
+            $category->setHidden($response['hidden']);
+        }
+        return $category;
     }
 
     /**
