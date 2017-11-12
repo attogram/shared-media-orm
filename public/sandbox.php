@@ -1,4 +1,4 @@
-<?php // attogram/shared-media-orm - sandbox.php - v1.0.0
+<?php // attogram/shared-media-orm - sandbox.php - v1.1.0
 
 use Attogram\SharedMedia\Api\Sources;
 use Attogram\SharedMedia\Sandbox\Sandbox;
@@ -22,9 +22,7 @@ if (!class_exists('Attogram\SharedMedia\Sandbox\Sandbox')) {
     return false;
 }
 
-$sandbox = new Sandbox();
-
-$sandbox->setTitle('shared-media-orm');
+$sandbox = new Sandbox('shared-media-orm');
 
 $sandbox->setMethods([
     ['Attogram\SharedMedia\Orm\CategoryQuery', 'search',              'query',  false],
@@ -38,31 +36,13 @@ $sandbox->setMethods([
     ['Attogram\SharedMedia\Orm\PageQuery',     'search',              'query',  false],
 ]);
 
-$sandbox->setVersions([
-    //'Attogram\SharedMedia\Orm\Category',
-    'Attogram\SharedMedia\Orm\CategoryQuery',
-    //'Attogram\SharedMedia\Orm\Media',
-    'Attogram\SharedMedia\Orm\MediaQuery',
-    //'Attogram\SharedMedia\Orm\Page',
-    'Attogram\SharedMedia\Orm\PageQuery',
-    //'Attogram\SharedMedia\Orm\C2M',
-    //'Attogram\SharedMedia\Orm\C2MQuery',
-    //'Attogram\SharedMedia\Orm\C2P',
-    //'Attogram\SharedMedia\Orm\C2PQuery',
-    //'Attogram\SharedMedia\Orm\M2P',
-    //'Attogram\SharedMedia\Orm\M2PQuery',
-    'Attogram\SharedMedia\Api\Transport',
-    'Attogram\SharedMedia\Api\Base',
-    'Attogram\SharedMedia\Api\Category',
-    'Attogram\SharedMedia\Api\Media',
-    'Attogram\SharedMedia\Api\Page',
-    'Attogram\SharedMedia\Api\Tools',
-    'Attogram\SharedMedia\Api\Sources',
-    'Attogram\SharedMedia\Sandbox\Sandbox',
-    'Attogram\SharedMedia\Sandbox\Tools',
-    'Attogram\SharedMedia\Sandbox\Logger',
-]);
-
 $sandbox->setSources(Sources::$sources);
+
+$sandbox->setPreCall([
+    ['setPageid', 'pageids'],      // Set the pageid identifier
+    ['setTitle', 'titles'],        // Set the title identifier
+    ['setEndpoint', 'endpoint'],   // Set the API endpoint
+    ['setResponseLimit', 'limit'], // Set the # of responses to get
+]);
 
 $sandbox->play();
