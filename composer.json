@@ -11,7 +11,7 @@
         "propel/propel": "^2.0@dev"
     },
     "require-dev": {
-        "attogram/shared-media-sandbox": "^1.0@dev"
+        "attogram/shared-media-sandbox": "^1.1.2@dev"
     },
     "autoload": {
         "psr-4": {
@@ -22,9 +22,5 @@
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
-    },
-    "suggest": {
-        "attogram/shared-media-api": "MediaWiki Query API wrapper to easily get Category and Media file information into simple PHP arrays. Fine-tuned for WikiMedia Commmons.",
-        "attogram/shared-media-sandbox": "Web Sandbox for testing attogram/shared-media-* packages"
     }
 }
