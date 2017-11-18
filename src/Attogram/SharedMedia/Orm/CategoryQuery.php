@@ -11,7 +11,7 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '1.0.4';
+    const VERSION = '1.0.5';
 
     public $api;
 
@@ -100,16 +100,5 @@ class CategoryQuery extends BaseCategoryQuery
             .'</div>';
         }
         return $format;
-    }
-
-    public function __call($name, $arguments = null)
-    {
-        if (!is_callable([$this->api, $name])) {
-            return false;
-        }
-        if (empty($arguments)) {
-            return $this->api->{$name}();
-        }
-        return $this->api->{$name}($arguments[0]);
     }
 }

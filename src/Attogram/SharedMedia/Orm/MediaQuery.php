@@ -11,7 +11,7 @@ use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
  */
 class MediaQuery extends BaseMediaQuery
 {
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.2';
 
     public $api;
 
@@ -72,7 +72,21 @@ class MediaQuery extends BaseMediaQuery
 
     protected function getMediaFromApiResponse($response)
     {
-        $fields = [
+        $media = new Media();
+        foreach ($this->getMediaFields() as list($field, $setter)) {
+            if (isset($response[$field])) {
+                $media->{$setter}($response[$field]);
+            }
+        }
+        return $media;
+    }
+
+    /**
+     * @return array
+     */
+    private function getMediaFields()
+    {
+        return [
             ['pageid', 'setPageid'],
             ['title',  'setTitle'],
             ['url', 'setUrl'],
@@ -99,13 +113,6 @@ class MediaQuery extends BaseMediaQuery
             ['user', 'setUser'],
             ['userid', 'setUserid'],
         ];
-        $media = new Media();
-        foreach ($fields as list($field, $setter)) {
-            if (isset($response[$field])) {
-                $media->{$setter}($response[$field]);
-            }
-        }
-        return $media;
     }
 
     /**
