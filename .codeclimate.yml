@@ -48,12 +48,12 @@ plugins:
       PhanUndeclaredTypeParameter:
         enabled: false
   duplication:
-    enabled: true
+    enabled: false
   csslint:
-    enabled: true
+    enabled: false
   stylelint:
-    enabled: true
+    enabled: false
   fixme:
-    enabled: true
+    enabled: false
   git-legal:
-    enabled: true
+    enabled: false
