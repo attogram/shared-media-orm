@@ -1,18 +1,49 @@
-# attogram/shared-media-orm - codeclimate.yml - v1.0.1
+# attogram/shared-media-orm - codeclimate.yml - v1.0.2
 version: "2"
 exclude_patterns:
 - "vendor/"
 - "config/"
 - "src/Attogram/SharedMedia/Orm/Base/"
 - "src/Attogram/SharedMedia/Orm/Map/"
+checks:
+  argument-count:
+    config:
+      threshold: 4
+  complex-logic:
+    config:
+      threshold: 4
+  file-lines:
+    config:
+      threshold: 250
+  method-complexity:
+    config:
+      threshold: 5
+  method-count:
+    config:
+      threshold: 20
+  method-lines:
+    config:
+      threshold: 27
+  nested-control-flow:
+    config:
+      threshold: 4
+  return-statements:
+    config:
+      threshold: 4
+  similar-code:
+    config:
+      threshold: # language-specific defaults. an override will affect all languages.
+  identical-code:
+    config:
+      threshold: # language-specific defaults. an override will affect all languages.
 plugins:
   phpcodesniffer:
-    enabled: false
+    enabled: true
     config:
       file_extensions: "php"
       standard: "PSR1,PSR2"
   phpmd:
-    enabled: false
+    enabled: true
     checks:
       CleanCode/StaticAccess: # allow Object::method()
         enabled: false
@@ -21,7 +52,7 @@ plugins:
       Design/DevelopmentCodeFragment: # allow print_r()
         enabled: false
   phan:
-    enabled: false
+    enabled: true
     checks:
       PhanTypeMismatchArgument:
         enabled: false
@@ -48,12 +79,12 @@ plugins:
       PhanUndeclaredTypeParameter:
         enabled: false
   duplication:
-    enabled: false
+    enabled: true
   csslint:
-    enabled: false
+    enabled: true
   stylelint:
-    enabled: false
+    enabled: true
   fixme:
-    enabled: false
+    enabled: true
   git-legal:
-    enabled: false
+    enabled: true
