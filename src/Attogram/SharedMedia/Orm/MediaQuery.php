@@ -116,7 +116,7 @@ class MediaQuery extends BaseMediaQuery
     }
 
     /**
-     * format a category response as an HTML string
+     * format a media response as an HTML string
      *
      * @param array $response
      * @return string
