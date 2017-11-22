@@ -13,7 +13,7 @@ class CategoryQuery extends BaseCategoryQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.7';
+    const VERSION = '1.0.8';
 
     public function __construct($logger = null)
     {
@@ -89,14 +89,14 @@ class CategoryQuery extends BaseCategoryQuery
         $car = '<br />';
         $format = '';
         foreach ($response as $category) {
-            $format .= '<div class="category">'
-            . '<span class="title">' . ApiTools::safeString($category->getTitle()) . '</span>'
-            .$car.'pageid: ' . '<span class="pageid">' . $category->getPageid() . '</span>'
-            .$car.'files: ' . $category->getFiles()
-            .$car.'pages: ' . $category->getPages()
-            .$car.'subcats: ' . $category->getSubcats()
-            .$car.'size: ' . $category->getSize()
-            .$car.'hidden: ' . ($category->getHidden() ? 'true' : 'false')
+            $format .= '<div class="category"><span class="title">'
+            . ApiTools::safeString($category->getTitle()) . '</span>'
+            .$car . 'pageid: <span class="pageid">' . $category->getPageid() . '</span>'
+            .$car . 'files: ' . $category->getFiles()
+            .$car . 'pages: ' . $category->getPages()
+            .$car . 'subcats: ' . $category->getSubcats()
+            .$car . 'size: ' . $category->getSize()
+            .$car . 'hidden: ' . ($category->getHidden() ? 'true' : 'false')
             .'</div>';
         }
         return $format;

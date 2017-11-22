@@ -13,7 +13,7 @@ class PageQuery extends BasePageQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.1';
+    const VERSION = '1.0.2';
 
     public function __construct($logger = null)
     {
@@ -75,14 +75,14 @@ class PageQuery extends BasePageQuery
         $car = '<br />';
         $format = '';
         foreach ($response as $page) {
-            $format .= '<div class="page">'
-            . '<span class="title">' . ApiTools::safeString($page->getTitle()) . '</span>'
-            .$car.'pageid: ' . '<span class="pageid">' . $page->getPageid() . '</span>'
-            .$car.'displaytitle: ' . $page->getDisplaytitle()
-            .$car.'page_image_free: ' . $page->getPageImageFree()
-            .$car.'wikibase_item: ' . $page->getWikibaseItem()
-            .$car.'disambiguation: ' . $page->getDisambiguation()
-            .$car.'defaultsort: ' . $page->getDefaultsort()
+            $format .= '<div class="page"><span class="title">'
+            . ApiTools::safeString($page->getTitle()) . '</span>'
+            .$car . 'pageid: <span class="pageid">' . $page->getPageid() . '</span>'
+            .$car . 'displaytitle: ' . $page->getDisplaytitle()
+            .$car . 'page_image_free: ' . $page->getPageImageFree()
+            .$car . 'wikibase_item: ' . $page->getWikibaseItem()
+            .$car . 'disambiguation: ' . $page->getDisambiguation()
+            .$car . 'defaultsort: ' . $page->getDefaultsort()
             .'</div>';
         }
         return $format;

@@ -7,7 +7,7 @@ namespace Attogram\SharedMedia\Orm;
  */
 trait ApiTrait
 {
-    /** @var \Attogram\SharedMedia\Api\Base $api */
+    /** @var object $api */
     public $api;
 
     /**
