@@ -32,7 +32,7 @@ checks:
       threshold: 4
   similar-code:
     config:
-      threshold: 38
+      threshold: # language-specific defaults. an override will affect all languages.
   identical-code:
     config:
       threshold: # language-specific defaults. an override will affect all languages.
@@ -80,6 +80,10 @@ plugins:
         enabled: false
   duplication:
     enabled: true
+    config:
+      languages:
+        php:
+          mass_threshold: 34
   csslint:
     enabled: true
   stylelint:
