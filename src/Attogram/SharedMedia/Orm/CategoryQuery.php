@@ -11,7 +11,7 @@ use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '1.0.5';
+    const VERSION = '1.0.6';
 
     public $api;
 
@@ -45,6 +45,26 @@ class CategoryQuery extends BaseCategoryQuery
     public function getCategoryfromPage()
     {
         return $this->getCategoriesFromApiResponse($this->api->getCategoryfromPage());
+    }
+
+    public function setApiPageid($pageids)
+    {
+        $this->api->setPageid($pageids);
+    }
+
+    public function setApiTitle($titles)
+    {
+        $this->api->setTitle($titles);
+    }
+
+    public function setApiLimit($limit)
+    {
+        $this->api->setLimit($limit);
+    }
+
+    public function setApiEndpoint($endpoint)
+    {
+        $this->api->setEndpoint($endpoint);
     }
 
     protected function getCategoriesFromApiResponse($response)

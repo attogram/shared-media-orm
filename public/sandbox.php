@@ -1,4 +1,4 @@
-<?php // attogram/shared-media-orm - sandbox.php - v1.1.0
+<?php // attogram/shared-media-orm - sandbox.php - v1.1.1
 
 use Attogram\SharedMedia\Api\Sources;
 use Attogram\SharedMedia\Sandbox\Sandbox;
@@ -39,10 +39,10 @@ $sandbox->setMethods([
 $sandbox->setSources(Sources::$sources);
 
 $sandbox->setPreCall([
-    ['setPageid', 'pageids'],      // Set the pageid identifier
-    ['setTitle', 'titles'],        // Set the title identifier
-    ['setEndpoint', 'endpoint'],   // Set the API endpoint
-    ['setResponseLimit', 'limit'], // Set the # of responses to get
+    ['setApiPageid', 'pageids'],      // Set the pageid identifier
+    ['setApiTitle', 'titles'],        // Set the title identifier
+    ['setApiEndpoint', 'endpoint'],   // Set the API endpoint
+    ['setApiLimit', 'limit'],         // Set the # of responses to get
 ]);
 
 $sandbox->play();
