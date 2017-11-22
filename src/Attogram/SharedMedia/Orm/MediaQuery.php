@@ -7,29 +7,18 @@ use Attogram\SharedMedia\Api\Tools as ApiTools;
 use Attogram\SharedMedia\Orm\Base\MediaQuery as BaseMediaQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'media' table.
+ * subclass for performing query and update operations on the 'media' table.
  */
 class MediaQuery extends BaseMediaQuery
 {
-    const VERSION = '1.0.2';
+    use ApiTrait;
 
-    public $api;
+    const VERSION = '1.0.3';
 
     public function __construct($logger = null)
     {
         parent::__construct();
         $this->api = new ApiMedia($logger);
-    }
-
-    public function __call($name, $arguments = null)
-    {
-        if (!is_callable([$this->api, $name])) {
-            return false;
-        }
-        if (empty($arguments)) {
-            return $this->api->{$name}();
-        }
-        return $this->api->{$name}($arguments[0]);
     }
 
     /**

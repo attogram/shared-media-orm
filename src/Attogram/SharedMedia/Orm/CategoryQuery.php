@@ -7,13 +7,13 @@ use Attogram\SharedMedia\Api\Tools as ApiTools;
 use Attogram\SharedMedia\Orm\Base\CategoryQuery as BaseCategoryQuery;
 
 /**
- * Skeleton subclass for performing query and update operations on the 'category' table.
+ * subclass for performing query and update operations on the 'category' table.
  */
 class CategoryQuery extends BaseCategoryQuery
 {
-    const VERSION = '1.0.6';
+    use ApiTrait;
 
-    public $api;
+    const VERSION = '1.0.7';
 
     public function __construct($logger = null)
     {
@@ -45,26 +45,6 @@ class CategoryQuery extends BaseCategoryQuery
     public function getCategoryfromPage()
     {
         return $this->getCategoriesFromApiResponse($this->api->getCategoryfromPage());
-    }
-
-    public function setApiPageid($pageids)
-    {
-        $this->api->setPageid($pageids);
-    }
-
-    public function setApiTitle($titles)
-    {
-        $this->api->setTitle($titles);
-    }
-
-    public function setApiLimit($limit)
-    {
-        $this->api->setLimit($limit);
-    }
-
-    public function setApiEndpoint($endpoint)
-    {
-        $this->api->setEndpoint($endpoint);
     }
 
     protected function getCategoriesFromApiResponse($response)
