@@ -13,7 +13,7 @@ class CategoryQuery extends BaseCategoryQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.8';
+    const VERSION = '1.0.9';
 
     public function __construct($logger = null)
     {
@@ -62,12 +62,13 @@ class CategoryQuery extends BaseCategoryQuery
     protected function getCategoryFromApiResponse($response)
     {
         $fields = [
-            ['pageid', 'setPageid'],
-            ['title',  'setTitle'],
-            ['files',  'setFiles'],
-            ['pages',  'setPages'],
-            ['size',   'setSize'],
-            ['hidden', 'setHidden'],
+            ['pageid',  'setPageid'],
+            ['title',   'setTitle'],
+            ['files',   'setFiles'],
+            ['subcats', 'setSubcats'],
+            ['pages',   'setPages'],
+            ['size',    'setSize'],
+            ['hidden',  'setHidden'],
         ];
         $category = new Category();
         foreach ($fields as list($field, $setter)) {

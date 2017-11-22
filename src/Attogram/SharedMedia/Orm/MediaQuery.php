@@ -116,15 +116,12 @@ class MediaQuery extends BaseMediaQuery
         $format = '';
         foreach ($response as $media) {
             $format .= '<div class="media">'
-            . '<img'
-            . ' src="' . $media->getThumburl() . '"'
+            . '<img src="' . $media->getThumburl() . '"'
             . ' width="' . $media->getThumbwidth() . '"'
             . ' height="' . $media->getThumbheight() . '"'
             . ' title="'.ApiTools::safeString(print_r($media, true)).'">'
             . $car . '<span class="pageid">' . $media->getPageid() . '</span>'
-            . $car . '<span class="title">'
-            . ApiTools::safeString($media->getTitle())
-            . '</span>'
+            . $car . '<span class="title">' . ApiTools::safeString($media->getTitle()) . '</span>'
             . '</div>';
         }
         return $format;

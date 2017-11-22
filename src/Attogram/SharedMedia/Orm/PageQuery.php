@@ -78,7 +78,7 @@ class PageQuery extends BasePageQuery
             $format .= '<div class="page"><span class="title">'
             . ApiTools::safeString($page->getTitle()) . '</span>'
             .$car . 'pageid: <span class="pageid">' . $page->getPageid() . '</span>'
-            .$car . 'displaytitle: ' . $page->getDisplaytitle()
+            .$car . 'displaytitle: ' . ApiTools::safeString($page->getDisplaytitle())
             .$car . 'page_image_free: ' . $page->getPageImageFree()
             .$car . 'wikibase_item: ' . $page->getWikibaseItem()
             .$car . 'disambiguation: ' . $page->getDisambiguation()
