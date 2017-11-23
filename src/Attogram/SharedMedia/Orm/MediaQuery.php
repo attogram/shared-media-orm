@@ -13,7 +13,7 @@ class MediaQuery extends BaseMediaQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.3';
+    const VERSION = '1.0.4';
 
     public function __construct($logger = null)
     {
@@ -75,9 +75,7 @@ class MediaQuery extends BaseMediaQuery
      */
     private function getMediaFields()
     {
-        return [
-            ['pageid', 'setPageid'],
-            ['title',  'setTitle'],
+        return $this->getApiFields() + [
             ['url', 'setUrl'],
             ['mime', 'setMime'],
             ['width', 'setWidth'],

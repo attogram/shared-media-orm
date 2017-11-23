@@ -13,7 +13,7 @@ class PageQuery extends BasePageQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.2';
+    const VERSION = '1.0.3';
 
     public function __construct($logger = null)
     {
@@ -46,9 +46,7 @@ class PageQuery extends BasePageQuery
 
     protected function getPageFromApiResponse($response)
     {
-        $fields = [
-            ['pageid', 'setPageid'],
-            ['title', 'setTitle'],
+        $fields = $this->getApiFields() + [
             ['displaytitle', 'setDisplaytitle'],
             ['page_image_free', 'setPageImageFree'],
             ['wikibase_item', 'setWikibaseItem'],

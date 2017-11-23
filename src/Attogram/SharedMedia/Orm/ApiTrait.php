@@ -3,7 +3,7 @@
 namespace Attogram\SharedMedia\Orm;
 
 /**
- * API Trait v0.0.1
+ * API Trait v0.0.2
  */
 trait ApiTrait
 {
@@ -40,5 +40,16 @@ trait ApiTrait
     public function setApiEndpoint($endpoint)
     {
         $this->api->setEndpoint($endpoint);
+    }
+
+    /**
+     * @return array
+     */
+    public function getApiFields()
+    {
+        return [
+            ['pageid', 'setPageid'],
+            ['title', 'setTitle'],
+        ];
     }
 }
