@@ -3,7 +3,7 @@
 namespace Attogram\SharedMedia\Orm;
 
 /**
- * API Trait v0.0.2
+ * API Trait v0.0.3
  */
 trait ApiTrait
 {
@@ -51,5 +51,20 @@ trait ApiTrait
             ['pageid', 'setPageid'],
             ['title', 'setTitle'],
         ];
+    }
+
+    /**
+     * @param object $orm
+     * @param string $getFieldsMethod
+     * @param array  $response
+     */
+    protected function setItemFromApiResponse($orm, $getFieldsMethod, $response)
+    {
+        foreach ($this->{$getFieldsMethod}() as list($field, $setter)) {
+            if (isset($response[$field])) {
+                $orm->{$setter}($response[$field]);
+            }
+        }
+        return $orm;
     }
 }
