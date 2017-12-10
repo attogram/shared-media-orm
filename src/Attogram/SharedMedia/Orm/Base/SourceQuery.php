@@ -22,12 +22,14 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSourceQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSourceQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method     ChildSourceQuery orderByHost($order = Criteria::ASC) Order by the host column
  * @method     ChildSourceQuery orderByEndpoint($order = Criteria::ASC) Order by the endpoint column
  * @method     ChildSourceQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     ChildSourceQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildSourceQuery groupById() Group by the id column
  * @method     ChildSourceQuery groupByTitle() Group by the title column
+ * @method     ChildSourceQuery groupByHost() Group by the host column
  * @method     ChildSourceQuery groupByEndpoint() Group by the endpoint column
  * @method     ChildSourceQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildSourceQuery groupByUpdatedAt() Group by the updated_at column
@@ -77,6 +79,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSource findOneById(int $id) Return the first ChildSource filtered by the id column
  * @method     ChildSource findOneByTitle(string $title) Return the first ChildSource filtered by the title column
+ * @method     ChildSource findOneByHost(string $host) Return the first ChildSource filtered by the host column
  * @method     ChildSource findOneByEndpoint(string $endpoint) Return the first ChildSource filtered by the endpoint column
  * @method     ChildSource findOneByCreatedAt(string $created_at) Return the first ChildSource filtered by the created_at column
  * @method     ChildSource findOneByUpdatedAt(string $updated_at) Return the first ChildSource filtered by the updated_at column *
@@ -86,6 +89,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildSource requireOneById(int $id) Return the first ChildSource filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSource requireOneByTitle(string $title) Return the first ChildSource filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildSource requireOneByHost(string $host) Return the first ChildSource filtered by the host column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSource requireOneByEndpoint(string $endpoint) Return the first ChildSource filtered by the endpoint column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSource requireOneByCreatedAt(string $created_at) Return the first ChildSource filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildSource requireOneByUpdatedAt(string $updated_at) Return the first ChildSource filtered by the updated_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -93,6 +97,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSource[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildSource objects based on current ModelCriteria
  * @method     ChildSource[]|ObjectCollection findById(int $id) Return ChildSource objects filtered by the id column
  * @method     ChildSource[]|ObjectCollection findByTitle(string $title) Return ChildSource objects filtered by the title column
+ * @method     ChildSource[]|ObjectCollection findByHost(string $host) Return ChildSource objects filtered by the host column
  * @method     ChildSource[]|ObjectCollection findByEndpoint(string $endpoint) Return ChildSource objects filtered by the endpoint column
  * @method     ChildSource[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildSource objects filtered by the created_at column
  * @method     ChildSource[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildSource objects filtered by the updated_at column
@@ -194,7 +199,7 @@ abstract class SourceQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, title, endpoint, created_at, updated_at FROM source WHERE id = :p0';
+        $sql = 'SELECT id, title, host, endpoint, created_at, updated_at FROM source WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -351,6 +356,31 @@ abstract class SourceQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the host column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByHost('fooValue');   // WHERE host = 'fooValue'
+     * $query->filterByHost('%fooValue%', Criteria::LIKE); // WHERE host LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $host The value to use as filter.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildSourceQuery The current query, for fluid interface
+     */
+    public function filterByHost($host = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($host)) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SourceTableMap::COL_HOST, $host, $comparison);
+    }
+
+    /**
      * Filter the query on the endpoint column
      *
      * Example usage:
@@ -473,7 +503,7 @@ abstract class SourceQuery extends ModelCriteria
     {
         if ($category instanceof \Attogram\SharedMedia\Orm\Category) {
             return $this
-                ->addUsingAlias(SourceTableMap::COL_ID, $category->getSourceid(), $comparison);
+                ->addUsingAlias(SourceTableMap::COL_ID, $category->getSourceId(), $comparison);
         } elseif ($category instanceof ObjectCollection) {
             return $this
                 ->useCategoryQuery()
@@ -546,7 +576,7 @@ abstract class SourceQuery extends ModelCriteria
     {
         if ($media instanceof \Attogram\SharedMedia\Orm\Media) {
             return $this
-                ->addUsingAlias(SourceTableMap::COL_ID, $media->getSourceid(), $comparison);
+                ->addUsingAlias(SourceTableMap::COL_ID, $media->getSourceId(), $comparison);
         } elseif ($media instanceof ObjectCollection) {
             return $this
                 ->useMediaQuery()
@@ -619,7 +649,7 @@ abstract class SourceQuery extends ModelCriteria
     {
         if ($page instanceof \Attogram\SharedMedia\Orm\Page) {
             return $this
-                ->addUsingAlias(SourceTableMap::COL_ID, $page->getSourceid(), $comparison);
+                ->addUsingAlias(SourceTableMap::COL_ID, $page->getSourceId(), $comparison);
         } elseif ($page instanceof ObjectCollection) {
             return $this
                 ->usePageQuery()

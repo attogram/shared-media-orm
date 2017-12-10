@@ -77,9 +77,9 @@ class PageTableMap extends TableMap
     const COL_ID = 'page.id';
 
     /**
-     * the column name for the sourceid field
+     * the column name for the source_id field
      */
-    const COL_SOURCEID = 'page.sourceid';
+    const COL_SOURCE_ID = 'page.source_id';
 
     /**
      * the column name for the pageid field
@@ -138,10 +138,10 @@ class PageTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Sourceid', 'Pageid', 'Title', 'Displaytitle', 'PageImageFree', 'WikibaseItem', 'Disambiguation', 'Defaultsort', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'sourceid', 'pageid', 'title', 'displaytitle', 'pageImageFree', 'wikibaseItem', 'disambiguation', 'defaultsort', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(PageTableMap::COL_ID, PageTableMap::COL_SOURCEID, PageTableMap::COL_PAGEID, PageTableMap::COL_TITLE, PageTableMap::COL_DISPLAYTITLE, PageTableMap::COL_PAGE_IMAGE_FREE, PageTableMap::COL_WIKIBASE_ITEM, PageTableMap::COL_DISAMBIGUATION, PageTableMap::COL_DEFAULTSORT, PageTableMap::COL_CREATED_AT, PageTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'sourceid', 'pageid', 'title', 'displaytitle', 'page_image_free', 'wikibase_item', 'disambiguation', 'defaultsort', 'created_at', 'updated_at', ),
+        self::TYPE_PHPNAME       => array('Id', 'SourceId', 'Pageid', 'Title', 'Displaytitle', 'PageImageFree', 'WikibaseItem', 'Disambiguation', 'Defaultsort', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'sourceId', 'pageid', 'title', 'displaytitle', 'pageImageFree', 'wikibaseItem', 'disambiguation', 'defaultsort', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(PageTableMap::COL_ID, PageTableMap::COL_SOURCE_ID, PageTableMap::COL_PAGEID, PageTableMap::COL_TITLE, PageTableMap::COL_DISPLAYTITLE, PageTableMap::COL_PAGE_IMAGE_FREE, PageTableMap::COL_WIKIBASE_ITEM, PageTableMap::COL_DISAMBIGUATION, PageTableMap::COL_DEFAULTSORT, PageTableMap::COL_CREATED_AT, PageTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'source_id', 'pageid', 'title', 'displaytitle', 'page_image_free', 'wikibase_item', 'disambiguation', 'defaultsort', 'created_at', 'updated_at', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
@@ -152,10 +152,10 @@ class PageTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Sourceid' => 1, 'Pageid' => 2, 'Title' => 3, 'Displaytitle' => 4, 'PageImageFree' => 5, 'WikibaseItem' => 6, 'Disambiguation' => 7, 'Defaultsort' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'displaytitle' => 4, 'pageImageFree' => 5, 'wikibaseItem' => 6, 'disambiguation' => 7, 'defaultsort' => 8, 'createdAt' => 9, 'updatedAt' => 10, ),
-        self::TYPE_COLNAME       => array(PageTableMap::COL_ID => 0, PageTableMap::COL_SOURCEID => 1, PageTableMap::COL_PAGEID => 2, PageTableMap::COL_TITLE => 3, PageTableMap::COL_DISPLAYTITLE => 4, PageTableMap::COL_PAGE_IMAGE_FREE => 5, PageTableMap::COL_WIKIBASE_ITEM => 6, PageTableMap::COL_DISAMBIGUATION => 7, PageTableMap::COL_DEFAULTSORT => 8, PageTableMap::COL_CREATED_AT => 9, PageTableMap::COL_UPDATED_AT => 10, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'displaytitle' => 4, 'page_image_free' => 5, 'wikibase_item' => 6, 'disambiguation' => 7, 'defaultsort' => 8, 'created_at' => 9, 'updated_at' => 10, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'SourceId' => 1, 'Pageid' => 2, 'Title' => 3, 'Displaytitle' => 4, 'PageImageFree' => 5, 'WikibaseItem' => 6, 'Disambiguation' => 7, 'Defaultsort' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceId' => 1, 'pageid' => 2, 'title' => 3, 'displaytitle' => 4, 'pageImageFree' => 5, 'wikibaseItem' => 6, 'disambiguation' => 7, 'defaultsort' => 8, 'createdAt' => 9, 'updatedAt' => 10, ),
+        self::TYPE_COLNAME       => array(PageTableMap::COL_ID => 0, PageTableMap::COL_SOURCE_ID => 1, PageTableMap::COL_PAGEID => 2, PageTableMap::COL_TITLE => 3, PageTableMap::COL_DISPLAYTITLE => 4, PageTableMap::COL_PAGE_IMAGE_FREE => 5, PageTableMap::COL_WIKIBASE_ITEM => 6, PageTableMap::COL_DISAMBIGUATION => 7, PageTableMap::COL_DEFAULTSORT => 8, PageTableMap::COL_CREATED_AT => 9, PageTableMap::COL_UPDATED_AT => 10, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'source_id' => 1, 'pageid' => 2, 'title' => 3, 'displaytitle' => 4, 'page_image_free' => 5, 'wikibase_item' => 6, 'disambiguation' => 7, 'defaultsort' => 8, 'created_at' => 9, 'updated_at' => 10, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
@@ -177,7 +177,7 @@ class PageTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('sourceid', 'Sourceid', 'INTEGER', 'source', 'id', false, null, null);
+        $this->addForeignKey('source_id', 'SourceId', 'INTEGER', 'source', 'id', false, null, null);
         $this->addColumn('pageid', 'Pageid', 'INTEGER', false, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', false, 255, null);
         $this->addColumn('displaytitle', 'Displaytitle', 'VARCHAR', false, 255, null);
@@ -197,7 +197,7 @@ class PageTableMap extends TableMap
         $this->addRelation('Source', '\\Attogram\\SharedMedia\\Orm\\Source', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
-    0 => ':sourceid',
+    0 => ':source_id',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -372,7 +372,7 @@ class PageTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(PageTableMap::COL_ID);
-            $criteria->addSelectColumn(PageTableMap::COL_SOURCEID);
+            $criteria->addSelectColumn(PageTableMap::COL_SOURCE_ID);
             $criteria->addSelectColumn(PageTableMap::COL_PAGEID);
             $criteria->addSelectColumn(PageTableMap::COL_TITLE);
             $criteria->addSelectColumn(PageTableMap::COL_DISPLAYTITLE);
@@ -384,7 +384,7 @@ class PageTableMap extends TableMap
             $criteria->addSelectColumn(PageTableMap::COL_UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.sourceid');
+            $criteria->addSelectColumn($alias . '.source_id');
             $criteria->addSelectColumn($alias . '.pageid');
             $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.displaytitle');

@@ -77,9 +77,9 @@ class CategoryTableMap extends TableMap
     const COL_ID = 'category.id';
 
     /**
-     * the column name for the sourceid field
+     * the column name for the source_id field
      */
-    const COL_SOURCEID = 'category.sourceid';
+    const COL_SOURCE_ID = 'category.source_id';
 
     /**
      * the column name for the pageid field
@@ -153,10 +153,10 @@ class CategoryTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Sourceid', 'Pageid', 'Title', 'Files', 'Subcats', 'Pages', 'Size', 'Hidden', 'CreatedAt', 'UpdatedAt', 'TreeLeft', 'TreeRight', 'TreeLevel', ),
-        self::TYPE_CAMELNAME     => array('id', 'sourceid', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', 'createdAt', 'updatedAt', 'treeLeft', 'treeRight', 'treeLevel', ),
-        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID, CategoryTableMap::COL_SOURCEID, CategoryTableMap::COL_PAGEID, CategoryTableMap::COL_TITLE, CategoryTableMap::COL_FILES, CategoryTableMap::COL_SUBCATS, CategoryTableMap::COL_PAGES, CategoryTableMap::COL_SIZE, CategoryTableMap::COL_HIDDEN, CategoryTableMap::COL_CREATED_AT, CategoryTableMap::COL_UPDATED_AT, CategoryTableMap::COL_TREE_LEFT, CategoryTableMap::COL_TREE_RIGHT, CategoryTableMap::COL_TREE_LEVEL, ),
-        self::TYPE_FIELDNAME     => array('id', 'sourceid', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', 'created_at', 'updated_at', 'tree_left', 'tree_right', 'tree_level', ),
+        self::TYPE_PHPNAME       => array('Id', 'SourceId', 'Pageid', 'Title', 'Files', 'Subcats', 'Pages', 'Size', 'Hidden', 'CreatedAt', 'UpdatedAt', 'TreeLeft', 'TreeRight', 'TreeLevel', ),
+        self::TYPE_CAMELNAME     => array('id', 'sourceId', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', 'createdAt', 'updatedAt', 'treeLeft', 'treeRight', 'treeLevel', ),
+        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID, CategoryTableMap::COL_SOURCE_ID, CategoryTableMap::COL_PAGEID, CategoryTableMap::COL_TITLE, CategoryTableMap::COL_FILES, CategoryTableMap::COL_SUBCATS, CategoryTableMap::COL_PAGES, CategoryTableMap::COL_SIZE, CategoryTableMap::COL_HIDDEN, CategoryTableMap::COL_CREATED_AT, CategoryTableMap::COL_UPDATED_AT, CategoryTableMap::COL_TREE_LEFT, CategoryTableMap::COL_TREE_RIGHT, CategoryTableMap::COL_TREE_LEVEL, ),
+        self::TYPE_FIELDNAME     => array('id', 'source_id', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', 'created_at', 'updated_at', 'tree_left', 'tree_right', 'tree_level', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
@@ -167,10 +167,10 @@ class CategoryTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Sourceid' => 1, 'Pageid' => 2, 'Title' => 3, 'Files' => 4, 'Subcats' => 5, 'Pages' => 6, 'Size' => 7, 'Hidden' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'TreeLeft' => 11, 'TreeRight' => 12, 'TreeLevel' => 13, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'files' => 4, 'subcats' => 5, 'pages' => 6, 'size' => 7, 'hidden' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'treeLeft' => 11, 'treeRight' => 12, 'treeLevel' => 13, ),
-        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID => 0, CategoryTableMap::COL_SOURCEID => 1, CategoryTableMap::COL_PAGEID => 2, CategoryTableMap::COL_TITLE => 3, CategoryTableMap::COL_FILES => 4, CategoryTableMap::COL_SUBCATS => 5, CategoryTableMap::COL_PAGES => 6, CategoryTableMap::COL_SIZE => 7, CategoryTableMap::COL_HIDDEN => 8, CategoryTableMap::COL_CREATED_AT => 9, CategoryTableMap::COL_UPDATED_AT => 10, CategoryTableMap::COL_TREE_LEFT => 11, CategoryTableMap::COL_TREE_RIGHT => 12, CategoryTableMap::COL_TREE_LEVEL => 13, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'files' => 4, 'subcats' => 5, 'pages' => 6, 'size' => 7, 'hidden' => 8, 'created_at' => 9, 'updated_at' => 10, 'tree_left' => 11, 'tree_right' => 12, 'tree_level' => 13, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'SourceId' => 1, 'Pageid' => 2, 'Title' => 3, 'Files' => 4, 'Subcats' => 5, 'Pages' => 6, 'Size' => 7, 'Hidden' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'TreeLeft' => 11, 'TreeRight' => 12, 'TreeLevel' => 13, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceId' => 1, 'pageid' => 2, 'title' => 3, 'files' => 4, 'subcats' => 5, 'pages' => 6, 'size' => 7, 'hidden' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'treeLeft' => 11, 'treeRight' => 12, 'treeLevel' => 13, ),
+        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID => 0, CategoryTableMap::COL_SOURCE_ID => 1, CategoryTableMap::COL_PAGEID => 2, CategoryTableMap::COL_TITLE => 3, CategoryTableMap::COL_FILES => 4, CategoryTableMap::COL_SUBCATS => 5, CategoryTableMap::COL_PAGES => 6, CategoryTableMap::COL_SIZE => 7, CategoryTableMap::COL_HIDDEN => 8, CategoryTableMap::COL_CREATED_AT => 9, CategoryTableMap::COL_UPDATED_AT => 10, CategoryTableMap::COL_TREE_LEFT => 11, CategoryTableMap::COL_TREE_RIGHT => 12, CategoryTableMap::COL_TREE_LEVEL => 13, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'source_id' => 1, 'pageid' => 2, 'title' => 3, 'files' => 4, 'subcats' => 5, 'pages' => 6, 'size' => 7, 'hidden' => 8, 'created_at' => 9, 'updated_at' => 10, 'tree_left' => 11, 'tree_right' => 12, 'tree_level' => 13, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
@@ -192,7 +192,7 @@ class CategoryTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('sourceid', 'Sourceid', 'INTEGER', 'source', 'id', false, null, null);
+        $this->addForeignKey('source_id', 'SourceId', 'INTEGER', 'source', 'id', false, null, null);
         $this->addColumn('pageid', 'Pageid', 'INTEGER', false, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', false, 255, null);
         $this->addColumn('files', 'Files', 'INTEGER', false, null, null);
@@ -215,7 +215,7 @@ class CategoryTableMap extends TableMap
         $this->addRelation('Source', '\\Attogram\\SharedMedia\\Orm\\Source', RelationMap::MANY_TO_ONE, array (
   0 =>
   array (
-    0 => ':sourceid',
+    0 => ':source_id',
     1 => ':id',
   ),
 ), null, null, null, false);
@@ -391,7 +391,7 @@ class CategoryTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(CategoryTableMap::COL_ID);
-            $criteria->addSelectColumn(CategoryTableMap::COL_SOURCEID);
+            $criteria->addSelectColumn(CategoryTableMap::COL_SOURCE_ID);
             $criteria->addSelectColumn(CategoryTableMap::COL_PAGEID);
             $criteria->addSelectColumn(CategoryTableMap::COL_TITLE);
             $criteria->addSelectColumn(CategoryTableMap::COL_FILES);
@@ -406,7 +406,7 @@ class CategoryTableMap extends TableMap
             $criteria->addSelectColumn(CategoryTableMap::COL_TREE_LEVEL);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.sourceid');
+            $criteria->addSelectColumn($alias . '.source_id');
             $criteria->addSelectColumn($alias . '.pageid');
             $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.files');

@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS [category];
 CREATE TABLE [category]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    [sourceid] INTEGER,
+    [source_id] INTEGER,
     [pageid] INTEGER,
     [title] VARCHAR(255),
     [files] INTEGER,
@@ -23,7 +23,7 @@ CREATE TABLE [category]
     [tree_level] INTEGER,
     UNIQUE ([pageid],[title]),
     UNIQUE ([id]),
-    FOREIGN KEY ([sourceid]) REFERENCES [source] ([id])
+    FOREIGN KEY ([source_id]) REFERENCES [source] ([id])
 );
 
 -----------------------------------------------------------------------
@@ -35,7 +35,7 @@ DROP TABLE IF EXISTS [media];
 CREATE TABLE [media]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    [sourceid] INTEGER,
+    [source_id] INTEGER,
     [pageid] INTEGER,
     [title] VARCHAR(255),
     [url] VARCHAR(255),
@@ -65,7 +65,7 @@ CREATE TABLE [media]
     [updated_at] TIMESTAMP,
     UNIQUE ([pageid],[title]),
     UNIQUE ([id]),
-    FOREIGN KEY ([sourceid]) REFERENCES [source] ([id])
+    FOREIGN KEY ([source_id]) REFERENCES [source] ([id])
 );
 
 -----------------------------------------------------------------------
@@ -77,7 +77,7 @@ DROP TABLE IF EXISTS [page];
 CREATE TABLE [page]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    [sourceid] INTEGER,
+    [source_id] INTEGER,
     [pageid] INTEGER,
     [title] VARCHAR(255),
     [displaytitle] VARCHAR(255),
@@ -89,7 +89,7 @@ CREATE TABLE [page]
     [updated_at] TIMESTAMP,
     UNIQUE ([pageid],[title]),
     UNIQUE ([id]),
-    FOREIGN KEY ([sourceid]) REFERENCES [source] ([id])
+    FOREIGN KEY ([source_id]) REFERENCES [source] ([id])
 );
 
 -----------------------------------------------------------------------
@@ -102,6 +102,7 @@ CREATE TABLE [source]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     [title] VARCHAR(255) NOT NULL,
+    [host] VARCHAR(255) NOT NULL,
     [endpoint] VARCHAR(255) NOT NULL,
     [created_at] TIMESTAMP,
     [updated_at] TIMESTAMP,

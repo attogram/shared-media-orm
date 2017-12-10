@@ -79,11 +79,11 @@ abstract class Page implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the sourceid field.
+     * The value for the source_id field.
      *
      * @var        int
      */
-    protected $sourceid;
+    protected $source_id;
 
     /**
      * The value for the pageid field.
@@ -421,13 +421,13 @@ abstract class Page implements ActiveRecordInterface
     }
 
     /**
-     * Get the [sourceid] column value.
+     * Get the [source_id] column value.
      *
      * @return int
      */
-    public function getSourceid()
+    public function getSourceId()
     {
-        return $this->sourceid;
+        return $this->source_id;
     }
 
     /**
@@ -561,20 +561,20 @@ abstract class Page implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [sourceid] column.
+     * Set the value of [source_id] column.
      *
      * @param int $v new value
      * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
      */
-    public function setSourceid($v)
+    public function setSourceId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->sourceid !== $v) {
-            $this->sourceid = $v;
-            $this->modifiedColumns[PageTableMap::COL_SOURCEID] = true;
+        if ($this->source_id !== $v) {
+            $this->source_id = $v;
+            $this->modifiedColumns[PageTableMap::COL_SOURCE_ID] = true;
         }
 
         if ($this->aSource !== null && $this->aSource->getId() !== $v) {
@@ -582,7 +582,7 @@ abstract class Page implements ActiveRecordInterface
         }
 
         return $this;
-    } // setSourceid()
+    } // setSourceId()
 
     /**
      * Set the value of [pageid] column.
@@ -803,8 +803,8 @@ abstract class Page implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PageTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PageTableMap::translateFieldName('Sourceid', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->sourceid = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PageTableMap::translateFieldName('SourceId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->source_id = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PageTableMap::translateFieldName('Pageid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->pageid = (null !== $col) ? (int) $col : null;
@@ -862,7 +862,7 @@ abstract class Page implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aSource !== null && $this->sourceid !== $this->aSource->getId()) {
+        if ($this->aSource !== null && $this->source_id !== $this->aSource->getId()) {
             $this->aSource = null;
         }
     } // ensureConsistency
@@ -1110,8 +1110,8 @@ abstract class Page implements ActiveRecordInterface
         if ($this->isColumnModified(PageTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(PageTableMap::COL_SOURCEID)) {
-            $modifiedColumns[':p' . $index++]  = 'sourceid';
+        if ($this->isColumnModified(PageTableMap::COL_SOURCE_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'source_id';
         }
         if ($this->isColumnModified(PageTableMap::COL_PAGEID)) {
             $modifiedColumns[':p' . $index++]  = 'pageid';
@@ -1154,8 +1154,8 @@ abstract class Page implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'sourceid':
-                        $stmt->bindValue($identifier, $this->sourceid, PDO::PARAM_INT);
+                    case 'source_id':
+                        $stmt->bindValue($identifier, $this->source_id, PDO::PARAM_INT);
                         break;
                     case 'pageid':
                         $stmt->bindValue($identifier, $this->pageid, PDO::PARAM_INT);
@@ -1250,7 +1250,7 @@ abstract class Page implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getSourceid();
+                return $this->getSourceId();
                 break;
             case 2:
                 return $this->getPageid();
@@ -1310,7 +1310,7 @@ abstract class Page implements ActiveRecordInterface
         $keys = PageTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getSourceid(),
+            $keys[1] => $this->getSourceId(),
             $keys[2] => $this->getPageid(),
             $keys[3] => $this->getTitle(),
             $keys[4] => $this->getDisplaytitle(),
@@ -1418,7 +1418,7 @@ abstract class Page implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setSourceid($value);
+                $this->setSourceId($value);
                 break;
             case 2:
                 $this->setPageid($value);
@@ -1477,7 +1477,7 @@ abstract class Page implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setSourceid($arr[$keys[1]]);
+            $this->setSourceId($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
             $this->setPageid($arr[$keys[2]]);
@@ -1550,8 +1550,8 @@ abstract class Page implements ActiveRecordInterface
         if ($this->isColumnModified(PageTableMap::COL_ID)) {
             $criteria->add(PageTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(PageTableMap::COL_SOURCEID)) {
-            $criteria->add(PageTableMap::COL_SOURCEID, $this->sourceid);
+        if ($this->isColumnModified(PageTableMap::COL_SOURCE_ID)) {
+            $criteria->add(PageTableMap::COL_SOURCE_ID, $this->source_id);
         }
         if ($this->isColumnModified(PageTableMap::COL_PAGEID)) {
             $criteria->add(PageTableMap::COL_PAGEID, $this->pageid);
@@ -1666,7 +1666,7 @@ abstract class Page implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setSourceid($this->getSourceid());
+        $copyObj->setSourceId($this->getSourceId());
         $copyObj->setPageid($this->getPageid());
         $copyObj->setTitle($this->getTitle());
         $copyObj->setDisplaytitle($this->getDisplaytitle());
@@ -1734,9 +1734,9 @@ abstract class Page implements ActiveRecordInterface
     public function setSource(ChildSource $v = null)
     {
         if ($v === null) {
-            $this->setSourceid(NULL);
+            $this->setSourceId(NULL);
         } else {
-            $this->setSourceid($v->getId());
+            $this->setSourceId($v->getId());
         }
 
         $this->aSource = $v;
@@ -1761,8 +1761,8 @@ abstract class Page implements ActiveRecordInterface
      */
     public function getSource(ConnectionInterface $con = null)
     {
-        if ($this->aSource === null && ($this->sourceid != 0)) {
-            $this->aSource = ChildSourceQuery::create()->findPk($this->sourceid, $con);
+        if ($this->aSource === null && ($this->source_id != 0)) {
+            $this->aSource = ChildSourceQuery::create()->findPk($this->source_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
@@ -2313,7 +2313,7 @@ abstract class Page implements ActiveRecordInterface
             $this->aSource->removePage($this);
         }
         $this->id = null;
-        $this->sourceid = null;
+        $this->source_id = null;
         $this->pageid = null;
         $this->title = null;
         $this->displaytitle = null;

@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildPageQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildPageQuery orderBySourceid($order = Criteria::ASC) Order by the sourceid column
+ * @method     ChildPageQuery orderBySourceId($order = Criteria::ASC) Order by the source_id column
  * @method     ChildPageQuery orderByPageid($order = Criteria::ASC) Order by the pageid column
  * @method     ChildPageQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildPageQuery orderByDisplaytitle($order = Criteria::ASC) Order by the displaytitle column
@@ -33,7 +33,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPageQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildPageQuery groupById() Group by the id column
- * @method     ChildPageQuery groupBySourceid() Group by the sourceid column
+ * @method     ChildPageQuery groupBySourceId() Group by the source_id column
  * @method     ChildPageQuery groupByPageid() Group by the pageid column
  * @method     ChildPageQuery groupByTitle() Group by the title column
  * @method     ChildPageQuery groupByDisplaytitle() Group by the displaytitle column
@@ -88,7 +88,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPage findOneOrCreate(ConnectionInterface $con = null) Return the first ChildPage matching the query, or a new ChildPage object populated from the query conditions when no match is found
  *
  * @method     ChildPage findOneById(int $id) Return the first ChildPage filtered by the id column
- * @method     ChildPage findOneBySourceid(int $sourceid) Return the first ChildPage filtered by the sourceid column
+ * @method     ChildPage findOneBySourceId(int $source_id) Return the first ChildPage filtered by the source_id column
  * @method     ChildPage findOneByPageid(int $pageid) Return the first ChildPage filtered by the pageid column
  * @method     ChildPage findOneByTitle(string $title) Return the first ChildPage filtered by the title column
  * @method     ChildPage findOneByDisplaytitle(string $displaytitle) Return the first ChildPage filtered by the displaytitle column
@@ -103,7 +103,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildPage requireOne(ConnectionInterface $con = null) Return the first ChildPage matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildPage requireOneById(int $id) Return the first ChildPage filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildPage requireOneBySourceid(int $sourceid) Return the first ChildPage filtered by the sourceid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildPage requireOneBySourceId(int $source_id) Return the first ChildPage filtered by the source_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPage requireOneByPageid(int $pageid) Return the first ChildPage filtered by the pageid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPage requireOneByTitle(string $title) Return the first ChildPage filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildPage requireOneByDisplaytitle(string $displaytitle) Return the first ChildPage filtered by the displaytitle column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -116,7 +116,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildPage[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildPage objects based on current ModelCriteria
  * @method     ChildPage[]|ObjectCollection findById(int $id) Return ChildPage objects filtered by the id column
- * @method     ChildPage[]|ObjectCollection findBySourceid(int $sourceid) Return ChildPage objects filtered by the sourceid column
+ * @method     ChildPage[]|ObjectCollection findBySourceId(int $source_id) Return ChildPage objects filtered by the source_id column
  * @method     ChildPage[]|ObjectCollection findByPageid(int $pageid) Return ChildPage objects filtered by the pageid column
  * @method     ChildPage[]|ObjectCollection findByTitle(string $title) Return ChildPage objects filtered by the title column
  * @method     ChildPage[]|ObjectCollection findByDisplaytitle(string $displaytitle) Return ChildPage objects filtered by the displaytitle column
@@ -224,7 +224,7 @@ abstract class PageQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, sourceid, pageid, title, displaytitle, page_image_free, wikibase_item, disambiguation, defaultsort, created_at, updated_at FROM page WHERE id = :p0';
+        $sql = 'SELECT id, source_id, pageid, title, displaytitle, page_image_free, wikibase_item, disambiguation, defaultsort, created_at, updated_at FROM page WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -356,18 +356,18 @@ abstract class PageQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the sourceid column
+     * Filter the query on the source_id column
      *
      * Example usage:
      * <code>
-     * $query->filterBySourceid(1234); // WHERE sourceid = 1234
-     * $query->filterBySourceid(array(12, 34)); // WHERE sourceid IN (12, 34)
-     * $query->filterBySourceid(array('min' => 12)); // WHERE sourceid > 12
+     * $query->filterBySourceId(1234); // WHERE source_id = 1234
+     * $query->filterBySourceId(array(12, 34)); // WHERE source_id IN (12, 34)
+     * $query->filterBySourceId(array('min' => 12)); // WHERE source_id > 12
      * </code>
      *
      * @see       filterBySource()
      *
-     * @param     mixed $sourceid The value to use as filter.
+     * @param     mixed $sourceId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -375,16 +375,16 @@ abstract class PageQuery extends ModelCriteria
      *
      * @return $this|ChildPageQuery The current query, for fluid interface
      */
-    public function filterBySourceid($sourceid = null, $comparison = null)
+    public function filterBySourceId($sourceId = null, $comparison = null)
     {
-        if (is_array($sourceid)) {
+        if (is_array($sourceId)) {
             $useMinMax = false;
-            if (isset($sourceid['min'])) {
-                $this->addUsingAlias(PageTableMap::COL_SOURCEID, $sourceid['min'], Criteria::GREATER_EQUAL);
+            if (isset($sourceId['min'])) {
+                $this->addUsingAlias(PageTableMap::COL_SOURCE_ID, $sourceId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($sourceid['max'])) {
-                $this->addUsingAlias(PageTableMap::COL_SOURCEID, $sourceid['max'], Criteria::LESS_EQUAL);
+            if (isset($sourceId['max'])) {
+                $this->addUsingAlias(PageTableMap::COL_SOURCE_ID, $sourceId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -395,7 +395,7 @@ abstract class PageQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PageTableMap::COL_SOURCEID, $sourceid, $comparison);
+        return $this->addUsingAlias(PageTableMap::COL_SOURCE_ID, $sourceId, $comparison);
     }
 
     /**
@@ -689,14 +689,14 @@ abstract class PageQuery extends ModelCriteria
     {
         if ($source instanceof \Attogram\SharedMedia\Orm\Source) {
             return $this
-                ->addUsingAlias(PageTableMap::COL_SOURCEID, $source->getId(), $comparison);
+                ->addUsingAlias(PageTableMap::COL_SOURCE_ID, $source->getId(), $comparison);
         } elseif ($source instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(PageTableMap::COL_SOURCEID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(PageTableMap::COL_SOURCE_ID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterBySource() only accepts arguments of type \Attogram\SharedMedia\Orm\Source or Collection');
         }

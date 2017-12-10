@@ -87,6 +87,13 @@ abstract class Source implements ActiveRecordInterface
     protected $title;
 
     /**
+     * The value for the host field.
+     *
+     * @var        string
+     */
+    protected $host;
+
+    /**
      * The value for the endpoint field.
      *
      * @var        string
@@ -397,6 +404,16 @@ abstract class Source implements ActiveRecordInterface
     }
 
     /**
+     * Get the [host] column value.
+     *
+     * @return string
+     */
+    public function getHost()
+    {
+        return $this->host;
+    }
+
+    /**
      * Get the [endpoint] column value.
      *
      * @return string
@@ -485,6 +502,26 @@ abstract class Source implements ActiveRecordInterface
 
         return $this;
     } // setTitle()
+
+    /**
+     * Set the value of [host] column.
+     *
+     * @param string $v new value
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
+     */
+    public function setHost($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->host !== $v) {
+            $this->host = $v;
+            $this->modifiedColumns[SourceTableMap::COL_HOST] = true;
+        }
+
+        return $this;
+    } // setHost()
 
     /**
      * Set the value of [endpoint] column.
@@ -588,13 +625,16 @@ abstract class Source implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SourceTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SourceTableMap::translateFieldName('Endpoint', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SourceTableMap::translateFieldName('Host', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->host = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SourceTableMap::translateFieldName('Endpoint', TableMap::TYPE_PHPNAME, $indexType)];
             $this->endpoint = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SourceTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SourceTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SourceTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : SourceTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
@@ -604,7 +644,7 @@ abstract class Source implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 5; // 5 = SourceTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = SourceTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Attogram\\SharedMedia\\Orm\\Source'), 0, $e);
@@ -883,6 +923,9 @@ abstract class Source implements ActiveRecordInterface
         if ($this->isColumnModified(SourceTableMap::COL_TITLE)) {
             $modifiedColumns[':p' . $index++]  = 'title';
         }
+        if ($this->isColumnModified(SourceTableMap::COL_HOST)) {
+            $modifiedColumns[':p' . $index++]  = 'host';
+        }
         if ($this->isColumnModified(SourceTableMap::COL_ENDPOINT)) {
             $modifiedColumns[':p' . $index++]  = 'endpoint';
         }
@@ -908,6 +951,9 @@ abstract class Source implements ActiveRecordInterface
                         break;
                     case 'title':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
+                        break;
+                    case 'host':
+                        $stmt->bindValue($identifier, $this->host, PDO::PARAM_STR);
                         break;
                     case 'endpoint':
                         $stmt->bindValue($identifier, $this->endpoint, PDO::PARAM_STR);
@@ -987,12 +1033,15 @@ abstract class Source implements ActiveRecordInterface
                 return $this->getTitle();
                 break;
             case 2:
-                return $this->getEndpoint();
+                return $this->getHost();
                 break;
             case 3:
-                return $this->getCreatedAt();
+                return $this->getEndpoint();
                 break;
             case 4:
+                return $this->getCreatedAt();
+                break;
+            case 5:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1027,16 +1076,17 @@ abstract class Source implements ActiveRecordInterface
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getTitle(),
-            $keys[2] => $this->getEndpoint(),
-            $keys[3] => $this->getCreatedAt(),
-            $keys[4] => $this->getUpdatedAt(),
+            $keys[2] => $this->getHost(),
+            $keys[3] => $this->getEndpoint(),
+            $keys[4] => $this->getCreatedAt(),
+            $keys[5] => $this->getUpdatedAt(),
         );
-        if ($result[$keys[3]] instanceof \DateTimeInterface) {
-            $result[$keys[3]] = $result[$keys[3]]->format('c');
-        }
-
         if ($result[$keys[4]] instanceof \DateTimeInterface) {
             $result[$keys[4]] = $result[$keys[4]]->format('c');
+        }
+
+        if ($result[$keys[5]] instanceof \DateTimeInterface) {
+            $result[$keys[5]] = $result[$keys[5]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1131,12 +1181,15 @@ abstract class Source implements ActiveRecordInterface
                 $this->setTitle($value);
                 break;
             case 2:
-                $this->setEndpoint($value);
+                $this->setHost($value);
                 break;
             case 3:
-                $this->setCreatedAt($value);
+                $this->setEndpoint($value);
                 break;
             case 4:
+                $this->setCreatedAt($value);
+                break;
+            case 5:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1172,13 +1225,16 @@ abstract class Source implements ActiveRecordInterface
             $this->setTitle($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setEndpoint($arr[$keys[2]]);
+            $this->setHost($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setCreatedAt($arr[$keys[3]]);
+            $this->setEndpoint($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setUpdatedAt($arr[$keys[4]]);
+            $this->setCreatedAt($arr[$keys[4]]);
+        }
+        if (array_key_exists($keys[5], $arr)) {
+            $this->setUpdatedAt($arr[$keys[5]]);
         }
     }
 
@@ -1226,6 +1282,9 @@ abstract class Source implements ActiveRecordInterface
         }
         if ($this->isColumnModified(SourceTableMap::COL_TITLE)) {
             $criteria->add(SourceTableMap::COL_TITLE, $this->title);
+        }
+        if ($this->isColumnModified(SourceTableMap::COL_HOST)) {
+            $criteria->add(SourceTableMap::COL_HOST, $this->host);
         }
         if ($this->isColumnModified(SourceTableMap::COL_ENDPOINT)) {
             $criteria->add(SourceTableMap::COL_ENDPOINT, $this->endpoint);
@@ -1323,6 +1382,7 @@ abstract class Source implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setTitle($this->getTitle());
+        $copyObj->setHost($this->getHost());
         $copyObj->setEndpoint($this->getEndpoint());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
@@ -2089,6 +2149,7 @@ abstract class Source implements ActiveRecordInterface
     {
         $this->id = null;
         $this->title = null;
+        $this->host = null;
         $this->endpoint = null;
         $this->created_at = null;
         $this->updated_at = null;

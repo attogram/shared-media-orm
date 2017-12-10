@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildMediaQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildMediaQuery orderBySourceid($order = Criteria::ASC) Order by the sourceid column
+ * @method     ChildMediaQuery orderBySourceId($order = Criteria::ASC) Order by the source_id column
  * @method     ChildMediaQuery orderByPageid($order = Criteria::ASC) Order by the pageid column
  * @method     ChildMediaQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildMediaQuery orderByUrl($order = Criteria::ASC) Order by the url column
@@ -51,7 +51,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildMediaQuery groupById() Group by the id column
- * @method     ChildMediaQuery groupBySourceid() Group by the sourceid column
+ * @method     ChildMediaQuery groupBySourceId() Group by the source_id column
  * @method     ChildMediaQuery groupByPageid() Group by the pageid column
  * @method     ChildMediaQuery groupByTitle() Group by the title column
  * @method     ChildMediaQuery groupByUrl() Group by the url column
@@ -124,7 +124,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMedia matching the query, or a new ChildMedia object populated from the query conditions when no match is found
  *
  * @method     ChildMedia findOneById(int $id) Return the first ChildMedia filtered by the id column
- * @method     ChildMedia findOneBySourceid(int $sourceid) Return the first ChildMedia filtered by the sourceid column
+ * @method     ChildMedia findOneBySourceId(int $source_id) Return the first ChildMedia filtered by the source_id column
  * @method     ChildMedia findOneByPageid(int $pageid) Return the first ChildMedia filtered by the pageid column
  * @method     ChildMedia findOneByTitle(string $title) Return the first ChildMedia filtered by the title column
  * @method     ChildMedia findOneByUrl(string $url) Return the first ChildMedia filtered by the url column
@@ -157,7 +157,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia requireOne(ConnectionInterface $con = null) Return the first ChildMedia matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildMedia requireOneById(int $id) Return the first ChildMedia filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildMedia requireOneBySourceid(int $sourceid) Return the first ChildMedia filtered by the sourceid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMedia requireOneBySourceId(int $source_id) Return the first ChildMedia filtered by the source_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByPageid(int $pageid) Return the first ChildMedia filtered by the pageid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByTitle(string $title) Return the first ChildMedia filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByUrl(string $url) Return the first ChildMedia filtered by the url column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -188,7 +188,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  * @method     ChildMedia[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildMedia objects based on current ModelCriteria
  * @method     ChildMedia[]|ObjectCollection findById(int $id) Return ChildMedia objects filtered by the id column
- * @method     ChildMedia[]|ObjectCollection findBySourceid(int $sourceid) Return ChildMedia objects filtered by the sourceid column
+ * @method     ChildMedia[]|ObjectCollection findBySourceId(int $source_id) Return ChildMedia objects filtered by the source_id column
  * @method     ChildMedia[]|ObjectCollection findByPageid(int $pageid) Return ChildMedia objects filtered by the pageid column
  * @method     ChildMedia[]|ObjectCollection findByTitle(string $title) Return ChildMedia objects filtered by the title column
  * @method     ChildMedia[]|ObjectCollection findByUrl(string $url) Return ChildMedia objects filtered by the url column
@@ -314,7 +314,7 @@ abstract class MediaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, sourceid, pageid, title, url, mime, width, height, size, sha1, thumburl, thumbmime, thumbwidth, thumbheight, thumbsize, descriptionurl, descriptionurlshort, imagedescription, datetimeoriginal, artist, licenseshortname, usageterms, attributionrequired, restrictions, timestamp, user, userid, created_at, updated_at FROM media WHERE id = :p0';
+        $sql = 'SELECT id, source_id, pageid, title, url, mime, width, height, size, sha1, thumburl, thumbmime, thumbwidth, thumbheight, thumbsize, descriptionurl, descriptionurlshort, imagedescription, datetimeoriginal, artist, licenseshortname, usageterms, attributionrequired, restrictions, timestamp, user, userid, created_at, updated_at FROM media WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -446,18 +446,18 @@ abstract class MediaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the sourceid column
+     * Filter the query on the source_id column
      *
      * Example usage:
      * <code>
-     * $query->filterBySourceid(1234); // WHERE sourceid = 1234
-     * $query->filterBySourceid(array(12, 34)); // WHERE sourceid IN (12, 34)
-     * $query->filterBySourceid(array('min' => 12)); // WHERE sourceid > 12
+     * $query->filterBySourceId(1234); // WHERE source_id = 1234
+     * $query->filterBySourceId(array(12, 34)); // WHERE source_id IN (12, 34)
+     * $query->filterBySourceId(array('min' => 12)); // WHERE source_id > 12
      * </code>
      *
      * @see       filterBySource()
      *
-     * @param     mixed $sourceid The value to use as filter.
+     * @param     mixed $sourceId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -465,16 +465,16 @@ abstract class MediaQuery extends ModelCriteria
      *
      * @return $this|ChildMediaQuery The current query, for fluid interface
      */
-    public function filterBySourceid($sourceid = null, $comparison = null)
+    public function filterBySourceId($sourceId = null, $comparison = null)
     {
-        if (is_array($sourceid)) {
+        if (is_array($sourceId)) {
             $useMinMax = false;
-            if (isset($sourceid['min'])) {
-                $this->addUsingAlias(MediaTableMap::COL_SOURCEID, $sourceid['min'], Criteria::GREATER_EQUAL);
+            if (isset($sourceId['min'])) {
+                $this->addUsingAlias(MediaTableMap::COL_SOURCE_ID, $sourceId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($sourceid['max'])) {
-                $this->addUsingAlias(MediaTableMap::COL_SOURCEID, $sourceid['max'], Criteria::LESS_EQUAL);
+            if (isset($sourceId['max'])) {
+                $this->addUsingAlias(MediaTableMap::COL_SOURCE_ID, $sourceId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -485,7 +485,7 @@ abstract class MediaQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(MediaTableMap::COL_SOURCEID, $sourceid, $comparison);
+        return $this->addUsingAlias(MediaTableMap::COL_SOURCE_ID, $sourceId, $comparison);
     }
 
     /**
@@ -1359,14 +1359,14 @@ abstract class MediaQuery extends ModelCriteria
     {
         if ($source instanceof \Attogram\SharedMedia\Orm\Source) {
             return $this
-                ->addUsingAlias(MediaTableMap::COL_SOURCEID, $source->getId(), $comparison);
+                ->addUsingAlias(MediaTableMap::COL_SOURCE_ID, $source->getId(), $comparison);
         } elseif ($source instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(MediaTableMap::COL_SOURCEID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(MediaTableMap::COL_SOURCE_ID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterBySource() only accepts arguments of type \Attogram\SharedMedia\Orm\Source or Collection');
         }

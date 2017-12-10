@@ -22,7 +22,7 @@ use Propel\Runtime\Map\TableMap;
  *
  *
  * @method     ChildCategoryQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildCategoryQuery orderBySourceid($order = Criteria::ASC) Order by the sourceid column
+ * @method     ChildCategoryQuery orderBySourceId($order = Criteria::ASC) Order by the source_id column
  * @method     ChildCategoryQuery orderByPageid($order = Criteria::ASC) Order by the pageid column
  * @method     ChildCategoryQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildCategoryQuery orderByFiles($order = Criteria::ASC) Order by the files column
@@ -37,7 +37,7 @@ use Propel\Runtime\Map\TableMap;
  * @method     ChildCategoryQuery orderByTreeLevel($order = Criteria::ASC) Order by the tree_level column
  *
  * @method     ChildCategoryQuery groupById() Group by the id column
- * @method     ChildCategoryQuery groupBySourceid() Group by the sourceid column
+ * @method     ChildCategoryQuery groupBySourceId() Group by the source_id column
  * @method     ChildCategoryQuery groupByPageid() Group by the pageid column
  * @method     ChildCategoryQuery groupByTitle() Group by the title column
  * @method     ChildCategoryQuery groupByFiles() Group by the files column
@@ -95,7 +95,7 @@ use Propel\Runtime\Map\TableMap;
  * @method     ChildCategory findOneOrCreate(ConnectionInterface $con = null) Return the first ChildCategory matching the query, or a new ChildCategory object populated from the query conditions when no match is found
  *
  * @method     ChildCategory findOneById(int $id) Return the first ChildCategory filtered by the id column
- * @method     ChildCategory findOneBySourceid(int $sourceid) Return the first ChildCategory filtered by the sourceid column
+ * @method     ChildCategory findOneBySourceId(int $source_id) Return the first ChildCategory filtered by the source_id column
  * @method     ChildCategory findOneByPageid(int $pageid) Return the first ChildCategory filtered by the pageid column
  * @method     ChildCategory findOneByTitle(string $title) Return the first ChildCategory filtered by the title column
  * @method     ChildCategory findOneByFiles(int $files) Return the first ChildCategory filtered by the files column
@@ -113,7 +113,7 @@ use Propel\Runtime\Map\TableMap;
  * @method     ChildCategory requireOne(ConnectionInterface $con = null) Return the first ChildCategory matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildCategory requireOneById(int $id) Return the first ChildCategory filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildCategory requireOneBySourceid(int $sourceid) Return the first ChildCategory filtered by the sourceid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildCategory requireOneBySourceId(int $source_id) Return the first ChildCategory filtered by the source_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategory requireOneByPageid(int $pageid) Return the first ChildCategory filtered by the pageid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategory requireOneByTitle(string $title) Return the first ChildCategory filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildCategory requireOneByFiles(int $files) Return the first ChildCategory filtered by the files column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -129,7 +129,7 @@ use Propel\Runtime\Map\TableMap;
  *
  * @method     ChildCategory[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildCategory objects based on current ModelCriteria
  * @method     ChildCategory[]|ObjectCollection findById(int $id) Return ChildCategory objects filtered by the id column
- * @method     ChildCategory[]|ObjectCollection findBySourceid(int $sourceid) Return ChildCategory objects filtered by the sourceid column
+ * @method     ChildCategory[]|ObjectCollection findBySourceId(int $source_id) Return ChildCategory objects filtered by the source_id column
  * @method     ChildCategory[]|ObjectCollection findByPageid(int $pageid) Return ChildCategory objects filtered by the pageid column
  * @method     ChildCategory[]|ObjectCollection findByTitle(string $title) Return ChildCategory objects filtered by the title column
  * @method     ChildCategory[]|ObjectCollection findByFiles(int $files) Return ChildCategory objects filtered by the files column
@@ -240,7 +240,7 @@ abstract class CategoryQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, sourceid, pageid, title, files, subcats, pages, size, hidden, created_at, updated_at, tree_left, tree_right, tree_level FROM category WHERE id = :p0';
+        $sql = 'SELECT id, source_id, pageid, title, files, subcats, pages, size, hidden, created_at, updated_at, tree_left, tree_right, tree_level FROM category WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -372,18 +372,18 @@ abstract class CategoryQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the sourceid column
+     * Filter the query on the source_id column
      *
      * Example usage:
      * <code>
-     * $query->filterBySourceid(1234); // WHERE sourceid = 1234
-     * $query->filterBySourceid(array(12, 34)); // WHERE sourceid IN (12, 34)
-     * $query->filterBySourceid(array('min' => 12)); // WHERE sourceid > 12
+     * $query->filterBySourceId(1234); // WHERE source_id = 1234
+     * $query->filterBySourceId(array(12, 34)); // WHERE source_id IN (12, 34)
+     * $query->filterBySourceId(array('min' => 12)); // WHERE source_id > 12
      * </code>
      *
      * @see       filterBySource()
      *
-     * @param     mixed $sourceid The value to use as filter.
+     * @param     mixed $sourceId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -391,16 +391,16 @@ abstract class CategoryQuery extends ModelCriteria
      *
      * @return $this|ChildCategoryQuery The current query, for fluid interface
      */
-    public function filterBySourceid($sourceid = null, $comparison = null)
+    public function filterBySourceId($sourceId = null, $comparison = null)
     {
-        if (is_array($sourceid)) {
+        if (is_array($sourceId)) {
             $useMinMax = false;
-            if (isset($sourceid['min'])) {
-                $this->addUsingAlias(CategoryTableMap::COL_SOURCEID, $sourceid['min'], Criteria::GREATER_EQUAL);
+            if (isset($sourceId['min'])) {
+                $this->addUsingAlias(CategoryTableMap::COL_SOURCE_ID, $sourceId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($sourceid['max'])) {
-                $this->addUsingAlias(CategoryTableMap::COL_SOURCEID, $sourceid['max'], Criteria::LESS_EQUAL);
+            if (isset($sourceId['max'])) {
+                $this->addUsingAlias(CategoryTableMap::COL_SOURCE_ID, $sourceId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -411,7 +411,7 @@ abstract class CategoryQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(CategoryTableMap::COL_SOURCEID, $sourceid, $comparison);
+        return $this->addUsingAlias(CategoryTableMap::COL_SOURCE_ID, $sourceId, $comparison);
     }
 
     /**
@@ -894,14 +894,14 @@ abstract class CategoryQuery extends ModelCriteria
     {
         if ($source instanceof \Attogram\SharedMedia\Orm\Source) {
             return $this
-                ->addUsingAlias(CategoryTableMap::COL_SOURCEID, $source->getId(), $comparison);
+                ->addUsingAlias(CategoryTableMap::COL_SOURCE_ID, $source->getId(), $comparison);
         } elseif ($source instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(CategoryTableMap::COL_SOURCEID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(CategoryTableMap::COL_SOURCE_ID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterBySource() only accepts arguments of type \Attogram\SharedMedia\Orm\Source or Collection');
         }

@@ -59,7 +59,7 @@ class SourceTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class SourceTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the id field
@@ -80,6 +80,11 @@ class SourceTableMap extends TableMap
      * the column name for the title field
      */
     const COL_TITLE = 'source.title';
+
+    /**
+     * the column name for the host field
+     */
+    const COL_HOST = 'source.host';
 
     /**
      * the column name for the endpoint field
@@ -108,11 +113,11 @@ class SourceTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Title', 'Endpoint', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'title', 'endpoint', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(SourceTableMap::COL_ID, SourceTableMap::COL_TITLE, SourceTableMap::COL_ENDPOINT, SourceTableMap::COL_CREATED_AT, SourceTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'title', 'endpoint', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id', 'Title', 'Host', 'Endpoint', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'title', 'host', 'endpoint', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(SourceTableMap::COL_ID, SourceTableMap::COL_TITLE, SourceTableMap::COL_HOST, SourceTableMap::COL_ENDPOINT, SourceTableMap::COL_CREATED_AT, SourceTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'title', 'host', 'endpoint', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -122,11 +127,11 @@ class SourceTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Title' => 1, 'Endpoint' => 2, 'CreatedAt' => 3, 'UpdatedAt' => 4, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'title' => 1, 'endpoint' => 2, 'createdAt' => 3, 'updatedAt' => 4, ),
-        self::TYPE_COLNAME       => array(SourceTableMap::COL_ID => 0, SourceTableMap::COL_TITLE => 1, SourceTableMap::COL_ENDPOINT => 2, SourceTableMap::COL_CREATED_AT => 3, SourceTableMap::COL_UPDATED_AT => 4, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'title' => 1, 'endpoint' => 2, 'created_at' => 3, 'updated_at' => 4, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Title' => 1, 'Host' => 2, 'Endpoint' => 3, 'CreatedAt' => 4, 'UpdatedAt' => 5, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'title' => 1, 'host' => 2, 'endpoint' => 3, 'createdAt' => 4, 'updatedAt' => 5, ),
+        self::TYPE_COLNAME       => array(SourceTableMap::COL_ID => 0, SourceTableMap::COL_TITLE => 1, SourceTableMap::COL_HOST => 2, SourceTableMap::COL_ENDPOINT => 3, SourceTableMap::COL_CREATED_AT => 4, SourceTableMap::COL_UPDATED_AT => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'title' => 1, 'host' => 2, 'endpoint' => 3, 'created_at' => 4, 'updated_at' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -148,6 +153,7 @@ class SourceTableMap extends TableMap
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
+        $this->addColumn('host', 'Host', 'VARCHAR', true, 255, null);
         $this->addColumn('endpoint', 'Endpoint', 'VARCHAR', true, 255, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
@@ -161,21 +167,21 @@ class SourceTableMap extends TableMap
         $this->addRelation('Category', '\\Attogram\\SharedMedia\\Orm\\Category', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':sourceid',
+    0 => ':source_id',
     1 => ':id',
   ),
 ), null, null, 'Categories', false);
         $this->addRelation('Media', '\\Attogram\\SharedMedia\\Orm\\Media', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':sourceid',
+    0 => ':source_id',
     1 => ':id',
   ),
 ), null, null, 'Medias', false);
         $this->addRelation('Page', '\\Attogram\\SharedMedia\\Orm\\Page', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':sourceid',
+    0 => ':source_id',
     1 => ':id',
   ),
 ), null, null, 'Pages', false);
@@ -337,12 +343,14 @@ class SourceTableMap extends TableMap
         if (null === $alias) {
             $criteria->addSelectColumn(SourceTableMap::COL_ID);
             $criteria->addSelectColumn(SourceTableMap::COL_TITLE);
+            $criteria->addSelectColumn(SourceTableMap::COL_HOST);
             $criteria->addSelectColumn(SourceTableMap::COL_ENDPOINT);
             $criteria->addSelectColumn(SourceTableMap::COL_CREATED_AT);
             $criteria->addSelectColumn(SourceTableMap::COL_UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.title');
+            $criteria->addSelectColumn($alias . '.host');
             $criteria->addSelectColumn($alias . '.endpoint');
             $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');
