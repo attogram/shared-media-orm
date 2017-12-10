@@ -13,7 +13,7 @@ class PageQuery extends BasePageQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.5';
+    const VERSION = '1.0.6';
 
     public function __construct($logger = null)
     {
@@ -46,7 +46,11 @@ class PageQuery extends BasePageQuery
 
     protected function getPageFromApiResponse($response)
     {
-		return $this->setItemFromApiResponse(new Page(), 'getPageFields', $response);
+        return $this->setItemFromApiResponse(
+            new Page(),
+            $this->getPageFields(),
+            $response
+        );
     }
 
     /**
@@ -54,7 +58,7 @@ class PageQuery extends BasePageQuery
      */
     private function getPageFields()
     {
-        return array_merge($this->getApiFields(), [
+        return $this->getFields([
             ['displaytitle', 'setDisplaytitle'],
             ['page_image_free', 'setPageImageFree'],
             ['wikibase_item', 'setWikibaseItem'],

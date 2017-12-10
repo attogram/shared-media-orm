@@ -3,7 +3,7 @@
 namespace Attogram\SharedMedia\Orm;
 
 /**
- * API Trait v0.0.3
+ * API Trait v0.0.4
  */
 trait ApiTrait
 {
@@ -51,6 +51,18 @@ trait ApiTrait
             ['pageid', 'setPageid'],
             ['title', 'setTitle'],
         ];
+    }
+
+    /**
+     * @param array $fields
+     * @return array
+     */
+    public function getFields($fields)
+    {
+        return array_merge(
+            $this->getApiFields(),
+            $fields
+        );
     }
 
     /**

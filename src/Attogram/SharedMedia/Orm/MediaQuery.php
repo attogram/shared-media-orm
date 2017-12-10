@@ -13,7 +13,7 @@ class MediaQuery extends BaseMediaQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.6';
+    const VERSION = '1.0.7';
 
     public function __construct($logger = null)
     {
@@ -61,7 +61,11 @@ class MediaQuery extends BaseMediaQuery
 
     protected function getMediaFromApiResponse($response)
     {
-		return $this->setItemFromApiResponse(new Media(), 'getMediaFields', $response);
+        return $this->setItemFromApiResponse(
+            new Media(),
+            $this->getMediaFields(),
+            $response
+        );
     }
 
     /**
@@ -69,7 +73,7 @@ class MediaQuery extends BaseMediaQuery
      */
     private function getMediaFields()
     {
-        return array_merge($this->getApiFields(), [
+        return $this->getFields([
             ['url', 'setUrl'],
             ['mime', 'setMime'],
             ['width', 'setWidth'],
