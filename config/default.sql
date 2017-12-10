@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS [category];
 CREATE TABLE [category]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    [sourceid] INTEGER,
     [pageid] INTEGER,
     [title] VARCHAR(255),
     [files] INTEGER,
@@ -15,8 +16,14 @@ CREATE TABLE [category]
     [pages] INTEGER,
     [size] INTEGER,
     [hidden] INTEGER,
+    [created_at] TIMESTAMP,
+    [updated_at] TIMESTAMP,
+    [tree_left] INTEGER,
+    [tree_right] INTEGER,
+    [tree_level] INTEGER,
     UNIQUE ([pageid],[title]),
-    UNIQUE ([id])
+    UNIQUE ([id]),
+    FOREIGN KEY ([sourceid]) REFERENCES [source] ([id])
 );
 
 -----------------------------------------------------------------------
@@ -28,6 +35,7 @@ DROP TABLE IF EXISTS [media];
 CREATE TABLE [media]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    [sourceid] INTEGER,
     [pageid] INTEGER,
     [title] VARCHAR(255),
     [url] VARCHAR(255),
@@ -53,8 +61,11 @@ CREATE TABLE [media]
     [timestamp] TIMESTAMP(255),
     [user] VARCHAR(255),
     [userid] INTEGER,
+    [created_at] TIMESTAMP,
+    [updated_at] TIMESTAMP,
     UNIQUE ([pageid],[title]),
-    UNIQUE ([id])
+    UNIQUE ([id]),
+    FOREIGN KEY ([sourceid]) REFERENCES [source] ([id])
 );
 
 -----------------------------------------------------------------------
@@ -66,6 +77,7 @@ DROP TABLE IF EXISTS [page];
 CREATE TABLE [page]
 (
     [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    [sourceid] INTEGER,
     [pageid] INTEGER,
     [title] VARCHAR(255),
     [displaytitle] VARCHAR(255),
@@ -73,7 +85,27 @@ CREATE TABLE [page]
     [wikibase_item] VARCHAR(255),
     [disambiguation] VARCHAR(255),
     [defaultsort] VARCHAR(255),
+    [created_at] TIMESTAMP,
+    [updated_at] TIMESTAMP,
     UNIQUE ([pageid],[title]),
+    UNIQUE ([id]),
+    FOREIGN KEY ([sourceid]) REFERENCES [source] ([id])
+);
+
+-----------------------------------------------------------------------
+-- source
+-----------------------------------------------------------------------
+
+DROP TABLE IF EXISTS [source];
+
+CREATE TABLE [source]
+(
+    [id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    [title] VARCHAR(255) NOT NULL,
+    [endpoint] VARCHAR(255) NOT NULL,
+    [created_at] TIMESTAMP,
+    [updated_at] TIMESTAMP,
+    UNIQUE ([title]),
     UNIQUE ([id])
 );
 

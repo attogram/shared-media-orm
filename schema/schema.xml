@@ -1,4 +1,4 @@
-<!-- attogram/shared-media-orm  -  schema.xml  -  v1.0.0  -->
+<!-- attogram/shared-media-orm  -  schema.xml  -  v1.1.0  -->
 <database name="default" defaultIdMethod="native"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd"
@@ -7,6 +7,7 @@
 
     <table name="category" phpName="Category">
         <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="sourceid" type="INTEGER" />
         <column name="pageid" type="INTEGER" />
         <column name="title" type="VARCHAR" size="255" />
         <column name="files" type="INTEGER" />
@@ -14,14 +15,20 @@
         <column name="pages" type="INTEGER" />
         <column name="size" type="INTEGER" />
         <column name="hidden" type="BOOLEAN" />
+		<behavior name="timestampable" />
+		<behavior name="nested_set" />
         <unique>
             <unique-column name="pageid"/>
             <unique-column name="title"/>
         </unique>
+		<foreign-key foreignTable="source">
+            <reference local="sourceid" foreign="id" />
+        </foreign-key>
     </table>
 
     <table name="media" phpName="Media">
         <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="sourceid" type="INTEGER" />
         <column name="pageid" type="INTEGER" />
         <column name="title" type="VARCHAR" size="255" />
         <column name="url" type="VARCHAR" size="255" />
@@ -47,14 +54,19 @@
         <column name="timestamp" type="TIMESTAMP" size="255" />
         <column name="user" type="VARCHAR" size="255" />
         <column name="userid" type="INTEGER" />
+		<behavior name="timestampable" />
         <unique>
             <unique-column name="pageid"/>
             <unique-column name="title"/>
         </unique>
+		<foreign-key foreignTable="source">
+            <reference local="sourceid" foreign="id" />
+        </foreign-key>
     </table>
 
     <table name="page" phpName="Page">
         <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="sourceid" type="INTEGER" />
         <column name="pageid" type="INTEGER" />
         <column name="title" type="VARCHAR" size="255" />
         <column name="displaytitle" type="VARCHAR" size="255" />
@@ -62,8 +74,22 @@
         <column name="wikibase_item" type="VARCHAR" size="255" />
         <column name="disambiguation" type="VARCHAR" size="255" />
         <column name="defaultsort" type="VARCHAR" size="255" />
+		<behavior name="timestampable" />
         <unique>
             <unique-column name="pageid"/>
+            <unique-column name="title"/>
+        </unique>
+		<foreign-key foreignTable="source">
+            <reference local="sourceid" foreign="id" />
+        </foreign-key>
+    </table>
+	
+    <table name="source" phpName="Source">
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="title" type="VARCHAR" size="255" required="true" />
+        <column name="endpoint" type="VARCHAR" size="255" required="true" />
+		<behavior name="timestampable" />
+        <unique>
             <unique-column name="title"/>
         </unique>
     </table>

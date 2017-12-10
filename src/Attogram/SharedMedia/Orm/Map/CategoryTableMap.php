@@ -59,7 +59,7 @@ class CategoryTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 14;
 
     /**
      * The number of lazy-loaded columns
@@ -69,12 +69,17 @@ class CategoryTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /**
      * the column name for the id field
      */
     const COL_ID = 'category.id';
+
+    /**
+     * the column name for the sourceid field
+     */
+    const COL_SOURCEID = 'category.sourceid';
 
     /**
      * the column name for the pageid field
@@ -112,6 +117,31 @@ class CategoryTableMap extends TableMap
     const COL_HIDDEN = 'category.hidden';
 
     /**
+     * the column name for the created_at field
+     */
+    const COL_CREATED_AT = 'category.created_at';
+
+    /**
+     * the column name for the updated_at field
+     */
+    const COL_UPDATED_AT = 'category.updated_at';
+
+    /**
+     * the column name for the tree_left field
+     */
+    const COL_TREE_LEFT = 'category.tree_left';
+
+    /**
+     * the column name for the tree_right field
+     */
+    const COL_TREE_RIGHT = 'category.tree_right';
+
+    /**
+     * the column name for the tree_level field
+     */
+    const COL_TREE_LEVEL = 'category.tree_level';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -123,11 +153,11 @@ class CategoryTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Pageid', 'Title', 'Files', 'Subcats', 'Pages', 'Size', 'Hidden', ),
-        self::TYPE_CAMELNAME     => array('id', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', ),
-        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID, CategoryTableMap::COL_PAGEID, CategoryTableMap::COL_TITLE, CategoryTableMap::COL_FILES, CategoryTableMap::COL_SUBCATS, CategoryTableMap::COL_PAGES, CategoryTableMap::COL_SIZE, CategoryTableMap::COL_HIDDEN, ),
-        self::TYPE_FIELDNAME     => array('id', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'Sourceid', 'Pageid', 'Title', 'Files', 'Subcats', 'Pages', 'Size', 'Hidden', 'CreatedAt', 'UpdatedAt', 'TreeLeft', 'TreeRight', 'TreeLevel', ),
+        self::TYPE_CAMELNAME     => array('id', 'sourceid', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', 'createdAt', 'updatedAt', 'treeLeft', 'treeRight', 'treeLevel', ),
+        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID, CategoryTableMap::COL_SOURCEID, CategoryTableMap::COL_PAGEID, CategoryTableMap::COL_TITLE, CategoryTableMap::COL_FILES, CategoryTableMap::COL_SUBCATS, CategoryTableMap::COL_PAGES, CategoryTableMap::COL_SIZE, CategoryTableMap::COL_HIDDEN, CategoryTableMap::COL_CREATED_AT, CategoryTableMap::COL_UPDATED_AT, CategoryTableMap::COL_TREE_LEFT, CategoryTableMap::COL_TREE_RIGHT, CategoryTableMap::COL_TREE_LEVEL, ),
+        self::TYPE_FIELDNAME     => array('id', 'sourceid', 'pageid', 'title', 'files', 'subcats', 'pages', 'size', 'hidden', 'created_at', 'updated_at', 'tree_left', 'tree_right', 'tree_level', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -137,11 +167,11 @@ class CategoryTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Pageid' => 1, 'Title' => 2, 'Files' => 3, 'Subcats' => 4, 'Pages' => 5, 'Size' => 6, 'Hidden' => 7, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'pageid' => 1, 'title' => 2, 'files' => 3, 'subcats' => 4, 'pages' => 5, 'size' => 6, 'hidden' => 7, ),
-        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID => 0, CategoryTableMap::COL_PAGEID => 1, CategoryTableMap::COL_TITLE => 2, CategoryTableMap::COL_FILES => 3, CategoryTableMap::COL_SUBCATS => 4, CategoryTableMap::COL_PAGES => 5, CategoryTableMap::COL_SIZE => 6, CategoryTableMap::COL_HIDDEN => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'pageid' => 1, 'title' => 2, 'files' => 3, 'subcats' => 4, 'pages' => 5, 'size' => 6, 'hidden' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Sourceid' => 1, 'Pageid' => 2, 'Title' => 3, 'Files' => 4, 'Subcats' => 5, 'Pages' => 6, 'Size' => 7, 'Hidden' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'TreeLeft' => 11, 'TreeRight' => 12, 'TreeLevel' => 13, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'files' => 4, 'subcats' => 5, 'pages' => 6, 'size' => 7, 'hidden' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'treeLeft' => 11, 'treeRight' => 12, 'treeLevel' => 13, ),
+        self::TYPE_COLNAME       => array(CategoryTableMap::COL_ID => 0, CategoryTableMap::COL_SOURCEID => 1, CategoryTableMap::COL_PAGEID => 2, CategoryTableMap::COL_TITLE => 3, CategoryTableMap::COL_FILES => 4, CategoryTableMap::COL_SUBCATS => 5, CategoryTableMap::COL_PAGES => 6, CategoryTableMap::COL_SIZE => 7, CategoryTableMap::COL_HIDDEN => 8, CategoryTableMap::COL_CREATED_AT => 9, CategoryTableMap::COL_UPDATED_AT => 10, CategoryTableMap::COL_TREE_LEFT => 11, CategoryTableMap::COL_TREE_RIGHT => 12, CategoryTableMap::COL_TREE_LEVEL => 13, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'files' => 4, 'subcats' => 5, 'pages' => 6, 'size' => 7, 'hidden' => 8, 'created_at' => 9, 'updated_at' => 10, 'tree_left' => 11, 'tree_right' => 12, 'tree_level' => 13, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -162,6 +192,7 @@ class CategoryTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('sourceid', 'Sourceid', 'INTEGER', 'source', 'id', false, null, null);
         $this->addColumn('pageid', 'Pageid', 'INTEGER', false, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', false, 255, null);
         $this->addColumn('files', 'Files', 'INTEGER', false, null, null);
@@ -169,6 +200,11 @@ class CategoryTableMap extends TableMap
         $this->addColumn('pages', 'Pages', 'INTEGER', false, null, null);
         $this->addColumn('size', 'Size', 'INTEGER', false, null, null);
         $this->addColumn('hidden', 'Hidden', 'BOOLEAN', false, null, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
+        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
+        $this->addColumn('tree_left', 'TreeLeft', 'INTEGER', false, null, null);
+        $this->addColumn('tree_right', 'TreeRight', 'INTEGER', false, null, null);
+        $this->addColumn('tree_level', 'TreeLevel', 'INTEGER', false, null, null);
     } // initialize()
 
     /**
@@ -176,6 +212,13 @@ class CategoryTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Source', '\\Attogram\\SharedMedia\\Orm\\Source', RelationMap::MANY_TO_ONE, array (
+  0 =>
+  array (
+    0 => ':sourceid',
+    1 => ':id',
+  ),
+), null, null, null, false);
         $this->addRelation('C2M', '\\Attogram\\SharedMedia\\Orm\\C2M', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
@@ -191,6 +234,20 @@ class CategoryTableMap extends TableMap
   ),
 ), null, null, 'C2Ps', false);
     } // buildRelations()
+
+    /**
+     *
+     * Gets the list of behaviors registered for this table
+     *
+     * @return array Associative array (name => parameters) of behaviors
+     */
+    public function getBehaviors()
+    {
+        return array(
+            'timestampable' => array('create_column' => 'created_at', 'update_column' => 'updated_at', 'disable_created_at' => 'false', 'disable_updated_at' => 'false', ),
+            'nested_set' => array('left_column' => 'tree_left', 'right_column' => 'tree_right', 'level_column' => 'tree_level', 'use_scope' => 'false', 'scope_column' => 'tree_scope', 'method_proxies' => 'false', ),
+        );
+    } // getBehaviors()
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -334,6 +391,7 @@ class CategoryTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(CategoryTableMap::COL_ID);
+            $criteria->addSelectColumn(CategoryTableMap::COL_SOURCEID);
             $criteria->addSelectColumn(CategoryTableMap::COL_PAGEID);
             $criteria->addSelectColumn(CategoryTableMap::COL_TITLE);
             $criteria->addSelectColumn(CategoryTableMap::COL_FILES);
@@ -341,8 +399,14 @@ class CategoryTableMap extends TableMap
             $criteria->addSelectColumn(CategoryTableMap::COL_PAGES);
             $criteria->addSelectColumn(CategoryTableMap::COL_SIZE);
             $criteria->addSelectColumn(CategoryTableMap::COL_HIDDEN);
+            $criteria->addSelectColumn(CategoryTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_TREE_LEFT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_TREE_RIGHT);
+            $criteria->addSelectColumn(CategoryTableMap::COL_TREE_LEVEL);
         } else {
             $criteria->addSelectColumn($alias . '.id');
+            $criteria->addSelectColumn($alias . '.sourceid');
             $criteria->addSelectColumn($alias . '.pageid');
             $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.files');
@@ -350,6 +414,11 @@ class CategoryTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.pages');
             $criteria->addSelectColumn($alias . '.size');
             $criteria->addSelectColumn($alias . '.hidden');
+            $criteria->addSelectColumn($alias . '.created_at');
+            $criteria->addSelectColumn($alias . '.updated_at');
+            $criteria->addSelectColumn($alias . '.tree_left');
+            $criteria->addSelectColumn($alias . '.tree_right');
+            $criteria->addSelectColumn($alias . '.tree_level');
         }
     }
 

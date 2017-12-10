@@ -5,5 +5,3 @@
 # propel.yml overwrite the ones with the same name, loaded from propel.yml.dist.
 #
 # For a complete references see: http://propelorm.org/documentation/reference/configuration-file.html
-
-#propel:

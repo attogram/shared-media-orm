@@ -2,8 +2,8 @@
 
 namespace Attogram\SharedMedia\Orm\Map;
 
-use Attogram\SharedMedia\Orm\Page;
-use Attogram\SharedMedia\Orm\PageQuery;
+use Attogram\SharedMedia\Orm\Source;
+use Attogram\SharedMedia\Orm\SourceQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -16,7 +16,7 @@ use Propel\Runtime\Map\TableMapTrait;
 
 
 /**
- * This class defines the structure of the 'page' table.
+ * This class defines the structure of the 'source' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Propel\Runtime\Map\TableMapTrait;
  * (i.e. if it's a text column type).
  *
  */
-class PageTableMap extends TableMap
+class SourceTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class PageTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Attogram.SharedMedia.Orm.Map.PageTableMap';
+    const CLASS_NAME = 'Attogram.SharedMedia.Orm.Map.SourceTableMap';
 
     /**
      * The default database name for this class
@@ -44,22 +44,22 @@ class PageTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'page';
+    const TABLE_NAME = 'source';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Attogram\\SharedMedia\\Orm\\Page';
+    const OM_CLASS = '\\Attogram\\SharedMedia\\Orm\\Source';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Attogram.SharedMedia.Orm.Page';
+    const CLASS_DEFAULT = 'Attogram.SharedMedia.Orm.Source';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 11;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,62 +69,32 @@ class PageTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 11;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the id field
      */
-    const COL_ID = 'page.id';
-
-    /**
-     * the column name for the sourceid field
-     */
-    const COL_SOURCEID = 'page.sourceid';
-
-    /**
-     * the column name for the pageid field
-     */
-    const COL_PAGEID = 'page.pageid';
+    const COL_ID = 'source.id';
 
     /**
      * the column name for the title field
      */
-    const COL_TITLE = 'page.title';
+    const COL_TITLE = 'source.title';
 
     /**
-     * the column name for the displaytitle field
+     * the column name for the endpoint field
      */
-    const COL_DISPLAYTITLE = 'page.displaytitle';
-
-    /**
-     * the column name for the page_image_free field
-     */
-    const COL_PAGE_IMAGE_FREE = 'page.page_image_free';
-
-    /**
-     * the column name for the wikibase_item field
-     */
-    const COL_WIKIBASE_ITEM = 'page.wikibase_item';
-
-    /**
-     * the column name for the disambiguation field
-     */
-    const COL_DISAMBIGUATION = 'page.disambiguation';
-
-    /**
-     * the column name for the defaultsort field
-     */
-    const COL_DEFAULTSORT = 'page.defaultsort';
+    const COL_ENDPOINT = 'source.endpoint';
 
     /**
      * the column name for the created_at field
      */
-    const COL_CREATED_AT = 'page.created_at';
+    const COL_CREATED_AT = 'source.created_at';
 
     /**
      * the column name for the updated_at field
      */
-    const COL_UPDATED_AT = 'page.updated_at';
+    const COL_UPDATED_AT = 'source.updated_at';
 
     /**
      * The default string format for model objects of the related table
@@ -138,11 +108,11 @@ class PageTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Sourceid', 'Pageid', 'Title', 'Displaytitle', 'PageImageFree', 'WikibaseItem', 'Disambiguation', 'Defaultsort', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'sourceid', 'pageid', 'title', 'displaytitle', 'pageImageFree', 'wikibaseItem', 'disambiguation', 'defaultsort', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(PageTableMap::COL_ID, PageTableMap::COL_SOURCEID, PageTableMap::COL_PAGEID, PageTableMap::COL_TITLE, PageTableMap::COL_DISPLAYTITLE, PageTableMap::COL_PAGE_IMAGE_FREE, PageTableMap::COL_WIKIBASE_ITEM, PageTableMap::COL_DISAMBIGUATION, PageTableMap::COL_DEFAULTSORT, PageTableMap::COL_CREATED_AT, PageTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'sourceid', 'pageid', 'title', 'displaytitle', 'page_image_free', 'wikibase_item', 'disambiguation', 'defaultsort', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        self::TYPE_PHPNAME       => array('Id', 'Title', 'Endpoint', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'title', 'endpoint', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(SourceTableMap::COL_ID, SourceTableMap::COL_TITLE, SourceTableMap::COL_ENDPOINT, SourceTableMap::COL_CREATED_AT, SourceTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'title', 'endpoint', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -152,11 +122,11 @@ class PageTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Sourceid' => 1, 'Pageid' => 2, 'Title' => 3, 'Displaytitle' => 4, 'PageImageFree' => 5, 'WikibaseItem' => 6, 'Disambiguation' => 7, 'Defaultsort' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'displaytitle' => 4, 'pageImageFree' => 5, 'wikibaseItem' => 6, 'disambiguation' => 7, 'defaultsort' => 8, 'createdAt' => 9, 'updatedAt' => 10, ),
-        self::TYPE_COLNAME       => array(PageTableMap::COL_ID => 0, PageTableMap::COL_SOURCEID => 1, PageTableMap::COL_PAGEID => 2, PageTableMap::COL_TITLE => 3, PageTableMap::COL_DISPLAYTITLE => 4, PageTableMap::COL_PAGE_IMAGE_FREE => 5, PageTableMap::COL_WIKIBASE_ITEM => 6, PageTableMap::COL_DISAMBIGUATION => 7, PageTableMap::COL_DEFAULTSORT => 8, PageTableMap::COL_CREATED_AT => 9, PageTableMap::COL_UPDATED_AT => 10, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'sourceid' => 1, 'pageid' => 2, 'title' => 3, 'displaytitle' => 4, 'page_image_free' => 5, 'wikibase_item' => 6, 'disambiguation' => 7, 'defaultsort' => 8, 'created_at' => 9, 'updated_at' => 10, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Title' => 1, 'Endpoint' => 2, 'CreatedAt' => 3, 'UpdatedAt' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'title' => 1, 'endpoint' => 2, 'createdAt' => 3, 'updatedAt' => 4, ),
+        self::TYPE_COLNAME       => array(SourceTableMap::COL_ID => 0, SourceTableMap::COL_TITLE => 1, SourceTableMap::COL_ENDPOINT => 2, SourceTableMap::COL_CREATED_AT => 3, SourceTableMap::COL_UPDATED_AT => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'title' => 1, 'endpoint' => 2, 'created_at' => 3, 'updated_at' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -169,22 +139,16 @@ class PageTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('page');
-        $this->setPhpName('Page');
+        $this->setName('source');
+        $this->setPhpName('Source');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Attogram\\SharedMedia\\Orm\\Page');
+        $this->setClassName('\\Attogram\\SharedMedia\\Orm\\Source');
         $this->setPackage('Attogram.SharedMedia.Orm');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addForeignKey('sourceid', 'Sourceid', 'INTEGER', 'source', 'id', false, null, null);
-        $this->addColumn('pageid', 'Pageid', 'INTEGER', false, null, null);
-        $this->addColumn('title', 'Title', 'VARCHAR', false, 255, null);
-        $this->addColumn('displaytitle', 'Displaytitle', 'VARCHAR', false, 255, null);
-        $this->addColumn('page_image_free', 'PageImageFree', 'VARCHAR', false, 255, null);
-        $this->addColumn('wikibase_item', 'WikibaseItem', 'VARCHAR', false, 255, null);
-        $this->addColumn('disambiguation', 'Disambiguation', 'VARCHAR', false, 255, null);
-        $this->addColumn('defaultsort', 'Defaultsort', 'VARCHAR', false, 255, null);
+        $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
+        $this->addColumn('endpoint', 'Endpoint', 'VARCHAR', true, 255, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
     } // initialize()
@@ -194,27 +158,27 @@ class PageTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Source', '\\Attogram\\SharedMedia\\Orm\\Source', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('Category', '\\Attogram\\SharedMedia\\Orm\\Category', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
     0 => ':sourceid',
     1 => ':id',
   ),
-), null, null, null, false);
-        $this->addRelation('C2P', '\\Attogram\\SharedMedia\\Orm\\C2P', RelationMap::ONE_TO_MANY, array (
+), null, null, 'Categories', false);
+        $this->addRelation('Media', '\\Attogram\\SharedMedia\\Orm\\Media', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':page_id',
+    0 => ':sourceid',
     1 => ':id',
   ),
-), null, null, 'C2Ps', false);
-        $this->addRelation('M2P', '\\Attogram\\SharedMedia\\Orm\\M2P', RelationMap::ONE_TO_MANY, array (
+), null, null, 'Medias', false);
+        $this->addRelation('Page', '\\Attogram\\SharedMedia\\Orm\\Page', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':page_id',
+    0 => ':sourceid',
     1 => ':id',
   ),
-), null, null, 'M2Ps', false);
+), null, null, 'Pages', false);
     } // buildRelations()
 
     /**
@@ -287,7 +251,7 @@ class PageTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? PageTableMap::CLASS_DEFAULT : PageTableMap::OM_CLASS;
+        return $withPrefix ? SourceTableMap::CLASS_DEFAULT : SourceTableMap::OM_CLASS;
     }
 
     /**
@@ -301,22 +265,22 @@ class PageTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Page object, last column rank)
+     * @return array           (Source object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = PageTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = PageTableMap::getInstanceFromPool($key))) {
+        $key = SourceTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = SourceTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + PageTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + SourceTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = PageTableMap::OM_CLASS;
-            /** @var Page $obj */
+            $cls = SourceTableMap::OM_CLASS;
+            /** @var Source $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            PageTableMap::addInstanceToPool($obj, $key);
+            SourceTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -339,18 +303,18 @@ class PageTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = PageTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = PageTableMap::getInstanceFromPool($key))) {
+            $key = SourceTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = SourceTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Page $obj */
+                /** @var Source $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                PageTableMap::addInstanceToPool($obj, $key);
+                SourceTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -371,27 +335,15 @@ class PageTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(PageTableMap::COL_ID);
-            $criteria->addSelectColumn(PageTableMap::COL_SOURCEID);
-            $criteria->addSelectColumn(PageTableMap::COL_PAGEID);
-            $criteria->addSelectColumn(PageTableMap::COL_TITLE);
-            $criteria->addSelectColumn(PageTableMap::COL_DISPLAYTITLE);
-            $criteria->addSelectColumn(PageTableMap::COL_PAGE_IMAGE_FREE);
-            $criteria->addSelectColumn(PageTableMap::COL_WIKIBASE_ITEM);
-            $criteria->addSelectColumn(PageTableMap::COL_DISAMBIGUATION);
-            $criteria->addSelectColumn(PageTableMap::COL_DEFAULTSORT);
-            $criteria->addSelectColumn(PageTableMap::COL_CREATED_AT);
-            $criteria->addSelectColumn(PageTableMap::COL_UPDATED_AT);
+            $criteria->addSelectColumn(SourceTableMap::COL_ID);
+            $criteria->addSelectColumn(SourceTableMap::COL_TITLE);
+            $criteria->addSelectColumn(SourceTableMap::COL_ENDPOINT);
+            $criteria->addSelectColumn(SourceTableMap::COL_CREATED_AT);
+            $criteria->addSelectColumn(SourceTableMap::COL_UPDATED_AT);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.sourceid');
-            $criteria->addSelectColumn($alias . '.pageid');
             $criteria->addSelectColumn($alias . '.title');
-            $criteria->addSelectColumn($alias . '.displaytitle');
-            $criteria->addSelectColumn($alias . '.page_image_free');
-            $criteria->addSelectColumn($alias . '.wikibase_item');
-            $criteria->addSelectColumn($alias . '.disambiguation');
-            $criteria->addSelectColumn($alias . '.defaultsort');
+            $criteria->addSelectColumn($alias . '.endpoint');
             $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');
         }
@@ -406,7 +358,7 @@ class PageTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(PageTableMap::DATABASE_NAME)->getTable(PageTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(SourceTableMap::DATABASE_NAME)->getTable(SourceTableMap::TABLE_NAME);
     }
 
     /**
@@ -414,16 +366,16 @@ class PageTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(PageTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(PageTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new PageTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(SourceTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(SourceTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new SourceTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Page or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Source or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Page object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Source object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -434,27 +386,27 @@ class PageTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PageTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SourceTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Attogram\SharedMedia\Orm\Page) { // it's a model object
+        } elseif ($values instanceof \Attogram\SharedMedia\Orm\Source) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(PageTableMap::DATABASE_NAME);
-            $criteria->add(PageTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(SourceTableMap::DATABASE_NAME);
+            $criteria->add(SourceTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = PageQuery::create()->mergeWith($criteria);
+        $query = SourceQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            PageTableMap::clearInstancePool();
+            SourceTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                PageTableMap::removeInstanceFromPool($singleval);
+                SourceTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -462,20 +414,20 @@ class PageTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the page table.
+     * Deletes all rows from the source table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return PageQuery::create()->doDeleteAll($con);
+        return SourceQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Page or Criteria object.
+     * Performs an INSERT on the database, given a Source or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Page object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Source object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -484,22 +436,22 @@ class PageTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PageTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SourceTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Page object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Source object
         }
 
-        if ($criteria->containsKey(PageTableMap::COL_ID) && $criteria->keyContainsValue(PageTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.PageTableMap::COL_ID.')');
+        if ($criteria->containsKey(SourceTableMap::COL_ID) && $criteria->keyContainsValue(SourceTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SourceTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = PageQuery::create()->mergeWith($criteria);
+        $query = SourceQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -508,7 +460,7 @@ class PageTableMap extends TableMap
         });
     }
 
-} // PageTableMap
+} // SourceTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-PageTableMap::buildTableMap();
+SourceTableMap::buildTableMap();

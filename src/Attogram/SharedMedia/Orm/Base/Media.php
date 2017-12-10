@@ -11,6 +11,8 @@ use Attogram\SharedMedia\Orm\M2P as ChildM2P;
 use Attogram\SharedMedia\Orm\M2PQuery as ChildM2PQuery;
 use Attogram\SharedMedia\Orm\Media as ChildMedia;
 use Attogram\SharedMedia\Orm\MediaQuery as ChildMediaQuery;
+use Attogram\SharedMedia\Orm\Source as ChildSource;
+use Attogram\SharedMedia\Orm\SourceQuery as ChildSourceQuery;
 use Attogram\SharedMedia\Orm\Map\C2MTableMap;
 use Attogram\SharedMedia\Orm\Map\M2PTableMap;
 use Attogram\SharedMedia\Orm\Map\MediaTableMap;
@@ -75,6 +77,13 @@ abstract class Media implements ActiveRecordInterface
      * @var        int
      */
     protected $id;
+
+    /**
+     * The value for the sourceid field.
+     *
+     * @var        int
+     */
+    protected $sourceid;
 
     /**
      * The value for the pageid field.
@@ -250,6 +259,25 @@ abstract class Media implements ActiveRecordInterface
      * @var        int
      */
     protected $userid;
+
+    /**
+     * The value for the created_at field.
+     *
+     * @var        DateTime
+     */
+    protected $created_at;
+
+    /**
+     * The value for the updated_at field.
+     *
+     * @var        DateTime
+     */
+    protected $updated_at;
+
+    /**
+     * @var        ChildSource
+     */
+    protected $aSource;
 
     /**
      * @var        ObjectCollection|ChildC2M[] Collection to store aggregation of ChildC2M objects.
@@ -519,6 +547,16 @@ abstract class Media implements ActiveRecordInterface
     }
 
     /**
+     * Get the [sourceid] column value.
+     *
+     * @return int
+     */
+    public function getSourceid()
+    {
+        return $this->sourceid;
+    }
+
+    /**
      * Get the [pageid] column value.
      *
      * @return int
@@ -779,6 +817,46 @@ abstract class Media implements ActiveRecordInterface
     }
 
     /**
+     * Get the [optionally formatted] temporal [created_at] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getCreatedAt($format = NULL)
+    {
+        if ($format === null) {
+            return $this->created_at;
+        } else {
+            return $this->created_at instanceof \DateTimeInterface ? $this->created_at->format($format) : null;
+        }
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [updated_at] column value.
+     *
+     *
+     * @param      string $format The date/time format string (either date()-style or strftime()-style).
+     *                            If format is NULL, then the raw DateTime object will be returned.
+     *
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL
+     *
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getUpdatedAt($format = NULL)
+    {
+        if ($format === null) {
+            return $this->updated_at;
+        } else {
+            return $this->updated_at instanceof \DateTimeInterface ? $this->updated_at->format($format) : null;
+        }
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -797,6 +875,30 @@ abstract class Media implements ActiveRecordInterface
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [sourceid] column.
+     *
+     * @param int $v new value
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setSourceid($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->sourceid !== $v) {
+            $this->sourceid = $v;
+            $this->modifiedColumns[MediaTableMap::COL_SOURCEID] = true;
+        }
+
+        if ($this->aSource !== null && $this->aSource->getId() !== $v) {
+            $this->aSource = null;
+        }
+
+        return $this;
+    } // setSourceid()
 
     /**
      * Set the value of [pageid] column.
@@ -1299,6 +1401,46 @@ abstract class Media implements ActiveRecordInterface
     } // setUserid()
 
     /**
+     * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setCreatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->created_at !== null || $dt !== null) {
+            if ($this->created_at === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->created_at->format("Y-m-d H:i:s.u")) {
+                $this->created_at = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[MediaTableMap::COL_CREATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setCreatedAt()
+
+    /**
+     * Sets the value of [updated_at] column to a normalized version of the date/time value specified.
+     *
+     * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
+     *               Empty strings are treated as NULL.
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setUpdatedAt($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->updated_at !== null || $dt !== null) {
+            if ($this->updated_at === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->updated_at->format("Y-m-d H:i:s.u")) {
+                $this->updated_at = $dt === null ? null : clone $dt;
+                $this->modifiedColumns[MediaTableMap::COL_UPDATED_AT] = true;
+            }
+        } // if either are not null
+
+        return $this;
+    } // setUpdatedAt()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -1337,80 +1479,89 @@ abstract class Media implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MediaTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MediaTableMap::translateFieldName('Pageid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MediaTableMap::translateFieldName('Sourceid', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->sourceid = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MediaTableMap::translateFieldName('Pageid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->pageid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MediaTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MediaTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MediaTableMap::translateFieldName('Url', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MediaTableMap::translateFieldName('Url', TableMap::TYPE_PHPNAME, $indexType)];
             $this->url = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MediaTableMap::translateFieldName('Mime', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MediaTableMap::translateFieldName('Mime', TableMap::TYPE_PHPNAME, $indexType)];
             $this->mime = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MediaTableMap::translateFieldName('Width', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MediaTableMap::translateFieldName('Width', TableMap::TYPE_PHPNAME, $indexType)];
             $this->width = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MediaTableMap::translateFieldName('Height', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MediaTableMap::translateFieldName('Height', TableMap::TYPE_PHPNAME, $indexType)];
             $this->height = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MediaTableMap::translateFieldName('Size', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MediaTableMap::translateFieldName('Size', TableMap::TYPE_PHPNAME, $indexType)];
             $this->size = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : MediaTableMap::translateFieldName('Sha1', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MediaTableMap::translateFieldName('Sha1', TableMap::TYPE_PHPNAME, $indexType)];
             $this->sha1 = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : MediaTableMap::translateFieldName('Thumburl', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : MediaTableMap::translateFieldName('Thumburl', TableMap::TYPE_PHPNAME, $indexType)];
             $this->thumburl = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : MediaTableMap::translateFieldName('Thumbmime', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : MediaTableMap::translateFieldName('Thumbmime', TableMap::TYPE_PHPNAME, $indexType)];
             $this->thumbmime = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : MediaTableMap::translateFieldName('Thumbwidth', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MediaTableMap::translateFieldName('Thumbwidth', TableMap::TYPE_PHPNAME, $indexType)];
             $this->thumbwidth = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : MediaTableMap::translateFieldName('Thumbheight', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : MediaTableMap::translateFieldName('Thumbheight', TableMap::TYPE_PHPNAME, $indexType)];
             $this->thumbheight = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : MediaTableMap::translateFieldName('Thumbsize', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : MediaTableMap::translateFieldName('Thumbsize', TableMap::TYPE_PHPNAME, $indexType)];
             $this->thumbsize = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : MediaTableMap::translateFieldName('Descriptionurl', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : MediaTableMap::translateFieldName('Descriptionurl', TableMap::TYPE_PHPNAME, $indexType)];
             $this->descriptionurl = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : MediaTableMap::translateFieldName('Descriptionurlshort', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : MediaTableMap::translateFieldName('Descriptionurlshort', TableMap::TYPE_PHPNAME, $indexType)];
             $this->descriptionurlshort = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : MediaTableMap::translateFieldName('Imagedescription', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : MediaTableMap::translateFieldName('Imagedescription', TableMap::TYPE_PHPNAME, $indexType)];
             $this->imagedescription = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 17 + $startcol : MediaTableMap::translateFieldName('Datetimeoriginal', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : MediaTableMap::translateFieldName('Datetimeoriginal', TableMap::TYPE_PHPNAME, $indexType)];
             $this->datetimeoriginal = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 18 + $startcol : MediaTableMap::translateFieldName('Artist', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : MediaTableMap::translateFieldName('Artist', TableMap::TYPE_PHPNAME, $indexType)];
             $this->artist = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 19 + $startcol : MediaTableMap::translateFieldName('Licenseshortname', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : MediaTableMap::translateFieldName('Licenseshortname', TableMap::TYPE_PHPNAME, $indexType)];
             $this->licenseshortname = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 20 + $startcol : MediaTableMap::translateFieldName('Usageterms', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : MediaTableMap::translateFieldName('Usageterms', TableMap::TYPE_PHPNAME, $indexType)];
             $this->usageterms = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : MediaTableMap::translateFieldName('Attributionrequired', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : MediaTableMap::translateFieldName('Attributionrequired', TableMap::TYPE_PHPNAME, $indexType)];
             $this->attributionrequired = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : MediaTableMap::translateFieldName('Restrictions', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : MediaTableMap::translateFieldName('Restrictions', TableMap::TYPE_PHPNAME, $indexType)];
             $this->restrictions = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : MediaTableMap::translateFieldName('Timestamp', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : MediaTableMap::translateFieldName('Timestamp', TableMap::TYPE_PHPNAME, $indexType)];
             $this->timestamp = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : MediaTableMap::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : MediaTableMap::translateFieldName('User', TableMap::TYPE_PHPNAME, $indexType)];
             $this->user = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : MediaTableMap::translateFieldName('Userid', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 26 + $startcol : MediaTableMap::translateFieldName('Userid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->userid = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 27 + $startcol : MediaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 28 + $startcol : MediaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1419,7 +1570,7 @@ abstract class Media implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 26; // 26 = MediaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 29; // 29 = MediaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Attogram\\SharedMedia\\Orm\\Media'), 0, $e);
@@ -1441,6 +1592,9 @@ abstract class Media implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aSource !== null && $this->sourceid !== $this->aSource->getId()) {
+            $this->aSource = null;
+        }
     } // ensureConsistency
 
     /**
@@ -1480,6 +1634,7 @@ abstract class Media implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aSource = null;
             $this->collC2Ms = null;
 
             $this->collM2Ps = null;
@@ -1550,8 +1705,20 @@ abstract class Media implements ActiveRecordInterface
             $isInsert = $this->isNew();
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
+                // timestampable behavior
+
+                if (!$this->isColumnModified(MediaTableMap::COL_CREATED_AT)) {
+                    $this->setCreatedAt(\Propel\Runtime\Util\PropelDateTime::createHighPrecision());
+                }
+                if (!$this->isColumnModified(MediaTableMap::COL_UPDATED_AT)) {
+                    $this->setUpdatedAt(\Propel\Runtime\Util\PropelDateTime::createHighPrecision());
+                }
             } else {
                 $ret = $ret && $this->preUpdate($con);
+                // timestampable behavior
+                if ($this->isModified() && !$this->isColumnModified(MediaTableMap::COL_UPDATED_AT)) {
+                    $this->setUpdatedAt(\Propel\Runtime\Util\PropelDateTime::createHighPrecision());
+                }
             }
             if ($ret) {
                 $affectedRows = $this->doSave($con);
@@ -1586,6 +1753,18 @@ abstract class Media implements ActiveRecordInterface
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
+
+            // We call the save method on the following object(s) if they
+            // were passed to this object by their corresponding set
+            // method.  This object relates to these object(s) by a
+            // foreign key reference.
+
+            if ($this->aSource !== null) {
+                if ($this->aSource->isModified() || $this->aSource->isNew()) {
+                    $affectedRows += $this->aSource->save($con);
+                }
+                $this->setSource($this->aSource);
+            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -1660,6 +1839,9 @@ abstract class Media implements ActiveRecordInterface
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(MediaTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_SOURCEID)) {
+            $modifiedColumns[':p' . $index++]  = 'sourceid';
         }
         if ($this->isColumnModified(MediaTableMap::COL_PAGEID)) {
             $modifiedColumns[':p' . $index++]  = 'pageid';
@@ -1736,6 +1918,12 @@ abstract class Media implements ActiveRecordInterface
         if ($this->isColumnModified(MediaTableMap::COL_USERID)) {
             $modifiedColumns[':p' . $index++]  = 'userid';
         }
+        if ($this->isColumnModified(MediaTableMap::COL_CREATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'created_at';
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_UPDATED_AT)) {
+            $modifiedColumns[':p' . $index++]  = 'updated_at';
+        }
 
         $sql = sprintf(
             'INSERT INTO media (%s) VALUES (%s)',
@@ -1749,6 +1937,9 @@ abstract class Media implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'sourceid':
+                        $stmt->bindValue($identifier, $this->sourceid, PDO::PARAM_INT);
                         break;
                     case 'pageid':
                         $stmt->bindValue($identifier, $this->pageid, PDO::PARAM_INT);
@@ -1825,6 +2016,12 @@ abstract class Media implements ActiveRecordInterface
                     case 'userid':
                         $stmt->bindValue($identifier, $this->userid, PDO::PARAM_INT);
                         break;
+                    case 'created_at':
+                        $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
+                    case 'updated_at':
+                        $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
+                        break;
                 }
             }
             $stmt->execute();
@@ -1891,79 +2088,88 @@ abstract class Media implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getPageid();
+                return $this->getSourceid();
                 break;
             case 2:
-                return $this->getTitle();
+                return $this->getPageid();
                 break;
             case 3:
-                return $this->getUrl();
+                return $this->getTitle();
                 break;
             case 4:
-                return $this->getMime();
+                return $this->getUrl();
                 break;
             case 5:
-                return $this->getWidth();
+                return $this->getMime();
                 break;
             case 6:
-                return $this->getHeight();
+                return $this->getWidth();
                 break;
             case 7:
-                return $this->getSize();
+                return $this->getHeight();
                 break;
             case 8:
-                return $this->getSha1();
+                return $this->getSize();
                 break;
             case 9:
-                return $this->getThumburl();
+                return $this->getSha1();
                 break;
             case 10:
-                return $this->getThumbmime();
+                return $this->getThumburl();
                 break;
             case 11:
-                return $this->getThumbwidth();
+                return $this->getThumbmime();
                 break;
             case 12:
-                return $this->getThumbheight();
+                return $this->getThumbwidth();
                 break;
             case 13:
-                return $this->getThumbsize();
+                return $this->getThumbheight();
                 break;
             case 14:
-                return $this->getDescriptionurl();
+                return $this->getThumbsize();
                 break;
             case 15:
-                return $this->getDescriptionurlshort();
+                return $this->getDescriptionurl();
                 break;
             case 16:
-                return $this->getImagedescription();
+                return $this->getDescriptionurlshort();
                 break;
             case 17:
-                return $this->getDatetimeoriginal();
+                return $this->getImagedescription();
                 break;
             case 18:
-                return $this->getArtist();
+                return $this->getDatetimeoriginal();
                 break;
             case 19:
-                return $this->getLicenseshortname();
+                return $this->getArtist();
                 break;
             case 20:
-                return $this->getUsageterms();
+                return $this->getLicenseshortname();
                 break;
             case 21:
-                return $this->getAttributionrequired();
+                return $this->getUsageterms();
                 break;
             case 22:
-                return $this->getRestrictions();
+                return $this->getAttributionrequired();
                 break;
             case 23:
-                return $this->getTimestamp();
+                return $this->getRestrictions();
                 break;
             case 24:
-                return $this->getUser();
+                return $this->getTimestamp();
                 break;
             case 25:
+                return $this->getUser();
+                break;
+            case 26:
                 return $this->getUserid();
+                break;
+            case 27:
+                return $this->getCreatedAt();
+                break;
+            case 28:
+                return $this->getUpdatedAt();
                 break;
             default:
                 return null;
@@ -1996,34 +2202,45 @@ abstract class Media implements ActiveRecordInterface
         $keys = MediaTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getPageid(),
-            $keys[2] => $this->getTitle(),
-            $keys[3] => $this->getUrl(),
-            $keys[4] => $this->getMime(),
-            $keys[5] => $this->getWidth(),
-            $keys[6] => $this->getHeight(),
-            $keys[7] => $this->getSize(),
-            $keys[8] => $this->getSha1(),
-            $keys[9] => $this->getThumburl(),
-            $keys[10] => $this->getThumbmime(),
-            $keys[11] => $this->getThumbwidth(),
-            $keys[12] => $this->getThumbheight(),
-            $keys[13] => $this->getThumbsize(),
-            $keys[14] => $this->getDescriptionurl(),
-            $keys[15] => $this->getDescriptionurlshort(),
-            $keys[16] => $this->getImagedescription(),
-            $keys[17] => $this->getDatetimeoriginal(),
-            $keys[18] => $this->getArtist(),
-            $keys[19] => $this->getLicenseshortname(),
-            $keys[20] => $this->getUsageterms(),
-            $keys[21] => $this->getAttributionrequired(),
-            $keys[22] => $this->getRestrictions(),
-            $keys[23] => $this->getTimestamp(),
-            $keys[24] => $this->getUser(),
-            $keys[25] => $this->getUserid(),
+            $keys[1] => $this->getSourceid(),
+            $keys[2] => $this->getPageid(),
+            $keys[3] => $this->getTitle(),
+            $keys[4] => $this->getUrl(),
+            $keys[5] => $this->getMime(),
+            $keys[6] => $this->getWidth(),
+            $keys[7] => $this->getHeight(),
+            $keys[8] => $this->getSize(),
+            $keys[9] => $this->getSha1(),
+            $keys[10] => $this->getThumburl(),
+            $keys[11] => $this->getThumbmime(),
+            $keys[12] => $this->getThumbwidth(),
+            $keys[13] => $this->getThumbheight(),
+            $keys[14] => $this->getThumbsize(),
+            $keys[15] => $this->getDescriptionurl(),
+            $keys[16] => $this->getDescriptionurlshort(),
+            $keys[17] => $this->getImagedescription(),
+            $keys[18] => $this->getDatetimeoriginal(),
+            $keys[19] => $this->getArtist(),
+            $keys[20] => $this->getLicenseshortname(),
+            $keys[21] => $this->getUsageterms(),
+            $keys[22] => $this->getAttributionrequired(),
+            $keys[23] => $this->getRestrictions(),
+            $keys[24] => $this->getTimestamp(),
+            $keys[25] => $this->getUser(),
+            $keys[26] => $this->getUserid(),
+            $keys[27] => $this->getCreatedAt(),
+            $keys[28] => $this->getUpdatedAt(),
         );
-        if ($result[$keys[23]] instanceof \DateTimeInterface) {
-            $result[$keys[23]] = $result[$keys[23]]->format('c');
+        if ($result[$keys[24]] instanceof \DateTimeInterface) {
+            $result[$keys[24]] = $result[$keys[24]]->format('c');
+        }
+
+        if ($result[$keys[27]] instanceof \DateTimeInterface) {
+            $result[$keys[27]] = $result[$keys[27]]->format('c');
+        }
+
+        if ($result[$keys[28]] instanceof \DateTimeInterface) {
+            $result[$keys[28]] = $result[$keys[28]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -2032,6 +2249,21 @@ abstract class Media implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->aSource) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'source';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'source';
+                        break;
+                    default:
+                        $key = 'Source';
+                }
+
+                $result[$key] = $this->aSource->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
             if (null !== $this->collC2Ms) {
 
                 switch ($keyType) {
@@ -2100,79 +2332,88 @@ abstract class Media implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setPageid($value);
+                $this->setSourceid($value);
                 break;
             case 2:
-                $this->setTitle($value);
+                $this->setPageid($value);
                 break;
             case 3:
-                $this->setUrl($value);
+                $this->setTitle($value);
                 break;
             case 4:
-                $this->setMime($value);
+                $this->setUrl($value);
                 break;
             case 5:
-                $this->setWidth($value);
+                $this->setMime($value);
                 break;
             case 6:
-                $this->setHeight($value);
+                $this->setWidth($value);
                 break;
             case 7:
-                $this->setSize($value);
+                $this->setHeight($value);
                 break;
             case 8:
-                $this->setSha1($value);
+                $this->setSize($value);
                 break;
             case 9:
-                $this->setThumburl($value);
+                $this->setSha1($value);
                 break;
             case 10:
-                $this->setThumbmime($value);
+                $this->setThumburl($value);
                 break;
             case 11:
-                $this->setThumbwidth($value);
+                $this->setThumbmime($value);
                 break;
             case 12:
-                $this->setThumbheight($value);
+                $this->setThumbwidth($value);
                 break;
             case 13:
-                $this->setThumbsize($value);
+                $this->setThumbheight($value);
                 break;
             case 14:
-                $this->setDescriptionurl($value);
+                $this->setThumbsize($value);
                 break;
             case 15:
-                $this->setDescriptionurlshort($value);
+                $this->setDescriptionurl($value);
                 break;
             case 16:
-                $this->setImagedescription($value);
+                $this->setDescriptionurlshort($value);
                 break;
             case 17:
-                $this->setDatetimeoriginal($value);
+                $this->setImagedescription($value);
                 break;
             case 18:
-                $this->setArtist($value);
+                $this->setDatetimeoriginal($value);
                 break;
             case 19:
-                $this->setLicenseshortname($value);
+                $this->setArtist($value);
                 break;
             case 20:
-                $this->setUsageterms($value);
+                $this->setLicenseshortname($value);
                 break;
             case 21:
-                $this->setAttributionrequired($value);
+                $this->setUsageterms($value);
                 break;
             case 22:
-                $this->setRestrictions($value);
+                $this->setAttributionrequired($value);
                 break;
             case 23:
-                $this->setTimestamp($value);
+                $this->setRestrictions($value);
                 break;
             case 24:
-                $this->setUser($value);
+                $this->setTimestamp($value);
                 break;
             case 25:
+                $this->setUser($value);
+                break;
+            case 26:
                 $this->setUserid($value);
+                break;
+            case 27:
+                $this->setCreatedAt($value);
+                break;
+            case 28:
+                $this->setUpdatedAt($value);
                 break;
         } // switch()
 
@@ -2204,79 +2445,88 @@ abstract class Media implements ActiveRecordInterface
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setPageid($arr[$keys[1]]);
+            $this->setSourceid($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setTitle($arr[$keys[2]]);
+            $this->setPageid($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setUrl($arr[$keys[3]]);
+            $this->setTitle($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setMime($arr[$keys[4]]);
+            $this->setUrl($arr[$keys[4]]);
         }
         if (array_key_exists($keys[5], $arr)) {
-            $this->setWidth($arr[$keys[5]]);
+            $this->setMime($arr[$keys[5]]);
         }
         if (array_key_exists($keys[6], $arr)) {
-            $this->setHeight($arr[$keys[6]]);
+            $this->setWidth($arr[$keys[6]]);
         }
         if (array_key_exists($keys[7], $arr)) {
-            $this->setSize($arr[$keys[7]]);
+            $this->setHeight($arr[$keys[7]]);
         }
         if (array_key_exists($keys[8], $arr)) {
-            $this->setSha1($arr[$keys[8]]);
+            $this->setSize($arr[$keys[8]]);
         }
         if (array_key_exists($keys[9], $arr)) {
-            $this->setThumburl($arr[$keys[9]]);
+            $this->setSha1($arr[$keys[9]]);
         }
         if (array_key_exists($keys[10], $arr)) {
-            $this->setThumbmime($arr[$keys[10]]);
+            $this->setThumburl($arr[$keys[10]]);
         }
         if (array_key_exists($keys[11], $arr)) {
-            $this->setThumbwidth($arr[$keys[11]]);
+            $this->setThumbmime($arr[$keys[11]]);
         }
         if (array_key_exists($keys[12], $arr)) {
-            $this->setThumbheight($arr[$keys[12]]);
+            $this->setThumbwidth($arr[$keys[12]]);
         }
         if (array_key_exists($keys[13], $arr)) {
-            $this->setThumbsize($arr[$keys[13]]);
+            $this->setThumbheight($arr[$keys[13]]);
         }
         if (array_key_exists($keys[14], $arr)) {
-            $this->setDescriptionurl($arr[$keys[14]]);
+            $this->setThumbsize($arr[$keys[14]]);
         }
         if (array_key_exists($keys[15], $arr)) {
-            $this->setDescriptionurlshort($arr[$keys[15]]);
+            $this->setDescriptionurl($arr[$keys[15]]);
         }
         if (array_key_exists($keys[16], $arr)) {
-            $this->setImagedescription($arr[$keys[16]]);
+            $this->setDescriptionurlshort($arr[$keys[16]]);
         }
         if (array_key_exists($keys[17], $arr)) {
-            $this->setDatetimeoriginal($arr[$keys[17]]);
+            $this->setImagedescription($arr[$keys[17]]);
         }
         if (array_key_exists($keys[18], $arr)) {
-            $this->setArtist($arr[$keys[18]]);
+            $this->setDatetimeoriginal($arr[$keys[18]]);
         }
         if (array_key_exists($keys[19], $arr)) {
-            $this->setLicenseshortname($arr[$keys[19]]);
+            $this->setArtist($arr[$keys[19]]);
         }
         if (array_key_exists($keys[20], $arr)) {
-            $this->setUsageterms($arr[$keys[20]]);
+            $this->setLicenseshortname($arr[$keys[20]]);
         }
         if (array_key_exists($keys[21], $arr)) {
-            $this->setAttributionrequired($arr[$keys[21]]);
+            $this->setUsageterms($arr[$keys[21]]);
         }
         if (array_key_exists($keys[22], $arr)) {
-            $this->setRestrictions($arr[$keys[22]]);
+            $this->setAttributionrequired($arr[$keys[22]]);
         }
         if (array_key_exists($keys[23], $arr)) {
-            $this->setTimestamp($arr[$keys[23]]);
+            $this->setRestrictions($arr[$keys[23]]);
         }
         if (array_key_exists($keys[24], $arr)) {
-            $this->setUser($arr[$keys[24]]);
+            $this->setTimestamp($arr[$keys[24]]);
         }
         if (array_key_exists($keys[25], $arr)) {
-            $this->setUserid($arr[$keys[25]]);
+            $this->setUser($arr[$keys[25]]);
+        }
+        if (array_key_exists($keys[26], $arr)) {
+            $this->setUserid($arr[$keys[26]]);
+        }
+        if (array_key_exists($keys[27], $arr)) {
+            $this->setCreatedAt($arr[$keys[27]]);
+        }
+        if (array_key_exists($keys[28], $arr)) {
+            $this->setUpdatedAt($arr[$keys[28]]);
         }
     }
 
@@ -2321,6 +2571,9 @@ abstract class Media implements ActiveRecordInterface
 
         if ($this->isColumnModified(MediaTableMap::COL_ID)) {
             $criteria->add(MediaTableMap::COL_ID, $this->id);
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_SOURCEID)) {
+            $criteria->add(MediaTableMap::COL_SOURCEID, $this->sourceid);
         }
         if ($this->isColumnModified(MediaTableMap::COL_PAGEID)) {
             $criteria->add(MediaTableMap::COL_PAGEID, $this->pageid);
@@ -2396,6 +2649,12 @@ abstract class Media implements ActiveRecordInterface
         }
         if ($this->isColumnModified(MediaTableMap::COL_USERID)) {
             $criteria->add(MediaTableMap::COL_USERID, $this->userid);
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_CREATED_AT)) {
+            $criteria->add(MediaTableMap::COL_CREATED_AT, $this->created_at);
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_UPDATED_AT)) {
+            $criteria->add(MediaTableMap::COL_UPDATED_AT, $this->updated_at);
         }
 
         return $criteria;
@@ -2483,6 +2742,7 @@ abstract class Media implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setSourceid($this->getSourceid());
         $copyObj->setPageid($this->getPageid());
         $copyObj->setTitle($this->getTitle());
         $copyObj->setUrl($this->getUrl());
@@ -2508,6 +2768,8 @@ abstract class Media implements ActiveRecordInterface
         $copyObj->setTimestamp($this->getTimestamp());
         $copyObj->setUser($this->getUser());
         $copyObj->setUserid($this->getUserid());
+        $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setUpdatedAt($this->getUpdatedAt());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2554,6 +2816,57 @@ abstract class Media implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
+    }
+
+    /**
+     * Declares an association between this object and a ChildSource object.
+     *
+     * @param  ChildSource $v
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setSource(ChildSource $v = null)
+    {
+        if ($v === null) {
+            $this->setSourceid(NULL);
+        } else {
+            $this->setSourceid($v->getId());
+        }
+
+        $this->aSource = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildSource object, it will not be re-added.
+        if ($v !== null) {
+            $v->addMedia($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildSource object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildSource The associated ChildSource object.
+     * @throws PropelException
+     */
+    public function getSource(ConnectionInterface $con = null)
+    {
+        if ($this->aSource === null && ($this->sourceid != 0)) {
+            $this->aSource = ChildSourceQuery::create()->findPk($this->sourceid, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aSource->addMedias($this);
+             */
+        }
+
+        return $this->aSource;
     }
 
 
@@ -3090,7 +3403,11 @@ abstract class Media implements ActiveRecordInterface
      */
     public function clear()
     {
+        if (null !== $this->aSource) {
+            $this->aSource->removeMedia($this);
+        }
         $this->id = null;
+        $this->sourceid = null;
         $this->pageid = null;
         $this->title = null;
         $this->url = null;
@@ -3116,6 +3433,8 @@ abstract class Media implements ActiveRecordInterface
         $this->timestamp = null;
         $this->user = null;
         $this->userid = null;
+        $this->created_at = null;
+        $this->updated_at = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();
@@ -3148,6 +3467,7 @@ abstract class Media implements ActiveRecordInterface
 
         $this->collC2Ms = null;
         $this->collM2Ps = null;
+        $this->aSource = null;
     }
 
     /**
@@ -3158,6 +3478,20 @@ abstract class Media implements ActiveRecordInterface
     public function __toString()
     {
         return (string) $this->exportTo(MediaTableMap::DEFAULT_STRING_FORMAT);
+    }
+
+    // timestampable behavior
+
+    /**
+     * Mark the current object so that the update date doesn't get updated during next save
+     *
+     * @return     $this|ChildMedia The current object (for fluent API support)
+     */
+    public function keepUpdateDateUnchanged()
+    {
+        $this->modifiedColumns[MediaTableMap::COL_UPDATED_AT] = true;
+
+        return $this;
     }
 
     /**

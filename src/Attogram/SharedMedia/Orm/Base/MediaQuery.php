@@ -21,6 +21,7 @@ use Propel\Runtime\Exception\PropelException;
  *
  *
  * @method     ChildMediaQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildMediaQuery orderBySourceid($order = Criteria::ASC) Order by the sourceid column
  * @method     ChildMediaQuery orderByPageid($order = Criteria::ASC) Order by the pageid column
  * @method     ChildMediaQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method     ChildMediaQuery orderByUrl($order = Criteria::ASC) Order by the url column
@@ -46,8 +47,11 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery orderByTimestamp($order = Criteria::ASC) Order by the timestamp column
  * @method     ChildMediaQuery orderByUser($order = Criteria::ASC) Order by the user column
  * @method     ChildMediaQuery orderByUserid($order = Criteria::ASC) Order by the userid column
+ * @method     ChildMediaQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
+ * @method     ChildMediaQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method     ChildMediaQuery groupById() Group by the id column
+ * @method     ChildMediaQuery groupBySourceid() Group by the sourceid column
  * @method     ChildMediaQuery groupByPageid() Group by the pageid column
  * @method     ChildMediaQuery groupByTitle() Group by the title column
  * @method     ChildMediaQuery groupByUrl() Group by the url column
@@ -73,6 +77,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery groupByTimestamp() Group by the timestamp column
  * @method     ChildMediaQuery groupByUser() Group by the user column
  * @method     ChildMediaQuery groupByUserid() Group by the userid column
+ * @method     ChildMediaQuery groupByCreatedAt() Group by the created_at column
+ * @method     ChildMediaQuery groupByUpdatedAt() Group by the updated_at column
  *
  * @method     ChildMediaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildMediaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -81,6 +87,16 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
  * @method     ChildMediaQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
  * @method     ChildMediaQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ *
+ * @method     ChildMediaQuery leftJoinSource($relationAlias = null) Adds a LEFT JOIN clause to the query using the Source relation
+ * @method     ChildMediaQuery rightJoinSource($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Source relation
+ * @method     ChildMediaQuery innerJoinSource($relationAlias = null) Adds a INNER JOIN clause to the query using the Source relation
+ *
+ * @method     ChildMediaQuery joinWithSource($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Source relation
+ *
+ * @method     ChildMediaQuery leftJoinWithSource() Adds a LEFT JOIN clause and with to the query using the Source relation
+ * @method     ChildMediaQuery rightJoinWithSource() Adds a RIGHT JOIN clause and with to the query using the Source relation
+ * @method     ChildMediaQuery innerJoinWithSource() Adds a INNER JOIN clause and with to the query using the Source relation
  *
  * @method     ChildMediaQuery leftJoinC2M($relationAlias = null) Adds a LEFT JOIN clause to the query using the C2M relation
  * @method     ChildMediaQuery rightJoinC2M($relationAlias = null) Adds a RIGHT JOIN clause to the query using the C2M relation
@@ -102,12 +118,13 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery rightJoinWithM2P() Adds a RIGHT JOIN clause and with to the query using the M2P relation
  * @method     ChildMediaQuery innerJoinWithM2P() Adds a INNER JOIN clause and with to the query using the M2P relation
  *
- * @method     \Attogram\SharedMedia\Orm\C2MQuery|\Attogram\SharedMedia\Orm\M2PQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     \Attogram\SharedMedia\Orm\SourceQuery|\Attogram\SharedMedia\Orm\C2MQuery|\Attogram\SharedMedia\Orm\M2PQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildMedia findOne(ConnectionInterface $con = null) Return the first ChildMedia matching the query
  * @method     ChildMedia findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMedia matching the query, or a new ChildMedia object populated from the query conditions when no match is found
  *
  * @method     ChildMedia findOneById(int $id) Return the first ChildMedia filtered by the id column
+ * @method     ChildMedia findOneBySourceid(int $sourceid) Return the first ChildMedia filtered by the sourceid column
  * @method     ChildMedia findOneByPageid(int $pageid) Return the first ChildMedia filtered by the pageid column
  * @method     ChildMedia findOneByTitle(string $title) Return the first ChildMedia filtered by the title column
  * @method     ChildMedia findOneByUrl(string $url) Return the first ChildMedia filtered by the url column
@@ -132,12 +149,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia findOneByRestrictions(string $restrictions) Return the first ChildMedia filtered by the restrictions column
  * @method     ChildMedia findOneByTimestamp(string $timestamp) Return the first ChildMedia filtered by the timestamp column
  * @method     ChildMedia findOneByUser(string $user) Return the first ChildMedia filtered by the user column
- * @method     ChildMedia findOneByUserid(int $userid) Return the first ChildMedia filtered by the userid column *
+ * @method     ChildMedia findOneByUserid(int $userid) Return the first ChildMedia filtered by the userid column
+ * @method     ChildMedia findOneByCreatedAt(string $created_at) Return the first ChildMedia filtered by the created_at column
+ * @method     ChildMedia findOneByUpdatedAt(string $updated_at) Return the first ChildMedia filtered by the updated_at column *
 
  * @method     ChildMedia requirePk($key, ConnectionInterface $con = null) Return the ChildMedia by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOne(ConnectionInterface $con = null) Return the first ChildMedia matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildMedia requireOneById(int $id) Return the first ChildMedia filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMedia requireOneBySourceid(int $sourceid) Return the first ChildMedia filtered by the sourceid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByPageid(int $pageid) Return the first ChildMedia filtered by the pageid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByTitle(string $title) Return the first ChildMedia filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByUrl(string $url) Return the first ChildMedia filtered by the url column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -163,9 +183,12 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia requireOneByTimestamp(string $timestamp) Return the first ChildMedia filtered by the timestamp column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByUser(string $user) Return the first ChildMedia filtered by the user column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByUserid(int $userid) Return the first ChildMedia filtered by the userid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMedia requireOneByCreatedAt(string $created_at) Return the first ChildMedia filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildMedia requireOneByUpdatedAt(string $updated_at) Return the first ChildMedia filtered by the updated_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildMedia[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildMedia objects based on current ModelCriteria
  * @method     ChildMedia[]|ObjectCollection findById(int $id) Return ChildMedia objects filtered by the id column
+ * @method     ChildMedia[]|ObjectCollection findBySourceid(int $sourceid) Return ChildMedia objects filtered by the sourceid column
  * @method     ChildMedia[]|ObjectCollection findByPageid(int $pageid) Return ChildMedia objects filtered by the pageid column
  * @method     ChildMedia[]|ObjectCollection findByTitle(string $title) Return ChildMedia objects filtered by the title column
  * @method     ChildMedia[]|ObjectCollection findByUrl(string $url) Return ChildMedia objects filtered by the url column
@@ -191,6 +214,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia[]|ObjectCollection findByTimestamp(string $timestamp) Return ChildMedia objects filtered by the timestamp column
  * @method     ChildMedia[]|ObjectCollection findByUser(string $user) Return ChildMedia objects filtered by the user column
  * @method     ChildMedia[]|ObjectCollection findByUserid(int $userid) Return ChildMedia objects filtered by the userid column
+ * @method     ChildMedia[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildMedia objects filtered by the created_at column
+ * @method     ChildMedia[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildMedia objects filtered by the updated_at column
  * @method     ChildMedia[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
@@ -289,7 +314,7 @@ abstract class MediaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, pageid, title, url, mime, width, height, size, sha1, thumburl, thumbmime, thumbwidth, thumbheight, thumbsize, descriptionurl, descriptionurlshort, imagedescription, datetimeoriginal, artist, licenseshortname, usageterms, attributionrequired, restrictions, timestamp, user, userid FROM media WHERE id = :p0';
+        $sql = 'SELECT id, sourceid, pageid, title, url, mime, width, height, size, sha1, thumburl, thumbmime, thumbwidth, thumbheight, thumbsize, descriptionurl, descriptionurlshort, imagedescription, datetimeoriginal, artist, licenseshortname, usageterms, attributionrequired, restrictions, timestamp, user, userid, created_at, updated_at FROM media WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -418,6 +443,49 @@ abstract class MediaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MediaTableMap::COL_ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the sourceid column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySourceid(1234); // WHERE sourceid = 1234
+     * $query->filterBySourceid(array(12, 34)); // WHERE sourceid IN (12, 34)
+     * $query->filterBySourceid(array('min' => 12)); // WHERE sourceid > 12
+     * </code>
+     *
+     * @see       filterBySource()
+     *
+     * @param     mixed $sourceid The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function filterBySourceid($sourceid = null, $comparison = null)
+    {
+        if (is_array($sourceid)) {
+            $useMinMax = false;
+            if (isset($sourceid['min'])) {
+                $this->addUsingAlias(MediaTableMap::COL_SOURCEID, $sourceid['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($sourceid['max'])) {
+                $this->addUsingAlias(MediaTableMap::COL_SOURCEID, $sourceid['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MediaTableMap::COL_SOURCEID, $sourceid, $comparison);
     }
 
     /**
@@ -1192,6 +1260,169 @@ abstract class MediaQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the created_at column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCreatedAt('2011-03-14'); // WHERE created_at = '2011-03-14'
+     * $query->filterByCreatedAt('now'); // WHERE created_at = '2011-03-14'
+     * $query->filterByCreatedAt(array('max' => 'yesterday')); // WHERE created_at > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $createdAt The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function filterByCreatedAt($createdAt = null, $comparison = null)
+    {
+        if (is_array($createdAt)) {
+            $useMinMax = false;
+            if (isset($createdAt['min'])) {
+                $this->addUsingAlias(MediaTableMap::COL_CREATED_AT, $createdAt['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($createdAt['max'])) {
+                $this->addUsingAlias(MediaTableMap::COL_CREATED_AT, $createdAt['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MediaTableMap::COL_CREATED_AT, $createdAt, $comparison);
+    }
+
+    /**
+     * Filter the query on the updated_at column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUpdatedAt('2011-03-14'); // WHERE updated_at = '2011-03-14'
+     * $query->filterByUpdatedAt('now'); // WHERE updated_at = '2011-03-14'
+     * $query->filterByUpdatedAt(array('max' => 'yesterday')); // WHERE updated_at > '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $updatedAt The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function filterByUpdatedAt($updatedAt = null, $comparison = null)
+    {
+        if (is_array($updatedAt)) {
+            $useMinMax = false;
+            if (isset($updatedAt['min'])) {
+                $this->addUsingAlias(MediaTableMap::COL_UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($updatedAt['max'])) {
+                $this->addUsingAlias(MediaTableMap::COL_UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MediaTableMap::COL_UPDATED_AT, $updatedAt, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Attogram\SharedMedia\Orm\Source object
+     *
+     * @param \Attogram\SharedMedia\Orm\Source|ObjectCollection $source The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildMediaQuery The current query, for fluid interface
+     */
+    public function filterBySource($source, $comparison = null)
+    {
+        if ($source instanceof \Attogram\SharedMedia\Orm\Source) {
+            return $this
+                ->addUsingAlias(MediaTableMap::COL_SOURCEID, $source->getId(), $comparison);
+        } elseif ($source instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(MediaTableMap::COL_SOURCEID, $source->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterBySource() only accepts arguments of type \Attogram\SharedMedia\Orm\Source or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Source relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function joinSource($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Source');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Source');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Source relation Source object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Attogram\SharedMedia\Orm\SourceQuery A secondary query class using the current class as primary query
+     */
+    public function useSourceQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinSource($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Source', '\Attogram\SharedMedia\Orm\SourceQuery');
+    }
+
+    /**
      * Filter the query by a related \Attogram\SharedMedia\Orm\C2M object
      *
      * @param \Attogram\SharedMedia\Orm\C2M|ObjectCollection $c2M the related object to use as filter
@@ -1412,6 +1643,72 @@ abstract class MediaQuery extends ModelCriteria
 
             return $affectedRows;
         });
+    }
+
+    // timestampable behavior
+
+    /**
+     * Filter by the latest updated
+     *
+     * @param      int $nbDays Maximum age of the latest update in days
+     *
+     * @return     $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function recentlyUpdated($nbDays = 7)
+    {
+        return $this->addUsingAlias(MediaTableMap::COL_UPDATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
+    }
+
+    /**
+     * Order by update date desc
+     *
+     * @return     $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function lastUpdatedFirst()
+    {
+        return $this->addDescendingOrderByColumn(MediaTableMap::COL_UPDATED_AT);
+    }
+
+    /**
+     * Order by update date asc
+     *
+     * @return     $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function firstUpdatedFirst()
+    {
+        return $this->addAscendingOrderByColumn(MediaTableMap::COL_UPDATED_AT);
+    }
+
+    /**
+     * Order by create date desc
+     *
+     * @return     $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function lastCreatedFirst()
+    {
+        return $this->addDescendingOrderByColumn(MediaTableMap::COL_CREATED_AT);
+    }
+
+    /**
+     * Filter by the latest created
+     *
+     * @param      int $nbDays Maximum age of in days
+     *
+     * @return     $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function recentlyCreated($nbDays = 7)
+    {
+        return $this->addUsingAlias(MediaTableMap::COL_CREATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
+    }
+
+    /**
+     * Order by create date asc
+     *
+     * @return     $this|ChildMediaQuery The current query, for fluid interface
+     */
+    public function firstCreatedFirst()
+    {
+        return $this->addAscendingOrderByColumn(MediaTableMap::COL_CREATED_AT);
     }
 
 } // MediaQuery

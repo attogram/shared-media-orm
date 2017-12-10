@@ -5,17 +5,18 @@ namespace Attogram\SharedMedia\Orm\Base;
 use \DateTime;
 use \Exception;
 use \PDO;
-use Attogram\SharedMedia\Orm\C2P as ChildC2P;
-use Attogram\SharedMedia\Orm\C2PQuery as ChildC2PQuery;
-use Attogram\SharedMedia\Orm\M2P as ChildM2P;
-use Attogram\SharedMedia\Orm\M2PQuery as ChildM2PQuery;
+use Attogram\SharedMedia\Orm\Category as ChildCategory;
+use Attogram\SharedMedia\Orm\CategoryQuery as ChildCategoryQuery;
+use Attogram\SharedMedia\Orm\Media as ChildMedia;
+use Attogram\SharedMedia\Orm\MediaQuery as ChildMediaQuery;
 use Attogram\SharedMedia\Orm\Page as ChildPage;
 use Attogram\SharedMedia\Orm\PageQuery as ChildPageQuery;
 use Attogram\SharedMedia\Orm\Source as ChildSource;
 use Attogram\SharedMedia\Orm\SourceQuery as ChildSourceQuery;
-use Attogram\SharedMedia\Orm\Map\C2PTableMap;
-use Attogram\SharedMedia\Orm\Map\M2PTableMap;
+use Attogram\SharedMedia\Orm\Map\CategoryTableMap;
+use Attogram\SharedMedia\Orm\Map\MediaTableMap;
 use Attogram\SharedMedia\Orm\Map\PageTableMap;
+use Attogram\SharedMedia\Orm\Map\SourceTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -31,18 +32,18 @@ use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
 /**
- * Base class that represents a row from the 'page' table.
+ * Base class that represents a row from the 'source' table.
  *
  *
  *
  * @package    propel.generator.Attogram.SharedMedia.Orm.Base
  */
-abstract class Page implements ActiveRecordInterface
+abstract class Source implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Attogram\\SharedMedia\\Orm\\Map\\PageTableMap';
+    const TABLE_MAP = '\\Attogram\\SharedMedia\\Orm\\Map\\SourceTableMap';
 
 
     /**
@@ -79,20 +80,6 @@ abstract class Page implements ActiveRecordInterface
     protected $id;
 
     /**
-     * The value for the sourceid field.
-     *
-     * @var        int
-     */
-    protected $sourceid;
-
-    /**
-     * The value for the pageid field.
-     *
-     * @var        int
-     */
-    protected $pageid;
-
-    /**
      * The value for the title field.
      *
      * @var        string
@@ -100,39 +87,11 @@ abstract class Page implements ActiveRecordInterface
     protected $title;
 
     /**
-     * The value for the displaytitle field.
+     * The value for the endpoint field.
      *
      * @var        string
      */
-    protected $displaytitle;
-
-    /**
-     * The value for the page_image_free field.
-     *
-     * @var        string
-     */
-    protected $page_image_free;
-
-    /**
-     * The value for the wikibase_item field.
-     *
-     * @var        string
-     */
-    protected $wikibase_item;
-
-    /**
-     * The value for the disambiguation field.
-     *
-     * @var        string
-     */
-    protected $disambiguation;
-
-    /**
-     * The value for the defaultsort field.
-     *
-     * @var        string
-     */
-    protected $defaultsort;
+    protected $endpoint;
 
     /**
      * The value for the created_at field.
@@ -149,21 +108,22 @@ abstract class Page implements ActiveRecordInterface
     protected $updated_at;
 
     /**
-     * @var        ChildSource
+     * @var        ObjectCollection|ChildCategory[] Collection to store aggregation of ChildCategory objects.
      */
-    protected $aSource;
+    protected $collCategories;
+    protected $collCategoriesPartial;
 
     /**
-     * @var        ObjectCollection|ChildC2P[] Collection to store aggregation of ChildC2P objects.
+     * @var        ObjectCollection|ChildMedia[] Collection to store aggregation of ChildMedia objects.
      */
-    protected $collC2Ps;
-    protected $collC2PsPartial;
+    protected $collMedias;
+    protected $collMediasPartial;
 
     /**
-     * @var        ObjectCollection|ChildM2P[] Collection to store aggregation of ChildM2P objects.
+     * @var        ObjectCollection|ChildPage[] Collection to store aggregation of ChildPage objects.
      */
-    protected $collM2Ps;
-    protected $collM2PsPartial;
+    protected $collPages;
+    protected $collPagesPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -175,18 +135,24 @@ abstract class Page implements ActiveRecordInterface
 
     /**
      * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildC2P[]
+     * @var ObjectCollection|ChildCategory[]
      */
-    protected $c2PsScheduledForDeletion = null;
+    protected $categoriesScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
-     * @var ObjectCollection|ChildM2P[]
+     * @var ObjectCollection|ChildMedia[]
      */
-    protected $m2PsScheduledForDeletion = null;
+    protected $mediasScheduledForDeletion = null;
 
     /**
-     * Initializes internal state of Attogram\SharedMedia\Orm\Base\Page object.
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection|ChildPage[]
+     */
+    protected $pagesScheduledForDeletion = null;
+
+    /**
+     * Initializes internal state of Attogram\SharedMedia\Orm\Base\Source object.
      */
     public function __construct()
     {
@@ -281,9 +247,9 @@ abstract class Page implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Page</code> instance.  If
-     * <code>obj</code> is an instance of <code>Page</code>, delegates to
-     * <code>equals(Page)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>Source</code> instance.  If
+     * <code>obj</code> is an instance of <code>Source</code>, delegates to
+     * <code>equals(Source)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -349,7 +315,7 @@ abstract class Page implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Page The current object, for fluid interface
+     * @return $this|Source The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -421,26 +387,6 @@ abstract class Page implements ActiveRecordInterface
     }
 
     /**
-     * Get the [sourceid] column value.
-     *
-     * @return int
-     */
-    public function getSourceid()
-    {
-        return $this->sourceid;
-    }
-
-    /**
-     * Get the [pageid] column value.
-     *
-     * @return int
-     */
-    public function getPageid()
-    {
-        return $this->pageid;
-    }
-
-    /**
      * Get the [title] column value.
      *
      * @return string
@@ -451,53 +397,13 @@ abstract class Page implements ActiveRecordInterface
     }
 
     /**
-     * Get the [displaytitle] column value.
+     * Get the [endpoint] column value.
      *
      * @return string
      */
-    public function getDisplaytitle()
+    public function getEndpoint()
     {
-        return $this->displaytitle;
-    }
-
-    /**
-     * Get the [page_image_free] column value.
-     *
-     * @return string
-     */
-    public function getPageImageFree()
-    {
-        return $this->page_image_free;
-    }
-
-    /**
-     * Get the [wikibase_item] column value.
-     *
-     * @return string
-     */
-    public function getWikibaseItem()
-    {
-        return $this->wikibase_item;
-    }
-
-    /**
-     * Get the [disambiguation] column value.
-     *
-     * @return string
-     */
-    public function getDisambiguation()
-    {
-        return $this->disambiguation;
-    }
-
-    /**
-     * Get the [defaultsort] column value.
-     *
-     * @return string
-     */
-    public function getDefaultsort()
-    {
-        return $this->defaultsort;
+        return $this->endpoint;
     }
 
     /**
@@ -544,7 +450,7 @@ abstract class Page implements ActiveRecordInterface
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -554,61 +460,17 @@ abstract class Page implements ActiveRecordInterface
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[PageTableMap::COL_ID] = true;
+            $this->modifiedColumns[SourceTableMap::COL_ID] = true;
         }
 
         return $this;
     } // setId()
 
     /**
-     * Set the value of [sourceid] column.
-     *
-     * @param int $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     */
-    public function setSourceid($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->sourceid !== $v) {
-            $this->sourceid = $v;
-            $this->modifiedColumns[PageTableMap::COL_SOURCEID] = true;
-        }
-
-        if ($this->aSource !== null && $this->aSource->getId() !== $v) {
-            $this->aSource = null;
-        }
-
-        return $this;
-    } // setSourceid()
-
-    /**
-     * Set the value of [pageid] column.
-     *
-     * @param int $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     */
-    public function setPageid($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->pageid !== $v) {
-            $this->pageid = $v;
-            $this->modifiedColumns[PageTableMap::COL_PAGEID] = true;
-        }
-
-        return $this;
-    } // setPageid()
-
-    /**
      * Set the value of [title] column.
      *
      * @param string $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
     public function setTitle($v)
     {
@@ -618,118 +480,38 @@ abstract class Page implements ActiveRecordInterface
 
         if ($this->title !== $v) {
             $this->title = $v;
-            $this->modifiedColumns[PageTableMap::COL_TITLE] = true;
+            $this->modifiedColumns[SourceTableMap::COL_TITLE] = true;
         }
 
         return $this;
     } // setTitle()
 
     /**
-     * Set the value of [displaytitle] column.
+     * Set the value of [endpoint] column.
      *
      * @param string $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
-    public function setDisplaytitle($v)
+    public function setEndpoint($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->displaytitle !== $v) {
-            $this->displaytitle = $v;
-            $this->modifiedColumns[PageTableMap::COL_DISPLAYTITLE] = true;
+        if ($this->endpoint !== $v) {
+            $this->endpoint = $v;
+            $this->modifiedColumns[SourceTableMap::COL_ENDPOINT] = true;
         }
 
         return $this;
-    } // setDisplaytitle()
-
-    /**
-     * Set the value of [page_image_free] column.
-     *
-     * @param string $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     */
-    public function setPageImageFree($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->page_image_free !== $v) {
-            $this->page_image_free = $v;
-            $this->modifiedColumns[PageTableMap::COL_PAGE_IMAGE_FREE] = true;
-        }
-
-        return $this;
-    } // setPageImageFree()
-
-    /**
-     * Set the value of [wikibase_item] column.
-     *
-     * @param string $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     */
-    public function setWikibaseItem($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->wikibase_item !== $v) {
-            $this->wikibase_item = $v;
-            $this->modifiedColumns[PageTableMap::COL_WIKIBASE_ITEM] = true;
-        }
-
-        return $this;
-    } // setWikibaseItem()
-
-    /**
-     * Set the value of [disambiguation] column.
-     *
-     * @param string $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     */
-    public function setDisambiguation($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->disambiguation !== $v) {
-            $this->disambiguation = $v;
-            $this->modifiedColumns[PageTableMap::COL_DISAMBIGUATION] = true;
-        }
-
-        return $this;
-    } // setDisambiguation()
-
-    /**
-     * Set the value of [defaultsort] column.
-     *
-     * @param string $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     */
-    public function setDefaultsort($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->defaultsort !== $v) {
-            $this->defaultsort = $v;
-            $this->modifiedColumns[PageTableMap::COL_DEFAULTSORT] = true;
-        }
-
-        return $this;
-    } // setDefaultsort()
+    } // setEndpoint()
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
     public function setCreatedAt($v)
     {
@@ -737,7 +519,7 @@ abstract class Page implements ActiveRecordInterface
         if ($this->created_at !== null || $dt !== null) {
             if ($this->created_at === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->created_at->format("Y-m-d H:i:s.u")) {
                 $this->created_at = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[PageTableMap::COL_CREATED_AT] = true;
+                $this->modifiedColumns[SourceTableMap::COL_CREATED_AT] = true;
             }
         } // if either are not null
 
@@ -749,7 +531,7 @@ abstract class Page implements ActiveRecordInterface
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
      *               Empty strings are treated as NULL.
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
     public function setUpdatedAt($v)
     {
@@ -757,7 +539,7 @@ abstract class Page implements ActiveRecordInterface
         if ($this->updated_at !== null || $dt !== null) {
             if ($this->updated_at === null || $dt === null || $dt->format("Y-m-d H:i:s.u") !== $this->updated_at->format("Y-m-d H:i:s.u")) {
                 $this->updated_at = $dt === null ? null : clone $dt;
-                $this->modifiedColumns[PageTableMap::COL_UPDATED_AT] = true;
+                $this->modifiedColumns[SourceTableMap::COL_UPDATED_AT] = true;
             }
         } // if either are not null
 
@@ -800,37 +582,19 @@ abstract class Page implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : PageTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : SourceTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : PageTableMap::translateFieldName('Sourceid', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->sourceid = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : PageTableMap::translateFieldName('Pageid', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->pageid = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : PageTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : SourceTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : PageTableMap::translateFieldName('Displaytitle', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->displaytitle = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : SourceTableMap::translateFieldName('Endpoint', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->endpoint = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : PageTableMap::translateFieldName('PageImageFree', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->page_image_free = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : PageTableMap::translateFieldName('WikibaseItem', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->wikibase_item = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : PageTableMap::translateFieldName('Disambiguation', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->disambiguation = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : PageTableMap::translateFieldName('Defaultsort', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->defaultsort = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : PageTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : SourceTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : PageTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : SourceTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
@@ -840,10 +604,10 @@ abstract class Page implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 11; // 11 = PageTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = SourceTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Attogram\\SharedMedia\\Orm\\Page'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Attogram\\SharedMedia\\Orm\\Source'), 0, $e);
         }
     }
 
@@ -862,9 +626,6 @@ abstract class Page implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aSource !== null && $this->sourceid !== $this->aSource->getId()) {
-            $this->aSource = null;
-        }
     } // ensureConsistency
 
     /**
@@ -888,13 +649,13 @@ abstract class Page implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(PageTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(SourceTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildPageQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildSourceQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -904,10 +665,11 @@ abstract class Page implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aSource = null;
-            $this->collC2Ps = null;
+            $this->collCategories = null;
 
-            $this->collM2Ps = null;
+            $this->collMedias = null;
+
+            $this->collPages = null;
 
         } // if (deep)
     }
@@ -918,8 +680,8 @@ abstract class Page implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Page::setDeleted()
-     * @see Page::isDeleted()
+     * @see Source::setDeleted()
+     * @see Source::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -928,11 +690,11 @@ abstract class Page implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PageTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SourceTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildPageQuery::create()
+            $deleteQuery = ChildSourceQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -967,7 +729,7 @@ abstract class Page implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(PageTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(SourceTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -977,16 +739,16 @@ abstract class Page implements ActiveRecordInterface
                 $ret = $ret && $this->preInsert($con);
                 // timestampable behavior
 
-                if (!$this->isColumnModified(PageTableMap::COL_CREATED_AT)) {
+                if (!$this->isColumnModified(SourceTableMap::COL_CREATED_AT)) {
                     $this->setCreatedAt(\Propel\Runtime\Util\PropelDateTime::createHighPrecision());
                 }
-                if (!$this->isColumnModified(PageTableMap::COL_UPDATED_AT)) {
+                if (!$this->isColumnModified(SourceTableMap::COL_UPDATED_AT)) {
                     $this->setUpdatedAt(\Propel\Runtime\Util\PropelDateTime::createHighPrecision());
                 }
             } else {
                 $ret = $ret && $this->preUpdate($con);
                 // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(PageTableMap::COL_UPDATED_AT)) {
+                if ($this->isModified() && !$this->isColumnModified(SourceTableMap::COL_UPDATED_AT)) {
                     $this->setUpdatedAt(\Propel\Runtime\Util\PropelDateTime::createHighPrecision());
                 }
             }
@@ -998,7 +760,7 @@ abstract class Page implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                PageTableMap::addInstanceToPool($this);
+                SourceTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -1024,18 +786,6 @@ abstract class Page implements ActiveRecordInterface
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
 
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aSource !== null) {
-                if ($this->aSource->isModified() || $this->aSource->isNew()) {
-                    $affectedRows += $this->aSource->save($con);
-                }
-                $this->setSource($this->aSource);
-            }
-
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -1047,34 +797,54 @@ abstract class Page implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->c2PsScheduledForDeletion !== null) {
-                if (!$this->c2PsScheduledForDeletion->isEmpty()) {
-                    \Attogram\SharedMedia\Orm\C2PQuery::create()
-                        ->filterByPrimaryKeys($this->c2PsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->c2PsScheduledForDeletion = null;
+            if ($this->categoriesScheduledForDeletion !== null) {
+                if (!$this->categoriesScheduledForDeletion->isEmpty()) {
+                    foreach ($this->categoriesScheduledForDeletion as $category) {
+                        // need to save related object because we set the relation to null
+                        $category->save($con);
+                    }
+                    $this->categoriesScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collC2Ps !== null) {
-                foreach ($this->collC2Ps as $referrerFK) {
+            if ($this->collCategories !== null) {
+                foreach ($this->collCategories as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
                 }
             }
 
-            if ($this->m2PsScheduledForDeletion !== null) {
-                if (!$this->m2PsScheduledForDeletion->isEmpty()) {
-                    \Attogram\SharedMedia\Orm\M2PQuery::create()
-                        ->filterByPrimaryKeys($this->m2PsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->m2PsScheduledForDeletion = null;
+            if ($this->mediasScheduledForDeletion !== null) {
+                if (!$this->mediasScheduledForDeletion->isEmpty()) {
+                    foreach ($this->mediasScheduledForDeletion as $media) {
+                        // need to save related object because we set the relation to null
+                        $media->save($con);
+                    }
+                    $this->mediasScheduledForDeletion = null;
                 }
             }
 
-            if ($this->collM2Ps !== null) {
-                foreach ($this->collM2Ps as $referrerFK) {
+            if ($this->collMedias !== null) {
+                foreach ($this->collMedias as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->pagesScheduledForDeletion !== null) {
+                if (!$this->pagesScheduledForDeletion->isEmpty()) {
+                    foreach ($this->pagesScheduledForDeletion as $page) {
+                        // need to save related object because we set the relation to null
+                        $page->save($con);
+                    }
+                    $this->pagesScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collPages !== null) {
+                foreach ($this->collPages as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -1101,48 +871,30 @@ abstract class Page implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[PageTableMap::COL_ID] = true;
+        $this->modifiedColumns[SourceTableMap::COL_ID] = true;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . PageTableMap::COL_ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SourceTableMap::COL_ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(PageTableMap::COL_ID)) {
+        if ($this->isColumnModified(SourceTableMap::COL_ID)) {
             $modifiedColumns[':p' . $index++]  = 'id';
         }
-        if ($this->isColumnModified(PageTableMap::COL_SOURCEID)) {
-            $modifiedColumns[':p' . $index++]  = 'sourceid';
-        }
-        if ($this->isColumnModified(PageTableMap::COL_PAGEID)) {
-            $modifiedColumns[':p' . $index++]  = 'pageid';
-        }
-        if ($this->isColumnModified(PageTableMap::COL_TITLE)) {
+        if ($this->isColumnModified(SourceTableMap::COL_TITLE)) {
             $modifiedColumns[':p' . $index++]  = 'title';
         }
-        if ($this->isColumnModified(PageTableMap::COL_DISPLAYTITLE)) {
-            $modifiedColumns[':p' . $index++]  = 'displaytitle';
+        if ($this->isColumnModified(SourceTableMap::COL_ENDPOINT)) {
+            $modifiedColumns[':p' . $index++]  = 'endpoint';
         }
-        if ($this->isColumnModified(PageTableMap::COL_PAGE_IMAGE_FREE)) {
-            $modifiedColumns[':p' . $index++]  = 'page_image_free';
-        }
-        if ($this->isColumnModified(PageTableMap::COL_WIKIBASE_ITEM)) {
-            $modifiedColumns[':p' . $index++]  = 'wikibase_item';
-        }
-        if ($this->isColumnModified(PageTableMap::COL_DISAMBIGUATION)) {
-            $modifiedColumns[':p' . $index++]  = 'disambiguation';
-        }
-        if ($this->isColumnModified(PageTableMap::COL_DEFAULTSORT)) {
-            $modifiedColumns[':p' . $index++]  = 'defaultsort';
-        }
-        if ($this->isColumnModified(PageTableMap::COL_CREATED_AT)) {
+        if ($this->isColumnModified(SourceTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
         }
-        if ($this->isColumnModified(PageTableMap::COL_UPDATED_AT)) {
+        if ($this->isColumnModified(SourceTableMap::COL_UPDATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'updated_at';
         }
 
         $sql = sprintf(
-            'INSERT INTO page (%s) VALUES (%s)',
+            'INSERT INTO source (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1154,29 +906,11 @@ abstract class Page implements ActiveRecordInterface
                     case 'id':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'sourceid':
-                        $stmt->bindValue($identifier, $this->sourceid, PDO::PARAM_INT);
-                        break;
-                    case 'pageid':
-                        $stmt->bindValue($identifier, $this->pageid, PDO::PARAM_INT);
-                        break;
                     case 'title':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
                         break;
-                    case 'displaytitle':
-                        $stmt->bindValue($identifier, $this->displaytitle, PDO::PARAM_STR);
-                        break;
-                    case 'page_image_free':
-                        $stmt->bindValue($identifier, $this->page_image_free, PDO::PARAM_STR);
-                        break;
-                    case 'wikibase_item':
-                        $stmt->bindValue($identifier, $this->wikibase_item, PDO::PARAM_STR);
-                        break;
-                    case 'disambiguation':
-                        $stmt->bindValue($identifier, $this->disambiguation, PDO::PARAM_STR);
-                        break;
-                    case 'defaultsort':
-                        $stmt->bindValue($identifier, $this->defaultsort, PDO::PARAM_STR);
+                    case 'endpoint':
+                        $stmt->bindValue($identifier, $this->endpoint, PDO::PARAM_STR);
                         break;
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
@@ -1230,7 +964,7 @@ abstract class Page implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = PageTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = SourceTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1250,33 +984,15 @@ abstract class Page implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getSourceid();
-                break;
-            case 2:
-                return $this->getPageid();
-                break;
-            case 3:
                 return $this->getTitle();
                 break;
-            case 4:
-                return $this->getDisplaytitle();
+            case 2:
+                return $this->getEndpoint();
                 break;
-            case 5:
-                return $this->getPageImageFree();
-                break;
-            case 6:
-                return $this->getWikibaseItem();
-                break;
-            case 7:
-                return $this->getDisambiguation();
-                break;
-            case 8:
-                return $this->getDefaultsort();
-                break;
-            case 9:
+            case 3:
                 return $this->getCreatedAt();
                 break;
-            case 10:
+            case 4:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1303,30 +1019,24 @@ abstract class Page implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Page'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['Source'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Page'][$this->hashCode()] = true;
-        $keys = PageTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['Source'][$this->hashCode()] = true;
+        $keys = SourceTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getSourceid(),
-            $keys[2] => $this->getPageid(),
-            $keys[3] => $this->getTitle(),
-            $keys[4] => $this->getDisplaytitle(),
-            $keys[5] => $this->getPageImageFree(),
-            $keys[6] => $this->getWikibaseItem(),
-            $keys[7] => $this->getDisambiguation(),
-            $keys[8] => $this->getDefaultsort(),
-            $keys[9] => $this->getCreatedAt(),
-            $keys[10] => $this->getUpdatedAt(),
+            $keys[1] => $this->getTitle(),
+            $keys[2] => $this->getEndpoint(),
+            $keys[3] => $this->getCreatedAt(),
+            $keys[4] => $this->getUpdatedAt(),
         );
-        if ($result[$keys[9]] instanceof \DateTimeInterface) {
-            $result[$keys[9]] = $result[$keys[9]]->format('c');
+        if ($result[$keys[3]] instanceof \DateTimeInterface) {
+            $result[$keys[3]] = $result[$keys[3]]->format('c');
         }
 
-        if ($result[$keys[10]] instanceof \DateTimeInterface) {
-            $result[$keys[10]] = $result[$keys[10]]->format('c');
+        if ($result[$keys[4]] instanceof \DateTimeInterface) {
+            $result[$keys[4]] = $result[$keys[4]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -1335,50 +1045,50 @@ abstract class Page implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aSource) {
+            if (null !== $this->collCategories) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'source';
+                        $key = 'categories';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'source';
+                        $key = 'categories';
                         break;
                     default:
-                        $key = 'Source';
+                        $key = 'Categories';
                 }
 
-                $result[$key] = $this->aSource->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+                $result[$key] = $this->collCategories->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
-            if (null !== $this->collC2Ps) {
+            if (null !== $this->collMedias) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'c2Ps';
+                        $key = 'medias';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'c2ps';
+                        $key = 'medias';
                         break;
                     default:
-                        $key = 'C2Ps';
+                        $key = 'Medias';
                 }
 
-                $result[$key] = $this->collC2Ps->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->collMedias->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
-            if (null !== $this->collM2Ps) {
+            if (null !== $this->collPages) {
 
                 switch ($keyType) {
                     case TableMap::TYPE_CAMELNAME:
-                        $key = 'm2Ps';
+                        $key = 'pages';
                         break;
                     case TableMap::TYPE_FIELDNAME:
-                        $key = 'm2ps';
+                        $key = 'pages';
                         break;
                     default:
-                        $key = 'M2Ps';
+                        $key = 'Pages';
                 }
 
-                $result[$key] = $this->collM2Ps->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+                $result[$key] = $this->collPages->toArray(null, false, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1394,11 +1104,11 @@ abstract class Page implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Attogram\SharedMedia\Orm\Page
+     * @return $this|\Attogram\SharedMedia\Orm\Source
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = PageTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = SourceTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1409,7 +1119,7 @@ abstract class Page implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Attogram\SharedMedia\Orm\Page
+     * @return $this|\Attogram\SharedMedia\Orm\Source
      */
     public function setByPosition($pos, $value)
     {
@@ -1418,33 +1128,15 @@ abstract class Page implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setSourceid($value);
-                break;
-            case 2:
-                $this->setPageid($value);
-                break;
-            case 3:
                 $this->setTitle($value);
                 break;
-            case 4:
-                $this->setDisplaytitle($value);
+            case 2:
+                $this->setEndpoint($value);
                 break;
-            case 5:
-                $this->setPageImageFree($value);
-                break;
-            case 6:
-                $this->setWikibaseItem($value);
-                break;
-            case 7:
-                $this->setDisambiguation($value);
-                break;
-            case 8:
-                $this->setDefaultsort($value);
-                break;
-            case 9:
+            case 3:
                 $this->setCreatedAt($value);
                 break;
-            case 10:
+            case 4:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1471,40 +1163,22 @@ abstract class Page implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = PageTableMap::getFieldNames($keyType);
+        $keys = SourceTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
             $this->setId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setSourceid($arr[$keys[1]]);
+            $this->setTitle($arr[$keys[1]]);
         }
         if (array_key_exists($keys[2], $arr)) {
-            $this->setPageid($arr[$keys[2]]);
+            $this->setEndpoint($arr[$keys[2]]);
         }
         if (array_key_exists($keys[3], $arr)) {
-            $this->setTitle($arr[$keys[3]]);
+            $this->setCreatedAt($arr[$keys[3]]);
         }
         if (array_key_exists($keys[4], $arr)) {
-            $this->setDisplaytitle($arr[$keys[4]]);
-        }
-        if (array_key_exists($keys[5], $arr)) {
-            $this->setPageImageFree($arr[$keys[5]]);
-        }
-        if (array_key_exists($keys[6], $arr)) {
-            $this->setWikibaseItem($arr[$keys[6]]);
-        }
-        if (array_key_exists($keys[7], $arr)) {
-            $this->setDisambiguation($arr[$keys[7]]);
-        }
-        if (array_key_exists($keys[8], $arr)) {
-            $this->setDefaultsort($arr[$keys[8]]);
-        }
-        if (array_key_exists($keys[9], $arr)) {
-            $this->setCreatedAt($arr[$keys[9]]);
-        }
-        if (array_key_exists($keys[10], $arr)) {
-            $this->setUpdatedAt($arr[$keys[10]]);
+            $this->setUpdatedAt($arr[$keys[4]]);
         }
     }
 
@@ -1525,7 +1199,7 @@ abstract class Page implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object, for fluid interface
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1545,40 +1219,22 @@ abstract class Page implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(PageTableMap::DATABASE_NAME);
+        $criteria = new Criteria(SourceTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(PageTableMap::COL_ID)) {
-            $criteria->add(PageTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(SourceTableMap::COL_ID)) {
+            $criteria->add(SourceTableMap::COL_ID, $this->id);
         }
-        if ($this->isColumnModified(PageTableMap::COL_SOURCEID)) {
-            $criteria->add(PageTableMap::COL_SOURCEID, $this->sourceid);
+        if ($this->isColumnModified(SourceTableMap::COL_TITLE)) {
+            $criteria->add(SourceTableMap::COL_TITLE, $this->title);
         }
-        if ($this->isColumnModified(PageTableMap::COL_PAGEID)) {
-            $criteria->add(PageTableMap::COL_PAGEID, $this->pageid);
+        if ($this->isColumnModified(SourceTableMap::COL_ENDPOINT)) {
+            $criteria->add(SourceTableMap::COL_ENDPOINT, $this->endpoint);
         }
-        if ($this->isColumnModified(PageTableMap::COL_TITLE)) {
-            $criteria->add(PageTableMap::COL_TITLE, $this->title);
+        if ($this->isColumnModified(SourceTableMap::COL_CREATED_AT)) {
+            $criteria->add(SourceTableMap::COL_CREATED_AT, $this->created_at);
         }
-        if ($this->isColumnModified(PageTableMap::COL_DISPLAYTITLE)) {
-            $criteria->add(PageTableMap::COL_DISPLAYTITLE, $this->displaytitle);
-        }
-        if ($this->isColumnModified(PageTableMap::COL_PAGE_IMAGE_FREE)) {
-            $criteria->add(PageTableMap::COL_PAGE_IMAGE_FREE, $this->page_image_free);
-        }
-        if ($this->isColumnModified(PageTableMap::COL_WIKIBASE_ITEM)) {
-            $criteria->add(PageTableMap::COL_WIKIBASE_ITEM, $this->wikibase_item);
-        }
-        if ($this->isColumnModified(PageTableMap::COL_DISAMBIGUATION)) {
-            $criteria->add(PageTableMap::COL_DISAMBIGUATION, $this->disambiguation);
-        }
-        if ($this->isColumnModified(PageTableMap::COL_DEFAULTSORT)) {
-            $criteria->add(PageTableMap::COL_DEFAULTSORT, $this->defaultsort);
-        }
-        if ($this->isColumnModified(PageTableMap::COL_CREATED_AT)) {
-            $criteria->add(PageTableMap::COL_CREATED_AT, $this->created_at);
-        }
-        if ($this->isColumnModified(PageTableMap::COL_UPDATED_AT)) {
-            $criteria->add(PageTableMap::COL_UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(SourceTableMap::COL_UPDATED_AT)) {
+            $criteria->add(SourceTableMap::COL_UPDATED_AT, $this->updated_at);
         }
 
         return $criteria;
@@ -1596,8 +1252,8 @@ abstract class Page implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildPageQuery::create();
-        $criteria->add(PageTableMap::COL_ID, $this->id);
+        $criteria = ChildSourceQuery::create();
+        $criteria->add(SourceTableMap::COL_ID, $this->id);
 
         return $criteria;
     }
@@ -1659,21 +1315,15 @@ abstract class Page implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Attogram\SharedMedia\Orm\Page (or compatible) type.
+     * @param      object $copyObj An object of \Attogram\SharedMedia\Orm\Source (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setSourceid($this->getSourceid());
-        $copyObj->setPageid($this->getPageid());
         $copyObj->setTitle($this->getTitle());
-        $copyObj->setDisplaytitle($this->getDisplaytitle());
-        $copyObj->setPageImageFree($this->getPageImageFree());
-        $copyObj->setWikibaseItem($this->getWikibaseItem());
-        $copyObj->setDisambiguation($this->getDisambiguation());
-        $copyObj->setDefaultsort($this->getDefaultsort());
+        $copyObj->setEndpoint($this->getEndpoint());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
 
@@ -1682,15 +1332,21 @@ abstract class Page implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            foreach ($this->getC2Ps() as $relObj) {
+            foreach ($this->getCategories() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addC2P($relObj->copy($deepCopy));
+                    $copyObj->addCategory($relObj->copy($deepCopy));
                 }
             }
 
-            foreach ($this->getM2Ps() as $relObj) {
+            foreach ($this->getMedias() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addM2P($relObj->copy($deepCopy));
+                    $copyObj->addMedia($relObj->copy($deepCopy));
+                }
+            }
+
+            foreach ($this->getPages() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addPage($relObj->copy($deepCopy));
                 }
             }
 
@@ -1711,7 +1367,7 @@ abstract class Page implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Attogram\SharedMedia\Orm\Page Clone of current object.
+     * @return \Attogram\SharedMedia\Orm\Source Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1722,57 +1378,6 @@ abstract class Page implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
-    }
-
-    /**
-     * Declares an association between this object and a ChildSource object.
-     *
-     * @param  ChildSource $v
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setSource(ChildSource $v = null)
-    {
-        if ($v === null) {
-            $this->setSourceid(NULL);
-        } else {
-            $this->setSourceid($v->getId());
-        }
-
-        $this->aSource = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildSource object, it will not be re-added.
-        if ($v !== null) {
-            $v->addPage($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated ChildSource object
-     *
-     * @param  ConnectionInterface $con Optional Connection object.
-     * @return ChildSource The associated ChildSource object.
-     * @throws PropelException
-     */
-    public function getSource(ConnectionInterface $con = null)
-    {
-        if ($this->aSource === null && ($this->sourceid != 0)) {
-            $this->aSource = ChildSourceQuery::create()->findPk($this->sourceid, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aSource->addPages($this);
-             */
-        }
-
-        return $this->aSource;
     }
 
 
@@ -1786,42 +1391,46 @@ abstract class Page implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
-        if ('C2P' == $relationName) {
-            $this->initC2Ps();
+        if ('Category' == $relationName) {
+            $this->initCategories();
             return;
         }
-        if ('M2P' == $relationName) {
-            $this->initM2Ps();
+        if ('Media' == $relationName) {
+            $this->initMedias();
+            return;
+        }
+        if ('Page' == $relationName) {
+            $this->initPages();
             return;
         }
     }
 
     /**
-     * Clears out the collC2Ps collection
+     * Clears out the collCategories collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addC2Ps()
+     * @see        addCategories()
      */
-    public function clearC2Ps()
+    public function clearCategories()
     {
-        $this->collC2Ps = null; // important to set this to NULL since that means it is uninitialized
+        $this->collCategories = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collC2Ps collection loaded partially.
+     * Reset is the collCategories collection loaded partially.
      */
-    public function resetPartialC2Ps($v = true)
+    public function resetPartialCategories($v = true)
     {
-        $this->collC2PsPartial = $v;
+        $this->collCategoriesPartial = $v;
     }
 
     /**
-     * Initializes the collC2Ps collection.
+     * Initializes the collCategories collection.
      *
-     * By default this just sets the collC2Ps collection to an empty array (like clearcollC2Ps());
+     * By default this just sets the collCategories collection to an empty array (like clearcollCategories());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -1830,165 +1439,162 @@ abstract class Page implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initC2Ps($overrideExisting = true)
+    public function initCategories($overrideExisting = true)
     {
-        if (null !== $this->collC2Ps && !$overrideExisting) {
+        if (null !== $this->collCategories && !$overrideExisting) {
             return;
         }
 
-        $collectionClassName = C2PTableMap::getTableMap()->getCollectionClassName();
+        $collectionClassName = CategoryTableMap::getTableMap()->getCollectionClassName();
 
-        $this->collC2Ps = new $collectionClassName;
-        $this->collC2Ps->setModel('\Attogram\SharedMedia\Orm\C2P');
+        $this->collCategories = new $collectionClassName;
+        $this->collCategories->setModel('\Attogram\SharedMedia\Orm\Category');
     }
 
     /**
-     * Gets an array of ChildC2P objects which contain a foreign key that references this object.
+     * Gets an array of ChildCategory objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildPage is new, it will return
+     * If this ChildSource is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildC2P[] List of ChildC2P objects
+     * @return ObjectCollection|ChildCategory[] List of ChildCategory objects
      * @throws PropelException
      */
-    public function getC2Ps(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getCategories(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collC2PsPartial && !$this->isNew();
-        if (null === $this->collC2Ps || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collC2Ps) {
+        $partial = $this->collCategoriesPartial && !$this->isNew();
+        if (null === $this->collCategories || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collCategories) {
                 // return empty collection
-                $this->initC2Ps();
+                $this->initCategories();
             } else {
-                $collC2Ps = ChildC2PQuery::create(null, $criteria)
-                    ->filterByPage($this)
+                $collCategories = ChildCategoryQuery::create(null, $criteria)
+                    ->filterBySource($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collC2PsPartial && count($collC2Ps)) {
-                        $this->initC2Ps(false);
+                    if (false !== $this->collCategoriesPartial && count($collCategories)) {
+                        $this->initCategories(false);
 
-                        foreach ($collC2Ps as $obj) {
-                            if (false == $this->collC2Ps->contains($obj)) {
-                                $this->collC2Ps->append($obj);
+                        foreach ($collCategories as $obj) {
+                            if (false == $this->collCategories->contains($obj)) {
+                                $this->collCategories->append($obj);
                             }
                         }
 
-                        $this->collC2PsPartial = true;
+                        $this->collCategoriesPartial = true;
                     }
 
-                    return $collC2Ps;
+                    return $collCategories;
                 }
 
-                if ($partial && $this->collC2Ps) {
-                    foreach ($this->collC2Ps as $obj) {
+                if ($partial && $this->collCategories) {
+                    foreach ($this->collCategories as $obj) {
                         if ($obj->isNew()) {
-                            $collC2Ps[] = $obj;
+                            $collCategories[] = $obj;
                         }
                     }
                 }
 
-                $this->collC2Ps = $collC2Ps;
-                $this->collC2PsPartial = false;
+                $this->collCategories = $collCategories;
+                $this->collCategoriesPartial = false;
             }
         }
 
-        return $this->collC2Ps;
+        return $this->collCategories;
     }
 
     /**
-     * Sets a collection of ChildC2P objects related by a one-to-many relationship
+     * Sets a collection of ChildCategory objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $c2Ps A Propel collection.
+     * @param      Collection $categories A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildPage The current object (for fluent API support)
+     * @return $this|ChildSource The current object (for fluent API support)
      */
-    public function setC2Ps(Collection $c2Ps, ConnectionInterface $con = null)
+    public function setCategories(Collection $categories, ConnectionInterface $con = null)
     {
-        /** @var ChildC2P[] $c2PsToDelete */
-        $c2PsToDelete = $this->getC2Ps(new Criteria(), $con)->diff($c2Ps);
+        /** @var ChildCategory[] $categoriesToDelete */
+        $categoriesToDelete = $this->getCategories(new Criteria(), $con)->diff($categories);
 
 
-        //since at least one column in the foreign key is at the same time a PK
-        //we can not just set a PK to NULL in the lines below. We have to store
-        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->c2PsScheduledForDeletion = clone $c2PsToDelete;
+        $this->categoriesScheduledForDeletion = $categoriesToDelete;
 
-        foreach ($c2PsToDelete as $c2PRemoved) {
-            $c2PRemoved->setPage(null);
+        foreach ($categoriesToDelete as $categoryRemoved) {
+            $categoryRemoved->setSource(null);
         }
 
-        $this->collC2Ps = null;
-        foreach ($c2Ps as $c2P) {
-            $this->addC2P($c2P);
+        $this->collCategories = null;
+        foreach ($categories as $category) {
+            $this->addCategory($category);
         }
 
-        $this->collC2Ps = $c2Ps;
-        $this->collC2PsPartial = false;
+        $this->collCategories = $categories;
+        $this->collCategoriesPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related C2P objects.
+     * Returns the number of related Category objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related C2P objects.
+     * @return int             Count of related Category objects.
      * @throws PropelException
      */
-    public function countC2Ps(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countCategories(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collC2PsPartial && !$this->isNew();
-        if (null === $this->collC2Ps || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collC2Ps) {
+        $partial = $this->collCategoriesPartial && !$this->isNew();
+        if (null === $this->collCategories || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collCategories) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getC2Ps());
+                return count($this->getCategories());
             }
 
-            $query = ChildC2PQuery::create(null, $criteria);
+            $query = ChildCategoryQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
 
             return $query
-                ->filterByPage($this)
+                ->filterBySource($this)
                 ->count($con);
         }
 
-        return count($this->collC2Ps);
+        return count($this->collCategories);
     }
 
     /**
-     * Method called to associate a ChildC2P object to this object
-     * through the ChildC2P foreign key attribute.
+     * Method called to associate a ChildCategory object to this object
+     * through the ChildCategory foreign key attribute.
      *
-     * @param  ChildC2P $l ChildC2P
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @param  ChildCategory $l ChildCategory
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
-    public function addC2P(ChildC2P $l)
+    public function addCategory(ChildCategory $l)
     {
-        if ($this->collC2Ps === null) {
-            $this->initC2Ps();
-            $this->collC2PsPartial = true;
+        if ($this->collCategories === null) {
+            $this->initCategories();
+            $this->collCategoriesPartial = true;
         }
 
-        if (!$this->collC2Ps->contains($l)) {
-            $this->doAddC2P($l);
+        if (!$this->collCategories->contains($l)) {
+            $this->doAddCategory($l);
 
-            if ($this->c2PsScheduledForDeletion and $this->c2PsScheduledForDeletion->contains($l)) {
-                $this->c2PsScheduledForDeletion->remove($this->c2PsScheduledForDeletion->search($l));
+            if ($this->categoriesScheduledForDeletion and $this->categoriesScheduledForDeletion->contains($l)) {
+                $this->categoriesScheduledForDeletion->remove($this->categoriesScheduledForDeletion->search($l));
             }
         }
 
@@ -1996,85 +1602,60 @@ abstract class Page implements ActiveRecordInterface
     }
 
     /**
-     * @param ChildC2P $c2P The ChildC2P object to add.
+     * @param ChildCategory $category The ChildCategory object to add.
      */
-    protected function doAddC2P(ChildC2P $c2P)
+    protected function doAddCategory(ChildCategory $category)
     {
-        $this->collC2Ps[]= $c2P;
-        $c2P->setPage($this);
+        $this->collCategories[]= $category;
+        $category->setSource($this);
     }
 
     /**
-     * @param  ChildC2P $c2P The ChildC2P object to remove.
-     * @return $this|ChildPage The current object (for fluent API support)
+     * @param  ChildCategory $category The ChildCategory object to remove.
+     * @return $this|ChildSource The current object (for fluent API support)
      */
-    public function removeC2P(ChildC2P $c2P)
+    public function removeCategory(ChildCategory $category)
     {
-        if ($this->getC2Ps()->contains($c2P)) {
-            $pos = $this->collC2Ps->search($c2P);
-            $this->collC2Ps->remove($pos);
-            if (null === $this->c2PsScheduledForDeletion) {
-                $this->c2PsScheduledForDeletion = clone $this->collC2Ps;
-                $this->c2PsScheduledForDeletion->clear();
+        if ($this->getCategories()->contains($category)) {
+            $pos = $this->collCategories->search($category);
+            $this->collCategories->remove($pos);
+            if (null === $this->categoriesScheduledForDeletion) {
+                $this->categoriesScheduledForDeletion = clone $this->collCategories;
+                $this->categoriesScheduledForDeletion->clear();
             }
-            $this->c2PsScheduledForDeletion[]= clone $c2P;
-            $c2P->setPage(null);
+            $this->categoriesScheduledForDeletion[]= $category;
+            $category->setSource(null);
         }
 
         return $this;
     }
 
-
     /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Page is new, it will return
-     * an empty collection; or if this Page has previously
-     * been saved, it will retrieve related C2Ps from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Page.
-     *
-     * @param      Criteria $criteria optional Criteria object to narrow the query
-     * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildC2P[] List of ChildC2P objects
-     */
-    public function getC2PsJoinCategory(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
-    {
-        $query = ChildC2PQuery::create(null, $criteria);
-        $query->joinWith('Category', $joinBehavior);
-
-        return $this->getC2Ps($query, $con);
-    }
-
-    /**
-     * Clears out the collM2Ps collection
+     * Clears out the collMedias collection
      *
      * This does not modify the database; however, it will remove any associated objects, causing
      * them to be refetched by subsequent calls to accessor method.
      *
      * @return void
-     * @see        addM2Ps()
+     * @see        addMedias()
      */
-    public function clearM2Ps()
+    public function clearMedias()
     {
-        $this->collM2Ps = null; // important to set this to NULL since that means it is uninitialized
+        $this->collMedias = null; // important to set this to NULL since that means it is uninitialized
     }
 
     /**
-     * Reset is the collM2Ps collection loaded partially.
+     * Reset is the collMedias collection loaded partially.
      */
-    public function resetPartialM2Ps($v = true)
+    public function resetPartialMedias($v = true)
     {
-        $this->collM2PsPartial = $v;
+        $this->collMediasPartial = $v;
     }
 
     /**
-     * Initializes the collM2Ps collection.
+     * Initializes the collMedias collection.
      *
-     * By default this just sets the collM2Ps collection to an empty array (like clearcollM2Ps());
+     * By default this just sets the collMedias collection to an empty array (like clearcollMedias());
      * however, you may wish to override this method in your stub class to provide setting appropriate
      * to your application -- for example, setting the initial array to the values stored in database.
      *
@@ -2083,165 +1664,162 @@ abstract class Page implements ActiveRecordInterface
      *
      * @return void
      */
-    public function initM2Ps($overrideExisting = true)
+    public function initMedias($overrideExisting = true)
     {
-        if (null !== $this->collM2Ps && !$overrideExisting) {
+        if (null !== $this->collMedias && !$overrideExisting) {
             return;
         }
 
-        $collectionClassName = M2PTableMap::getTableMap()->getCollectionClassName();
+        $collectionClassName = MediaTableMap::getTableMap()->getCollectionClassName();
 
-        $this->collM2Ps = new $collectionClassName;
-        $this->collM2Ps->setModel('\Attogram\SharedMedia\Orm\M2P');
+        $this->collMedias = new $collectionClassName;
+        $this->collMedias->setModel('\Attogram\SharedMedia\Orm\Media');
     }
 
     /**
-     * Gets an array of ChildM2P objects which contain a foreign key that references this object.
+     * Gets an array of ChildMedia objects which contain a foreign key that references this object.
      *
      * If the $criteria is not null, it is used to always fetch the results from the database.
      * Otherwise the results are fetched from the database the first time, then cached.
      * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this ChildPage is new, it will return
+     * If this ChildSource is new, it will return
      * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return ObjectCollection|ChildM2P[] List of ChildM2P objects
+     * @return ObjectCollection|ChildMedia[] List of ChildMedia objects
      * @throws PropelException
      */
-    public function getM2Ps(Criteria $criteria = null, ConnectionInterface $con = null)
+    public function getMedias(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        $partial = $this->collM2PsPartial && !$this->isNew();
-        if (null === $this->collM2Ps || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collM2Ps) {
+        $partial = $this->collMediasPartial && !$this->isNew();
+        if (null === $this->collMedias || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collMedias) {
                 // return empty collection
-                $this->initM2Ps();
+                $this->initMedias();
             } else {
-                $collM2Ps = ChildM2PQuery::create(null, $criteria)
-                    ->filterByPage($this)
+                $collMedias = ChildMediaQuery::create(null, $criteria)
+                    ->filterBySource($this)
                     ->find($con);
 
                 if (null !== $criteria) {
-                    if (false !== $this->collM2PsPartial && count($collM2Ps)) {
-                        $this->initM2Ps(false);
+                    if (false !== $this->collMediasPartial && count($collMedias)) {
+                        $this->initMedias(false);
 
-                        foreach ($collM2Ps as $obj) {
-                            if (false == $this->collM2Ps->contains($obj)) {
-                                $this->collM2Ps->append($obj);
+                        foreach ($collMedias as $obj) {
+                            if (false == $this->collMedias->contains($obj)) {
+                                $this->collMedias->append($obj);
                             }
                         }
 
-                        $this->collM2PsPartial = true;
+                        $this->collMediasPartial = true;
                     }
 
-                    return $collM2Ps;
+                    return $collMedias;
                 }
 
-                if ($partial && $this->collM2Ps) {
-                    foreach ($this->collM2Ps as $obj) {
+                if ($partial && $this->collMedias) {
+                    foreach ($this->collMedias as $obj) {
                         if ($obj->isNew()) {
-                            $collM2Ps[] = $obj;
+                            $collMedias[] = $obj;
                         }
                     }
                 }
 
-                $this->collM2Ps = $collM2Ps;
-                $this->collM2PsPartial = false;
+                $this->collMedias = $collMedias;
+                $this->collMediasPartial = false;
             }
         }
 
-        return $this->collM2Ps;
+        return $this->collMedias;
     }
 
     /**
-     * Sets a collection of ChildM2P objects related by a one-to-many relationship
+     * Sets a collection of ChildMedia objects related by a one-to-many relationship
      * to the current object.
      * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
      * and new objects from the given Propel collection.
      *
-     * @param      Collection $m2Ps A Propel collection.
+     * @param      Collection $medias A Propel collection.
      * @param      ConnectionInterface $con Optional connection object
-     * @return $this|ChildPage The current object (for fluent API support)
+     * @return $this|ChildSource The current object (for fluent API support)
      */
-    public function setM2Ps(Collection $m2Ps, ConnectionInterface $con = null)
+    public function setMedias(Collection $medias, ConnectionInterface $con = null)
     {
-        /** @var ChildM2P[] $m2PsToDelete */
-        $m2PsToDelete = $this->getM2Ps(new Criteria(), $con)->diff($m2Ps);
+        /** @var ChildMedia[] $mediasToDelete */
+        $mediasToDelete = $this->getMedias(new Criteria(), $con)->diff($medias);
 
 
-        //since at least one column in the foreign key is at the same time a PK
-        //we can not just set a PK to NULL in the lines below. We have to store
-        //a backup of all values, so we are able to manipulate these items based on the onDelete value later.
-        $this->m2PsScheduledForDeletion = clone $m2PsToDelete;
+        $this->mediasScheduledForDeletion = $mediasToDelete;
 
-        foreach ($m2PsToDelete as $m2PRemoved) {
-            $m2PRemoved->setPage(null);
+        foreach ($mediasToDelete as $mediaRemoved) {
+            $mediaRemoved->setSource(null);
         }
 
-        $this->collM2Ps = null;
-        foreach ($m2Ps as $m2P) {
-            $this->addM2P($m2P);
+        $this->collMedias = null;
+        foreach ($medias as $media) {
+            $this->addMedia($media);
         }
 
-        $this->collM2Ps = $m2Ps;
-        $this->collM2PsPartial = false;
+        $this->collMedias = $medias;
+        $this->collMediasPartial = false;
 
         return $this;
     }
 
     /**
-     * Returns the number of related M2P objects.
+     * Returns the number of related Media objects.
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct
      * @param      ConnectionInterface $con
-     * @return int             Count of related M2P objects.
+     * @return int             Count of related Media objects.
      * @throws PropelException
      */
-    public function countM2Ps(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    public function countMedias(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $partial = $this->collM2PsPartial && !$this->isNew();
-        if (null === $this->collM2Ps || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collM2Ps) {
+        $partial = $this->collMediasPartial && !$this->isNew();
+        if (null === $this->collMedias || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collMedias) {
                 return 0;
             }
 
             if ($partial && !$criteria) {
-                return count($this->getM2Ps());
+                return count($this->getMedias());
             }
 
-            $query = ChildM2PQuery::create(null, $criteria);
+            $query = ChildMediaQuery::create(null, $criteria);
             if ($distinct) {
                 $query->distinct();
             }
 
             return $query
-                ->filterByPage($this)
+                ->filterBySource($this)
                 ->count($con);
         }
 
-        return count($this->collM2Ps);
+        return count($this->collMedias);
     }
 
     /**
-     * Method called to associate a ChildM2P object to this object
-     * through the ChildM2P foreign key attribute.
+     * Method called to associate a ChildMedia object to this object
+     * through the ChildMedia foreign key attribute.
      *
-     * @param  ChildM2P $l ChildM2P
-     * @return $this|\Attogram\SharedMedia\Orm\Page The current object (for fluent API support)
+     * @param  ChildMedia $l ChildMedia
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
      */
-    public function addM2P(ChildM2P $l)
+    public function addMedia(ChildMedia $l)
     {
-        if ($this->collM2Ps === null) {
-            $this->initM2Ps();
-            $this->collM2PsPartial = true;
+        if ($this->collMedias === null) {
+            $this->initMedias();
+            $this->collMediasPartial = true;
         }
 
-        if (!$this->collM2Ps->contains($l)) {
-            $this->doAddM2P($l);
+        if (!$this->collMedias->contains($l)) {
+            $this->doAddMedia($l);
 
-            if ($this->m2PsScheduledForDeletion and $this->m2PsScheduledForDeletion->contains($l)) {
-                $this->m2PsScheduledForDeletion->remove($this->m2PsScheduledForDeletion->search($l));
+            if ($this->mediasScheduledForDeletion and $this->mediasScheduledForDeletion->contains($l)) {
+                $this->mediasScheduledForDeletion->remove($this->mediasScheduledForDeletion->search($l));
             }
         }
 
@@ -2249,57 +1827,257 @@ abstract class Page implements ActiveRecordInterface
     }
 
     /**
-     * @param ChildM2P $m2P The ChildM2P object to add.
+     * @param ChildMedia $media The ChildMedia object to add.
      */
-    protected function doAddM2P(ChildM2P $m2P)
+    protected function doAddMedia(ChildMedia $media)
     {
-        $this->collM2Ps[]= $m2P;
-        $m2P->setPage($this);
+        $this->collMedias[]= $media;
+        $media->setSource($this);
     }
 
     /**
-     * @param  ChildM2P $m2P The ChildM2P object to remove.
-     * @return $this|ChildPage The current object (for fluent API support)
+     * @param  ChildMedia $media The ChildMedia object to remove.
+     * @return $this|ChildSource The current object (for fluent API support)
      */
-    public function removeM2P(ChildM2P $m2P)
+    public function removeMedia(ChildMedia $media)
     {
-        if ($this->getM2Ps()->contains($m2P)) {
-            $pos = $this->collM2Ps->search($m2P);
-            $this->collM2Ps->remove($pos);
-            if (null === $this->m2PsScheduledForDeletion) {
-                $this->m2PsScheduledForDeletion = clone $this->collM2Ps;
-                $this->m2PsScheduledForDeletion->clear();
+        if ($this->getMedias()->contains($media)) {
+            $pos = $this->collMedias->search($media);
+            $this->collMedias->remove($pos);
+            if (null === $this->mediasScheduledForDeletion) {
+                $this->mediasScheduledForDeletion = clone $this->collMedias;
+                $this->mediasScheduledForDeletion->clear();
             }
-            $this->m2PsScheduledForDeletion[]= clone $m2P;
-            $m2P->setPage(null);
+            $this->mediasScheduledForDeletion[]= $media;
+            $media->setSource(null);
         }
 
         return $this;
     }
 
+    /**
+     * Clears out the collPages collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addPages()
+     */
+    public function clearPages()
+    {
+        $this->collPages = null; // important to set this to NULL since that means it is uninitialized
+    }
 
     /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Page is new, it will return
-     * an empty collection; or if this Page has previously
-     * been saved, it will retrieve related M2Ps from storage.
+     * Reset is the collPages collection loaded partially.
+     */
+    public function resetPartialPages($v = true)
+    {
+        $this->collPagesPartial = $v;
+    }
+
+    /**
+     * Initializes the collPages collection.
      *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Page.
+     * By default this just sets the collPages collection to an empty array (like clearcollPages());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initPages($overrideExisting = true)
+    {
+        if (null !== $this->collPages && !$overrideExisting) {
+            return;
+        }
+
+        $collectionClassName = PageTableMap::getTableMap()->getCollectionClassName();
+
+        $this->collPages = new $collectionClassName;
+        $this->collPages->setModel('\Attogram\SharedMedia\Orm\Page');
+    }
+
+    /**
+     * Gets an array of ChildPage objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildSource is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
      *
      * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return ObjectCollection|ChildM2P[] List of ChildM2P objects
+     * @return ObjectCollection|ChildPage[] List of ChildPage objects
+     * @throws PropelException
      */
-    public function getM2PsJoinMedia(Criteria $criteria = null, ConnectionInterface $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    public function getPages(Criteria $criteria = null, ConnectionInterface $con = null)
     {
-        $query = ChildM2PQuery::create(null, $criteria);
-        $query->joinWith('Media', $joinBehavior);
+        $partial = $this->collPagesPartial && !$this->isNew();
+        if (null === $this->collPages || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collPages) {
+                // return empty collection
+                $this->initPages();
+            } else {
+                $collPages = ChildPageQuery::create(null, $criteria)
+                    ->filterBySource($this)
+                    ->find($con);
 
-        return $this->getM2Ps($query, $con);
+                if (null !== $criteria) {
+                    if (false !== $this->collPagesPartial && count($collPages)) {
+                        $this->initPages(false);
+
+                        foreach ($collPages as $obj) {
+                            if (false == $this->collPages->contains($obj)) {
+                                $this->collPages->append($obj);
+                            }
+                        }
+
+                        $this->collPagesPartial = true;
+                    }
+
+                    return $collPages;
+                }
+
+                if ($partial && $this->collPages) {
+                    foreach ($this->collPages as $obj) {
+                        if ($obj->isNew()) {
+                            $collPages[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collPages = $collPages;
+                $this->collPagesPartial = false;
+            }
+        }
+
+        return $this->collPages;
+    }
+
+    /**
+     * Sets a collection of ChildPage objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $pages A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return $this|ChildSource The current object (for fluent API support)
+     */
+    public function setPages(Collection $pages, ConnectionInterface $con = null)
+    {
+        /** @var ChildPage[] $pagesToDelete */
+        $pagesToDelete = $this->getPages(new Criteria(), $con)->diff($pages);
+
+
+        $this->pagesScheduledForDeletion = $pagesToDelete;
+
+        foreach ($pagesToDelete as $pageRemoved) {
+            $pageRemoved->setSource(null);
+        }
+
+        $this->collPages = null;
+        foreach ($pages as $page) {
+            $this->addPage($page);
+        }
+
+        $this->collPages = $pages;
+        $this->collPagesPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Page objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Page objects.
+     * @throws PropelException
+     */
+    public function countPages(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collPagesPartial && !$this->isNew();
+        if (null === $this->collPages || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collPages) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getPages());
+            }
+
+            $query = ChildPageQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterBySource($this)
+                ->count($con);
+        }
+
+        return count($this->collPages);
+    }
+
+    /**
+     * Method called to associate a ChildPage object to this object
+     * through the ChildPage foreign key attribute.
+     *
+     * @param  ChildPage $l ChildPage
+     * @return $this|\Attogram\SharedMedia\Orm\Source The current object (for fluent API support)
+     */
+    public function addPage(ChildPage $l)
+    {
+        if ($this->collPages === null) {
+            $this->initPages();
+            $this->collPagesPartial = true;
+        }
+
+        if (!$this->collPages->contains($l)) {
+            $this->doAddPage($l);
+
+            if ($this->pagesScheduledForDeletion and $this->pagesScheduledForDeletion->contains($l)) {
+                $this->pagesScheduledForDeletion->remove($this->pagesScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ChildPage $page The ChildPage object to add.
+     */
+    protected function doAddPage(ChildPage $page)
+    {
+        $this->collPages[]= $page;
+        $page->setSource($this);
+    }
+
+    /**
+     * @param  ChildPage $page The ChildPage object to remove.
+     * @return $this|ChildSource The current object (for fluent API support)
+     */
+    public function removePage(ChildPage $page)
+    {
+        if ($this->getPages()->contains($page)) {
+            $pos = $this->collPages->search($page);
+            $this->collPages->remove($pos);
+            if (null === $this->pagesScheduledForDeletion) {
+                $this->pagesScheduledForDeletion = clone $this->collPages;
+                $this->pagesScheduledForDeletion->clear();
+            }
+            $this->pagesScheduledForDeletion[]= $page;
+            $page->setSource(null);
+        }
+
+        return $this;
     }
 
     /**
@@ -2309,18 +2087,9 @@ abstract class Page implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aSource) {
-            $this->aSource->removePage($this);
-        }
         $this->id = null;
-        $this->sourceid = null;
-        $this->pageid = null;
         $this->title = null;
-        $this->displaytitle = null;
-        $this->page_image_free = null;
-        $this->wikibase_item = null;
-        $this->disambiguation = null;
-        $this->defaultsort = null;
+        $this->endpoint = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;
@@ -2341,21 +2110,26 @@ abstract class Page implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collC2Ps) {
-                foreach ($this->collC2Ps as $o) {
+            if ($this->collCategories) {
+                foreach ($this->collCategories as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collM2Ps) {
-                foreach ($this->collM2Ps as $o) {
+            if ($this->collMedias) {
+                foreach ($this->collMedias as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
+            if ($this->collPages) {
+                foreach ($this->collPages as $o) {
                     $o->clearAllReferences($deep);
                 }
             }
         } // if ($deep)
 
-        $this->collC2Ps = null;
-        $this->collM2Ps = null;
-        $this->aSource = null;
+        $this->collCategories = null;
+        $this->collMedias = null;
+        $this->collPages = null;
     }
 
     /**
@@ -2365,7 +2139,7 @@ abstract class Page implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(PageTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(SourceTableMap::DEFAULT_STRING_FORMAT);
     }
 
     // timestampable behavior
@@ -2373,11 +2147,11 @@ abstract class Page implements ActiveRecordInterface
     /**
      * Mark the current object so that the update date doesn't get updated during next save
      *
-     * @return     $this|ChildPage The current object (for fluent API support)
+     * @return     $this|ChildSource The current object (for fluent API support)
      */
     public function keepUpdateDateUnchanged()
     {
-        $this->modifiedColumns[PageTableMap::COL_UPDATED_AT] = true;
+        $this->modifiedColumns[SourceTableMap::COL_UPDATED_AT] = true;
 
         return $this;
     }
