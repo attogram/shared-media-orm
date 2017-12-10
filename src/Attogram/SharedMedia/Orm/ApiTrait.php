@@ -3,7 +3,7 @@
 namespace Attogram\SharedMedia\Orm;
 
 /**
- * API Trait v0.0.4
+ * API Trait v0.0.5
  */
 trait ApiTrait
 {
@@ -67,12 +67,12 @@ trait ApiTrait
 
     /**
      * @param object $orm
-     * @param string $getFieldsMethod
+     * @param array  $fields
      * @param array  $response
      */
-    protected function setItemFromApiResponse($orm, $getFieldsMethod, $response)
+    protected function setItemFromApiResponse($orm, $fields, $response)
     {
-        foreach ($this->{$getFieldsMethod}() as list($field, $setter)) {
+        foreach ($fields as list($field, $setter)) {
             if (isset($response[$field])) {
                 $orm->{$setter}($response[$field]);
             }
