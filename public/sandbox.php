@@ -1,4 +1,4 @@
-<?php // attogram/shared-media-orm - sandbox.php - v1.1.1
+<?php // attogram/shared-media-orm - sandbox.php - v1.1.2
 
 use Attogram\SharedMedia\Api\Sources;
 use Attogram\SharedMedia\Sandbox\Sandbox;
@@ -34,6 +34,7 @@ $sandbox->setMethods([
     ['Attogram\SharedMedia\Orm\MediaQuery',    'getMediaInCategory',  false,    true],
     ['Attogram\SharedMedia\Orm\MediaQuery',    'getMediaOnPage',      false,    true],
     ['Attogram\SharedMedia\Orm\PageQuery',     'search',              'query',  false],
+    ['Attogram\SharedMedia\Orm\PageQuery',     'info ',               false,    true],
 ]);
 
 $sandbox->setSources(Sources::$sources);

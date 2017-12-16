@@ -13,7 +13,7 @@ class PageQuery extends BasePageQuery
 {
     use ApiTrait;
 
-    const VERSION = '1.0.6';
+    const VERSION = '1.0.7';
 
     public function __construct($logger = null)
     {
@@ -30,6 +30,11 @@ class PageQuery extends BasePageQuery
     public function search($query)
     {
         return $this->getPagesFromApiResponse($this->api->search($query));
+    }
+	
+    public function info()
+    {
+        return $this->getPagesFromApiResponse($this->api->info());
     }
 
     protected function getPagesFromApiResponse($response)
