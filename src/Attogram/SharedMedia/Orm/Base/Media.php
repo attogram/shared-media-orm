@@ -261,6 +261,34 @@ abstract class Media implements ActiveRecordInterface
     protected $userid;
 
     /**
+     * The value for the missing field.
+     *
+     * @var        boolean
+     */
+    protected $missing;
+
+    /**
+     * The value for the known field.
+     *
+     * @var        boolean
+     */
+    protected $known;
+
+    /**
+     * The value for the index field.
+     *
+     * @var        int
+     */
+    protected $index;
+
+    /**
+     * The value for the imagerepository field.
+     *
+     * @var        string
+     */
+    protected $imagerepository;
+
+    /**
      * The value for the created_at field.
      *
      * @var        DateTime
@@ -814,6 +842,66 @@ abstract class Media implements ActiveRecordInterface
     public function getUserid()
     {
         return $this->userid;
+    }
+
+    /**
+     * Get the [missing] column value.
+     *
+     * @return boolean
+     */
+    public function getMissing()
+    {
+        return $this->missing;
+    }
+
+    /**
+     * Get the [missing] column value.
+     *
+     * @return boolean
+     */
+    public function isMissing()
+    {
+        return $this->getMissing();
+    }
+
+    /**
+     * Get the [known] column value.
+     *
+     * @return boolean
+     */
+    public function getKnown()
+    {
+        return $this->known;
+    }
+
+    /**
+     * Get the [known] column value.
+     *
+     * @return boolean
+     */
+    public function isKnown()
+    {
+        return $this->getKnown();
+    }
+
+    /**
+     * Get the [index] column value.
+     *
+     * @return int
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
+
+    /**
+     * Get the [imagerepository] column value.
+     *
+     * @return string
+     */
+    public function getImagerepository()
+    {
+        return $this->imagerepository;
     }
 
     /**
@@ -1401,6 +1489,102 @@ abstract class Media implements ActiveRecordInterface
     } // setUserid()
 
     /**
+     * Sets the value of the [missing] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setMissing($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->missing !== $v) {
+            $this->missing = $v;
+            $this->modifiedColumns[MediaTableMap::COL_MISSING] = true;
+        }
+
+        return $this;
+    } // setMissing()
+
+    /**
+     * Sets the value of the [known] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param  boolean|integer|string $v The new value
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setKnown($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->known !== $v) {
+            $this->known = $v;
+            $this->modifiedColumns[MediaTableMap::COL_KNOWN] = true;
+        }
+
+        return $this;
+    } // setKnown()
+
+    /**
+     * Set the value of [index] column.
+     *
+     * @param int $v new value
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setIndex($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->index !== $v) {
+            $this->index = $v;
+            $this->modifiedColumns[MediaTableMap::COL_INDEX] = true;
+        }
+
+        return $this;
+    } // setIndex()
+
+    /**
+     * Set the value of [imagerepository] column.
+     *
+     * @param string $v new value
+     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
+     */
+    public function setImagerepository($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->imagerepository !== $v) {
+            $this->imagerepository = $v;
+            $this->modifiedColumns[MediaTableMap::COL_IMAGEREPOSITORY] = true;
+        }
+
+        return $this;
+    } // setImagerepository()
+
+    /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param  mixed $v string, integer (timestamp), or \DateTimeInterface value.
@@ -1557,10 +1741,22 @@ abstract class Media implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 26 + $startcol : MediaTableMap::translateFieldName('Userid', TableMap::TYPE_PHPNAME, $indexType)];
             $this->userid = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 27 + $startcol : MediaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 27 + $startcol : MediaTableMap::translateFieldName('Missing', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->missing = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 28 + $startcol : MediaTableMap::translateFieldName('Known', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->known = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 29 + $startcol : MediaTableMap::translateFieldName('Index', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->index = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 30 + $startcol : MediaTableMap::translateFieldName('Imagerepository', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->imagerepository = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 31 + $startcol : MediaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 28 + $startcol : MediaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 32 + $startcol : MediaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
@@ -1570,7 +1766,7 @@ abstract class Media implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 29; // 29 = MediaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 33; // 33 = MediaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Attogram\\SharedMedia\\Orm\\Media'), 0, $e);
@@ -1918,6 +2114,18 @@ abstract class Media implements ActiveRecordInterface
         if ($this->isColumnModified(MediaTableMap::COL_USERID)) {
             $modifiedColumns[':p' . $index++]  = 'userid';
         }
+        if ($this->isColumnModified(MediaTableMap::COL_MISSING)) {
+            $modifiedColumns[':p' . $index++]  = 'missing';
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_KNOWN)) {
+            $modifiedColumns[':p' . $index++]  = 'known';
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_INDEX)) {
+            $modifiedColumns[':p' . $index++]  = 'index';
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_IMAGEREPOSITORY)) {
+            $modifiedColumns[':p' . $index++]  = 'imagerepository';
+        }
         if ($this->isColumnModified(MediaTableMap::COL_CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'created_at';
         }
@@ -2015,6 +2223,18 @@ abstract class Media implements ActiveRecordInterface
                         break;
                     case 'userid':
                         $stmt->bindValue($identifier, $this->userid, PDO::PARAM_INT);
+                        break;
+                    case 'missing':
+                        $stmt->bindValue($identifier, $this->missing, PDO::PARAM_BOOL);
+                        break;
+                    case 'known':
+                        $stmt->bindValue($identifier, $this->known, PDO::PARAM_BOOL);
+                        break;
+                    case 'index':
+                        $stmt->bindValue($identifier, $this->index, PDO::PARAM_INT);
+                        break;
+                    case 'imagerepository':
+                        $stmt->bindValue($identifier, $this->imagerepository, PDO::PARAM_STR);
                         break;
                     case 'created_at':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);
@@ -2166,9 +2386,21 @@ abstract class Media implements ActiveRecordInterface
                 return $this->getUserid();
                 break;
             case 27:
-                return $this->getCreatedAt();
+                return $this->getMissing();
                 break;
             case 28:
+                return $this->getKnown();
+                break;
+            case 29:
+                return $this->getIndex();
+                break;
+            case 30:
+                return $this->getImagerepository();
+                break;
+            case 31:
+                return $this->getCreatedAt();
+                break;
+            case 32:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -2228,19 +2460,23 @@ abstract class Media implements ActiveRecordInterface
             $keys[24] => $this->getTimestamp(),
             $keys[25] => $this->getUser(),
             $keys[26] => $this->getUserid(),
-            $keys[27] => $this->getCreatedAt(),
-            $keys[28] => $this->getUpdatedAt(),
+            $keys[27] => $this->getMissing(),
+            $keys[28] => $this->getKnown(),
+            $keys[29] => $this->getIndex(),
+            $keys[30] => $this->getImagerepository(),
+            $keys[31] => $this->getCreatedAt(),
+            $keys[32] => $this->getUpdatedAt(),
         );
         if ($result[$keys[24]] instanceof \DateTimeInterface) {
             $result[$keys[24]] = $result[$keys[24]]->format('c');
         }
 
-        if ($result[$keys[27]] instanceof \DateTimeInterface) {
-            $result[$keys[27]] = $result[$keys[27]]->format('c');
+        if ($result[$keys[31]] instanceof \DateTimeInterface) {
+            $result[$keys[31]] = $result[$keys[31]]->format('c');
         }
 
-        if ($result[$keys[28]] instanceof \DateTimeInterface) {
-            $result[$keys[28]] = $result[$keys[28]]->format('c');
+        if ($result[$keys[32]] instanceof \DateTimeInterface) {
+            $result[$keys[32]] = $result[$keys[32]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -2410,9 +2646,21 @@ abstract class Media implements ActiveRecordInterface
                 $this->setUserid($value);
                 break;
             case 27:
-                $this->setCreatedAt($value);
+                $this->setMissing($value);
                 break;
             case 28:
+                $this->setKnown($value);
+                break;
+            case 29:
+                $this->setIndex($value);
+                break;
+            case 30:
+                $this->setImagerepository($value);
+                break;
+            case 31:
+                $this->setCreatedAt($value);
+                break;
+            case 32:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -2523,10 +2771,22 @@ abstract class Media implements ActiveRecordInterface
             $this->setUserid($arr[$keys[26]]);
         }
         if (array_key_exists($keys[27], $arr)) {
-            $this->setCreatedAt($arr[$keys[27]]);
+            $this->setMissing($arr[$keys[27]]);
         }
         if (array_key_exists($keys[28], $arr)) {
-            $this->setUpdatedAt($arr[$keys[28]]);
+            $this->setKnown($arr[$keys[28]]);
+        }
+        if (array_key_exists($keys[29], $arr)) {
+            $this->setIndex($arr[$keys[29]]);
+        }
+        if (array_key_exists($keys[30], $arr)) {
+            $this->setImagerepository($arr[$keys[30]]);
+        }
+        if (array_key_exists($keys[31], $arr)) {
+            $this->setCreatedAt($arr[$keys[31]]);
+        }
+        if (array_key_exists($keys[32], $arr)) {
+            $this->setUpdatedAt($arr[$keys[32]]);
         }
     }
 
@@ -2650,6 +2910,18 @@ abstract class Media implements ActiveRecordInterface
         if ($this->isColumnModified(MediaTableMap::COL_USERID)) {
             $criteria->add(MediaTableMap::COL_USERID, $this->userid);
         }
+        if ($this->isColumnModified(MediaTableMap::COL_MISSING)) {
+            $criteria->add(MediaTableMap::COL_MISSING, $this->missing);
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_KNOWN)) {
+            $criteria->add(MediaTableMap::COL_KNOWN, $this->known);
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_INDEX)) {
+            $criteria->add(MediaTableMap::COL_INDEX, $this->index);
+        }
+        if ($this->isColumnModified(MediaTableMap::COL_IMAGEREPOSITORY)) {
+            $criteria->add(MediaTableMap::COL_IMAGEREPOSITORY, $this->imagerepository);
+        }
         if ($this->isColumnModified(MediaTableMap::COL_CREATED_AT)) {
             $criteria->add(MediaTableMap::COL_CREATED_AT, $this->created_at);
         }
@@ -2768,6 +3040,10 @@ abstract class Media implements ActiveRecordInterface
         $copyObj->setTimestamp($this->getTimestamp());
         $copyObj->setUser($this->getUser());
         $copyObj->setUserid($this->getUserid());
+        $copyObj->setMissing($this->getMissing());
+        $copyObj->setKnown($this->getKnown());
+        $copyObj->setIndex($this->getIndex());
+        $copyObj->setImagerepository($this->getImagerepository());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
 
@@ -3433,6 +3709,10 @@ abstract class Media implements ActiveRecordInterface
         $this->timestamp = null;
         $this->user = null;
         $this->userid = null;
+        $this->missing = null;
+        $this->known = null;
+        $this->index = null;
+        $this->imagerepository = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;

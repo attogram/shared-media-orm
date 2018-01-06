@@ -21,7 +21,7 @@ CREATE TABLE [category]
     [tree_left] INTEGER,
     [tree_right] INTEGER,
     [tree_level] INTEGER,
-    UNIQUE ([pageid],[title]),
+    UNIQUE ([source_id],[pageid],[title]),
     UNIQUE ([id]),
     FOREIGN KEY ([source_id]) REFERENCES [source] ([id])
 );
@@ -61,9 +61,13 @@ CREATE TABLE [media]
     [timestamp] TIMESTAMP(255),
     [user] VARCHAR(255),
     [userid] INTEGER,
+    [missing] INTEGER,
+    [known] INTEGER,
+    [index] INTEGER,
+    [imagerepository] VARCHAR(255),
     [created_at] TIMESTAMP,
     [updated_at] TIMESTAMP,
-    UNIQUE ([pageid],[title]),
+    UNIQUE ([source_id],[pageid],[title]),
     UNIQUE ([id]),
     FOREIGN KEY ([source_id]) REFERENCES [source] ([id])
 );
@@ -87,7 +91,7 @@ CREATE TABLE [page]
     [defaultsort] VARCHAR(255),
     [created_at] TIMESTAMP,
     [updated_at] TIMESTAMP,
-    UNIQUE ([pageid],[title]),
+    UNIQUE ([source_id],[pageid],[title]),
     UNIQUE ([id]),
     FOREIGN KEY ([source_id]) REFERENCES [source] ([id])
 );

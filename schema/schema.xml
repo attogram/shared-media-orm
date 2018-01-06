@@ -1,12 +1,11 @@
-<!-- attogram/shared-media-orm  -  schema.xml  -  v1.1.0  -->
+<!-- attogram/shared-media-orm  -  schema.xml  -  v1.2.0  -->
 <database name="default" defaultIdMethod="native"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd"
           namespace="Attogram\SharedMedia\Orm"
         >
-
     <table name="category" phpName="Category">
-        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true" />
         <column name="source_id" type="INTEGER" />
         <column name="pageid" type="INTEGER" />
         <column name="title" type="VARCHAR" size="255" />
@@ -15,19 +14,19 @@
         <column name="pages" type="INTEGER" />
         <column name="size" type="INTEGER" />
         <column name="hidden" type="BOOLEAN" />
-		<behavior name="timestampable" />
-		<behavior name="nested_set" />
+        <behavior name="timestampable" />
+        <behavior name="nested_set" />
         <unique>
-            <unique-column name="pageid"/>
-            <unique-column name="title"/>
+            <unique-column name="source_id" />
+            <unique-column name="pageid" />
+            <unique-column name="title" />
         </unique>
-		<foreign-key foreignTable="source">
+        <foreign-key foreignTable="source">
             <reference local="source_id" foreign="id" />
         </foreign-key>
     </table>
-
     <table name="media" phpName="Media">
-        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true" />
         <column name="source_id" type="INTEGER" />
         <column name="pageid" type="INTEGER" />
         <column name="title" type="VARCHAR" size="255" />
@@ -54,18 +53,22 @@
         <column name="timestamp" type="TIMESTAMP" size="255" />
         <column name="user" type="VARCHAR" size="255" />
         <column name="userid" type="INTEGER" />
-		<behavior name="timestampable" />
+        <column name="missing" type="BOOLEAN" />
+        <column name="known" type="BOOLEAN" />
+        <column name="index" type="INTEGER" />
+        <column name="imagerepository" type="VARCHAR" size="255" />
+        <behavior name="timestampable" />
         <unique>
-            <unique-column name="pageid"/>
-            <unique-column name="title"/>
+            <unique-column name="source_id" />
+            <unique-column name="pageid" />
+            <unique-column name="title" />
         </unique>
-		<foreign-key foreignTable="source">
+        <foreign-key foreignTable="source">
             <reference local="source_id" foreign="id" />
         </foreign-key>
     </table>
-
     <table name="page" phpName="Page">
-        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true" />
         <column name="source_id" type="INTEGER" />
         <column name="pageid" type="INTEGER" />
         <column name="title" type="VARCHAR" size="255" />
@@ -74,33 +77,32 @@
         <column name="wikibase_item" type="VARCHAR" size="255" />
         <column name="disambiguation" type="VARCHAR" size="255" />
         <column name="defaultsort" type="VARCHAR" size="255" />
-		<behavior name="timestampable" />
+        <behavior name="timestampable" />
         <unique>
-            <unique-column name="pageid"/>
-            <unique-column name="title"/>
+            <unique-column name="source_id" />
+            <unique-column name="pageid" />
+            <unique-column name="title" />
         </unique>
-		<foreign-key foreignTable="source">
+        <foreign-key foreignTable="source">
             <reference local="source_id" foreign="id" />
         </foreign-key>
     </table>
-	
     <table name="source" phpName="Source">
-        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="id" type="INTEGER" required="true" primaryKey="true" autoIncrement="true" />
         <column name="title" type="VARCHAR" size="255" required="true" />
         <column name="host" type="VARCHAR" size="255" required="true" />
         <column name="endpoint" type="VARCHAR" size="255" required="true" />
-		<behavior name="timestampable" />
+        <behavior name="timestampable" />
         <unique>
-            <unique-column name="title"/>
+            <unique-column name="title" />
         </unique>
     </table>
-
     <table name="c2m" phpName="C2M">
         <column name="category_id" type="INTEGER" primaryKey="true" />
         <column name="media_id" type="INTEGER" primaryKey="true" />
         <unique>
-            <unique-column name="category_id"/>
-            <unique-column name="media_id"/>
+            <unique-column name="category_id" />
+            <unique-column name="media_id" />
         </unique>
         <foreign-key foreignTable="category">
             <reference local="category_id" foreign="id" />
@@ -109,13 +111,12 @@
             <reference local="media_id" foreign="id" />
         </foreign-key>
     </table>
-
     <table name="c2p" phpName="C2P">
         <column name="category_id" type="INTEGER" primaryKey="true" />
         <column name="page_id" type="INTEGER" primaryKey="true" />
         <unique>
-            <unique-column name="category_id"/>
-            <unique-column name="page_id"/>
+            <unique-column name="category_id" />
+            <unique-column name="page_id" />
         </unique>
         <foreign-key foreignTable="category">
             <reference local="category_id" foreign="id" />
@@ -124,13 +125,12 @@
             <reference local="page_id" foreign="id" />
         </foreign-key>
     </table>
-
     <table name="m2p" phpName="M2P">
         <column name="media_id" type="INTEGER" primaryKey="true" />
         <column name="page_id" type="INTEGER" primaryKey="true" />
         <unique>
-            <unique-column name="media_id"/>
-            <unique-column name="page_id"/>
+            <unique-column name="media_id" />
+            <unique-column name="page_id" />
         </unique>
         <foreign-key foreignTable="media">
             <reference local="media_id" foreign="id" />
@@ -139,6 +139,4 @@
             <reference local="page_id" foreign="id" />
         </foreign-key>
     </table>
-
 </database>
-
