@@ -275,13 +275,6 @@ abstract class Media implements ActiveRecordInterface
     protected $known;
 
     /**
-     * The value for the index field.
-     *
-     * @var        int
-     */
-    protected $index;
-
-    /**
      * The value for the imagerepository field.
      *
      * @var        string
@@ -882,16 +875,6 @@ abstract class Media implements ActiveRecordInterface
     public function isKnown()
     {
         return $this->getKnown();
-    }
-
-    /**
-     * Get the [index] column value.
-     *
-     * @return int
-     */
-    public function getIndex()
-    {
-        return $this->index;
     }
 
     /**
@@ -1545,26 +1528,6 @@ abstract class Media implements ActiveRecordInterface
     } // setKnown()
 
     /**
-     * Set the value of [index] column.
-     *
-     * @param int $v new value
-     * @return $this|\Attogram\SharedMedia\Orm\Media The current object (for fluent API support)
-     */
-    public function setIndex($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->index !== $v) {
-            $this->index = $v;
-            $this->modifiedColumns[MediaTableMap::COL_INDEX] = true;
-        }
-
-        return $this;
-    } // setIndex()
-
-    /**
      * Set the value of [imagerepository] column.
      *
      * @param string $v new value
@@ -1747,16 +1710,13 @@ abstract class Media implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 28 + $startcol : MediaTableMap::translateFieldName('Known', TableMap::TYPE_PHPNAME, $indexType)];
             $this->known = (null !== $col) ? (boolean) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 29 + $startcol : MediaTableMap::translateFieldName('Index', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->index = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 30 + $startcol : MediaTableMap::translateFieldName('Imagerepository', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 29 + $startcol : MediaTableMap::translateFieldName('Imagerepository', TableMap::TYPE_PHPNAME, $indexType)];
             $this->imagerepository = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 31 + $startcol : MediaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 30 + $startcol : MediaTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 32 + $startcol : MediaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 31 + $startcol : MediaTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
             $this->resetModified();
 
@@ -1766,7 +1726,7 @@ abstract class Media implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 33; // 33 = MediaTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 32; // 32 = MediaTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Attogram\\SharedMedia\\Orm\\Media'), 0, $e);
@@ -2120,9 +2080,6 @@ abstract class Media implements ActiveRecordInterface
         if ($this->isColumnModified(MediaTableMap::COL_KNOWN)) {
             $modifiedColumns[':p' . $index++]  = 'known';
         }
-        if ($this->isColumnModified(MediaTableMap::COL_INDEX)) {
-            $modifiedColumns[':p' . $index++]  = 'index';
-        }
         if ($this->isColumnModified(MediaTableMap::COL_IMAGEREPOSITORY)) {
             $modifiedColumns[':p' . $index++]  = 'imagerepository';
         }
@@ -2229,9 +2186,6 @@ abstract class Media implements ActiveRecordInterface
                         break;
                     case 'known':
                         $stmt->bindValue($identifier, $this->known, PDO::PARAM_BOOL);
-                        break;
-                    case 'index':
-                        $stmt->bindValue($identifier, $this->index, PDO::PARAM_INT);
                         break;
                     case 'imagerepository':
                         $stmt->bindValue($identifier, $this->imagerepository, PDO::PARAM_STR);
@@ -2392,15 +2346,12 @@ abstract class Media implements ActiveRecordInterface
                 return $this->getKnown();
                 break;
             case 29:
-                return $this->getIndex();
-                break;
-            case 30:
                 return $this->getImagerepository();
                 break;
-            case 31:
+            case 30:
                 return $this->getCreatedAt();
                 break;
-            case 32:
+            case 31:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -2462,21 +2413,20 @@ abstract class Media implements ActiveRecordInterface
             $keys[26] => $this->getUserid(),
             $keys[27] => $this->getMissing(),
             $keys[28] => $this->getKnown(),
-            $keys[29] => $this->getIndex(),
-            $keys[30] => $this->getImagerepository(),
-            $keys[31] => $this->getCreatedAt(),
-            $keys[32] => $this->getUpdatedAt(),
+            $keys[29] => $this->getImagerepository(),
+            $keys[30] => $this->getCreatedAt(),
+            $keys[31] => $this->getUpdatedAt(),
         );
         if ($result[$keys[24]] instanceof \DateTimeInterface) {
             $result[$keys[24]] = $result[$keys[24]]->format('c');
         }
 
-        if ($result[$keys[31]] instanceof \DateTimeInterface) {
-            $result[$keys[31]] = $result[$keys[31]]->format('c');
+        if ($result[$keys[30]] instanceof \DateTimeInterface) {
+            $result[$keys[30]] = $result[$keys[30]]->format('c');
         }
 
-        if ($result[$keys[32]] instanceof \DateTimeInterface) {
-            $result[$keys[32]] = $result[$keys[32]]->format('c');
+        if ($result[$keys[31]] instanceof \DateTimeInterface) {
+            $result[$keys[31]] = $result[$keys[31]]->format('c');
         }
 
         $virtualColumns = $this->virtualColumns;
@@ -2652,15 +2602,12 @@ abstract class Media implements ActiveRecordInterface
                 $this->setKnown($value);
                 break;
             case 29:
-                $this->setIndex($value);
-                break;
-            case 30:
                 $this->setImagerepository($value);
                 break;
-            case 31:
+            case 30:
                 $this->setCreatedAt($value);
                 break;
-            case 32:
+            case 31:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -2777,16 +2724,13 @@ abstract class Media implements ActiveRecordInterface
             $this->setKnown($arr[$keys[28]]);
         }
         if (array_key_exists($keys[29], $arr)) {
-            $this->setIndex($arr[$keys[29]]);
+            $this->setImagerepository($arr[$keys[29]]);
         }
         if (array_key_exists($keys[30], $arr)) {
-            $this->setImagerepository($arr[$keys[30]]);
+            $this->setCreatedAt($arr[$keys[30]]);
         }
         if (array_key_exists($keys[31], $arr)) {
-            $this->setCreatedAt($arr[$keys[31]]);
-        }
-        if (array_key_exists($keys[32], $arr)) {
-            $this->setUpdatedAt($arr[$keys[32]]);
+            $this->setUpdatedAt($arr[$keys[31]]);
         }
     }
 
@@ -2916,9 +2860,6 @@ abstract class Media implements ActiveRecordInterface
         if ($this->isColumnModified(MediaTableMap::COL_KNOWN)) {
             $criteria->add(MediaTableMap::COL_KNOWN, $this->known);
         }
-        if ($this->isColumnModified(MediaTableMap::COL_INDEX)) {
-            $criteria->add(MediaTableMap::COL_INDEX, $this->index);
-        }
         if ($this->isColumnModified(MediaTableMap::COL_IMAGEREPOSITORY)) {
             $criteria->add(MediaTableMap::COL_IMAGEREPOSITORY, $this->imagerepository);
         }
@@ -3042,7 +2983,6 @@ abstract class Media implements ActiveRecordInterface
         $copyObj->setUserid($this->getUserid());
         $copyObj->setMissing($this->getMissing());
         $copyObj->setKnown($this->getKnown());
-        $copyObj->setIndex($this->getIndex());
         $copyObj->setImagerepository($this->getImagerepository());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
@@ -3711,7 +3651,6 @@ abstract class Media implements ActiveRecordInterface
         $this->userid = null;
         $this->missing = null;
         $this->known = null;
-        $this->index = null;
         $this->imagerepository = null;
         $this->created_at = null;
         $this->updated_at = null;

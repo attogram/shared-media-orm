@@ -63,7 +63,6 @@ CREATE TABLE [media]
     [userid] INTEGER,
     [missing] INTEGER,
     [known] INTEGER,
-    [index] INTEGER,
     [imagerepository] VARCHAR(255),
     [created_at] TIMESTAMP,
     [updated_at] TIMESTAMP,

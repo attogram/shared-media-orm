@@ -1,4 +1,4 @@
-<!-- attogram/shared-media-orm  -  schema.xml  -  v1.2.0  -->
+<!-- attogram/shared-media-orm  -  schema.xml  -  v1.2.1 -->
 <database name="default" defaultIdMethod="native"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd"
@@ -55,7 +55,7 @@
         <column name="userid" type="INTEGER" />
         <column name="missing" type="BOOLEAN" />
         <column name="known" type="BOOLEAN" />
-        <column name="index" type="INTEGER" />
+        <!-- <column name="index" type="INTEGER" /> -->
         <column name="imagerepository" type="VARCHAR" size="255" />
         <behavior name="timestampable" />
         <unique>

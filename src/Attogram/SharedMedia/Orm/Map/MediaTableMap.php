@@ -59,7 +59,7 @@ class MediaTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 33;
+    const NUM_COLUMNS = 32;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class MediaTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 33;
+    const NUM_HYDRATE_COLUMNS = 32;
 
     /**
      * the column name for the id field
@@ -217,11 +217,6 @@ class MediaTableMap extends TableMap
     const COL_KNOWN = 'media.known';
 
     /**
-     * the column name for the index field
-     */
-    const COL_INDEX = 'media.index';
-
-    /**
      * the column name for the imagerepository field
      */
     const COL_IMAGEREPOSITORY = 'media.imagerepository';
@@ -248,11 +243,11 @@ class MediaTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'SourceId', 'Pageid', 'Title', 'Url', 'Mime', 'Width', 'Height', 'Size', 'Sha1', 'Thumburl', 'Thumbmime', 'Thumbwidth', 'Thumbheight', 'Thumbsize', 'Descriptionurl', 'Descriptionurlshort', 'Imagedescription', 'Datetimeoriginal', 'Artist', 'Licenseshortname', 'Usageterms', 'Attributionrequired', 'Restrictions', 'Timestamp', 'User', 'Userid', 'Missing', 'Known', 'Index', 'Imagerepository', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_CAMELNAME     => array('id', 'sourceId', 'pageid', 'title', 'url', 'mime', 'width', 'height', 'size', 'sha1', 'thumburl', 'thumbmime', 'thumbwidth', 'thumbheight', 'thumbsize', 'descriptionurl', 'descriptionurlshort', 'imagedescription', 'datetimeoriginal', 'artist', 'licenseshortname', 'usageterms', 'attributionrequired', 'restrictions', 'timestamp', 'user', 'userid', 'missing', 'known', 'index', 'imagerepository', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(MediaTableMap::COL_ID, MediaTableMap::COL_SOURCE_ID, MediaTableMap::COL_PAGEID, MediaTableMap::COL_TITLE, MediaTableMap::COL_URL, MediaTableMap::COL_MIME, MediaTableMap::COL_WIDTH, MediaTableMap::COL_HEIGHT, MediaTableMap::COL_SIZE, MediaTableMap::COL_SHA1, MediaTableMap::COL_THUMBURL, MediaTableMap::COL_THUMBMIME, MediaTableMap::COL_THUMBWIDTH, MediaTableMap::COL_THUMBHEIGHT, MediaTableMap::COL_THUMBSIZE, MediaTableMap::COL_DESCRIPTIONURL, MediaTableMap::COL_DESCRIPTIONURLSHORT, MediaTableMap::COL_IMAGEDESCRIPTION, MediaTableMap::COL_DATETIMEORIGINAL, MediaTableMap::COL_ARTIST, MediaTableMap::COL_LICENSESHORTNAME, MediaTableMap::COL_USAGETERMS, MediaTableMap::COL_ATTRIBUTIONREQUIRED, MediaTableMap::COL_RESTRICTIONS, MediaTableMap::COL_TIMESTAMP, MediaTableMap::COL_USER, MediaTableMap::COL_USERID, MediaTableMap::COL_MISSING, MediaTableMap::COL_KNOWN, MediaTableMap::COL_INDEX, MediaTableMap::COL_IMAGEREPOSITORY, MediaTableMap::COL_CREATED_AT, MediaTableMap::COL_UPDATED_AT, ),
-        self::TYPE_FIELDNAME     => array('id', 'source_id', 'pageid', 'title', 'url', 'mime', 'width', 'height', 'size', 'sha1', 'thumburl', 'thumbmime', 'thumbwidth', 'thumbheight', 'thumbsize', 'descriptionurl', 'descriptionurlshort', 'imagedescription', 'datetimeoriginal', 'artist', 'licenseshortname', 'usageterms', 'attributionrequired', 'restrictions', 'timestamp', 'user', 'userid', 'missing', 'known', 'index', 'imagerepository', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, )
+        self::TYPE_PHPNAME       => array('Id', 'SourceId', 'Pageid', 'Title', 'Url', 'Mime', 'Width', 'Height', 'Size', 'Sha1', 'Thumburl', 'Thumbmime', 'Thumbwidth', 'Thumbheight', 'Thumbsize', 'Descriptionurl', 'Descriptionurlshort', 'Imagedescription', 'Datetimeoriginal', 'Artist', 'Licenseshortname', 'Usageterms', 'Attributionrequired', 'Restrictions', 'Timestamp', 'User', 'Userid', 'Missing', 'Known', 'Imagerepository', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_CAMELNAME     => array('id', 'sourceId', 'pageid', 'title', 'url', 'mime', 'width', 'height', 'size', 'sha1', 'thumburl', 'thumbmime', 'thumbwidth', 'thumbheight', 'thumbsize', 'descriptionurl', 'descriptionurlshort', 'imagedescription', 'datetimeoriginal', 'artist', 'licenseshortname', 'usageterms', 'attributionrequired', 'restrictions', 'timestamp', 'user', 'userid', 'missing', 'known', 'imagerepository', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(MediaTableMap::COL_ID, MediaTableMap::COL_SOURCE_ID, MediaTableMap::COL_PAGEID, MediaTableMap::COL_TITLE, MediaTableMap::COL_URL, MediaTableMap::COL_MIME, MediaTableMap::COL_WIDTH, MediaTableMap::COL_HEIGHT, MediaTableMap::COL_SIZE, MediaTableMap::COL_SHA1, MediaTableMap::COL_THUMBURL, MediaTableMap::COL_THUMBMIME, MediaTableMap::COL_THUMBWIDTH, MediaTableMap::COL_THUMBHEIGHT, MediaTableMap::COL_THUMBSIZE, MediaTableMap::COL_DESCRIPTIONURL, MediaTableMap::COL_DESCRIPTIONURLSHORT, MediaTableMap::COL_IMAGEDESCRIPTION, MediaTableMap::COL_DATETIMEORIGINAL, MediaTableMap::COL_ARTIST, MediaTableMap::COL_LICENSESHORTNAME, MediaTableMap::COL_USAGETERMS, MediaTableMap::COL_ATTRIBUTIONREQUIRED, MediaTableMap::COL_RESTRICTIONS, MediaTableMap::COL_TIMESTAMP, MediaTableMap::COL_USER, MediaTableMap::COL_USERID, MediaTableMap::COL_MISSING, MediaTableMap::COL_KNOWN, MediaTableMap::COL_IMAGEREPOSITORY, MediaTableMap::COL_CREATED_AT, MediaTableMap::COL_UPDATED_AT, ),
+        self::TYPE_FIELDNAME     => array('id', 'source_id', 'pageid', 'title', 'url', 'mime', 'width', 'height', 'size', 'sha1', 'thumburl', 'thumbmime', 'thumbwidth', 'thumbheight', 'thumbsize', 'descriptionurl', 'descriptionurlshort', 'imagedescription', 'datetimeoriginal', 'artist', 'licenseshortname', 'usageterms', 'attributionrequired', 'restrictions', 'timestamp', 'user', 'userid', 'missing', 'known', 'imagerepository', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, )
     );
 
     /**
@@ -262,11 +257,11 @@ class MediaTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'SourceId' => 1, 'Pageid' => 2, 'Title' => 3, 'Url' => 4, 'Mime' => 5, 'Width' => 6, 'Height' => 7, 'Size' => 8, 'Sha1' => 9, 'Thumburl' => 10, 'Thumbmime' => 11, 'Thumbwidth' => 12, 'Thumbheight' => 13, 'Thumbsize' => 14, 'Descriptionurl' => 15, 'Descriptionurlshort' => 16, 'Imagedescription' => 17, 'Datetimeoriginal' => 18, 'Artist' => 19, 'Licenseshortname' => 20, 'Usageterms' => 21, 'Attributionrequired' => 22, 'Restrictions' => 23, 'Timestamp' => 24, 'User' => 25, 'Userid' => 26, 'Missing' => 27, 'Known' => 28, 'Index' => 29, 'Imagerepository' => 30, 'CreatedAt' => 31, 'UpdatedAt' => 32, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceId' => 1, 'pageid' => 2, 'title' => 3, 'url' => 4, 'mime' => 5, 'width' => 6, 'height' => 7, 'size' => 8, 'sha1' => 9, 'thumburl' => 10, 'thumbmime' => 11, 'thumbwidth' => 12, 'thumbheight' => 13, 'thumbsize' => 14, 'descriptionurl' => 15, 'descriptionurlshort' => 16, 'imagedescription' => 17, 'datetimeoriginal' => 18, 'artist' => 19, 'licenseshortname' => 20, 'usageterms' => 21, 'attributionrequired' => 22, 'restrictions' => 23, 'timestamp' => 24, 'user' => 25, 'userid' => 26, 'missing' => 27, 'known' => 28, 'index' => 29, 'imagerepository' => 30, 'createdAt' => 31, 'updatedAt' => 32, ),
-        self::TYPE_COLNAME       => array(MediaTableMap::COL_ID => 0, MediaTableMap::COL_SOURCE_ID => 1, MediaTableMap::COL_PAGEID => 2, MediaTableMap::COL_TITLE => 3, MediaTableMap::COL_URL => 4, MediaTableMap::COL_MIME => 5, MediaTableMap::COL_WIDTH => 6, MediaTableMap::COL_HEIGHT => 7, MediaTableMap::COL_SIZE => 8, MediaTableMap::COL_SHA1 => 9, MediaTableMap::COL_THUMBURL => 10, MediaTableMap::COL_THUMBMIME => 11, MediaTableMap::COL_THUMBWIDTH => 12, MediaTableMap::COL_THUMBHEIGHT => 13, MediaTableMap::COL_THUMBSIZE => 14, MediaTableMap::COL_DESCRIPTIONURL => 15, MediaTableMap::COL_DESCRIPTIONURLSHORT => 16, MediaTableMap::COL_IMAGEDESCRIPTION => 17, MediaTableMap::COL_DATETIMEORIGINAL => 18, MediaTableMap::COL_ARTIST => 19, MediaTableMap::COL_LICENSESHORTNAME => 20, MediaTableMap::COL_USAGETERMS => 21, MediaTableMap::COL_ATTRIBUTIONREQUIRED => 22, MediaTableMap::COL_RESTRICTIONS => 23, MediaTableMap::COL_TIMESTAMP => 24, MediaTableMap::COL_USER => 25, MediaTableMap::COL_USERID => 26, MediaTableMap::COL_MISSING => 27, MediaTableMap::COL_KNOWN => 28, MediaTableMap::COL_INDEX => 29, MediaTableMap::COL_IMAGEREPOSITORY => 30, MediaTableMap::COL_CREATED_AT => 31, MediaTableMap::COL_UPDATED_AT => 32, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'source_id' => 1, 'pageid' => 2, 'title' => 3, 'url' => 4, 'mime' => 5, 'width' => 6, 'height' => 7, 'size' => 8, 'sha1' => 9, 'thumburl' => 10, 'thumbmime' => 11, 'thumbwidth' => 12, 'thumbheight' => 13, 'thumbsize' => 14, 'descriptionurl' => 15, 'descriptionurlshort' => 16, 'imagedescription' => 17, 'datetimeoriginal' => 18, 'artist' => 19, 'licenseshortname' => 20, 'usageterms' => 21, 'attributionrequired' => 22, 'restrictions' => 23, 'timestamp' => 24, 'user' => 25, 'userid' => 26, 'missing' => 27, 'known' => 28, 'index' => 29, 'imagerepository' => 30, 'created_at' => 31, 'updated_at' => 32, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'SourceId' => 1, 'Pageid' => 2, 'Title' => 3, 'Url' => 4, 'Mime' => 5, 'Width' => 6, 'Height' => 7, 'Size' => 8, 'Sha1' => 9, 'Thumburl' => 10, 'Thumbmime' => 11, 'Thumbwidth' => 12, 'Thumbheight' => 13, 'Thumbsize' => 14, 'Descriptionurl' => 15, 'Descriptionurlshort' => 16, 'Imagedescription' => 17, 'Datetimeoriginal' => 18, 'Artist' => 19, 'Licenseshortname' => 20, 'Usageterms' => 21, 'Attributionrequired' => 22, 'Restrictions' => 23, 'Timestamp' => 24, 'User' => 25, 'Userid' => 26, 'Missing' => 27, 'Known' => 28, 'Imagerepository' => 29, 'CreatedAt' => 30, 'UpdatedAt' => 31, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'sourceId' => 1, 'pageid' => 2, 'title' => 3, 'url' => 4, 'mime' => 5, 'width' => 6, 'height' => 7, 'size' => 8, 'sha1' => 9, 'thumburl' => 10, 'thumbmime' => 11, 'thumbwidth' => 12, 'thumbheight' => 13, 'thumbsize' => 14, 'descriptionurl' => 15, 'descriptionurlshort' => 16, 'imagedescription' => 17, 'datetimeoriginal' => 18, 'artist' => 19, 'licenseshortname' => 20, 'usageterms' => 21, 'attributionrequired' => 22, 'restrictions' => 23, 'timestamp' => 24, 'user' => 25, 'userid' => 26, 'missing' => 27, 'known' => 28, 'imagerepository' => 29, 'createdAt' => 30, 'updatedAt' => 31, ),
+        self::TYPE_COLNAME       => array(MediaTableMap::COL_ID => 0, MediaTableMap::COL_SOURCE_ID => 1, MediaTableMap::COL_PAGEID => 2, MediaTableMap::COL_TITLE => 3, MediaTableMap::COL_URL => 4, MediaTableMap::COL_MIME => 5, MediaTableMap::COL_WIDTH => 6, MediaTableMap::COL_HEIGHT => 7, MediaTableMap::COL_SIZE => 8, MediaTableMap::COL_SHA1 => 9, MediaTableMap::COL_THUMBURL => 10, MediaTableMap::COL_THUMBMIME => 11, MediaTableMap::COL_THUMBWIDTH => 12, MediaTableMap::COL_THUMBHEIGHT => 13, MediaTableMap::COL_THUMBSIZE => 14, MediaTableMap::COL_DESCRIPTIONURL => 15, MediaTableMap::COL_DESCRIPTIONURLSHORT => 16, MediaTableMap::COL_IMAGEDESCRIPTION => 17, MediaTableMap::COL_DATETIMEORIGINAL => 18, MediaTableMap::COL_ARTIST => 19, MediaTableMap::COL_LICENSESHORTNAME => 20, MediaTableMap::COL_USAGETERMS => 21, MediaTableMap::COL_ATTRIBUTIONREQUIRED => 22, MediaTableMap::COL_RESTRICTIONS => 23, MediaTableMap::COL_TIMESTAMP => 24, MediaTableMap::COL_USER => 25, MediaTableMap::COL_USERID => 26, MediaTableMap::COL_MISSING => 27, MediaTableMap::COL_KNOWN => 28, MediaTableMap::COL_IMAGEREPOSITORY => 29, MediaTableMap::COL_CREATED_AT => 30, MediaTableMap::COL_UPDATED_AT => 31, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'source_id' => 1, 'pageid' => 2, 'title' => 3, 'url' => 4, 'mime' => 5, 'width' => 6, 'height' => 7, 'size' => 8, 'sha1' => 9, 'thumburl' => 10, 'thumbmime' => 11, 'thumbwidth' => 12, 'thumbheight' => 13, 'thumbsize' => 14, 'descriptionurl' => 15, 'descriptionurlshort' => 16, 'imagedescription' => 17, 'datetimeoriginal' => 18, 'artist' => 19, 'licenseshortname' => 20, 'usageterms' => 21, 'attributionrequired' => 22, 'restrictions' => 23, 'timestamp' => 24, 'user' => 25, 'userid' => 26, 'missing' => 27, 'known' => 28, 'imagerepository' => 29, 'created_at' => 30, 'updated_at' => 31, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, )
     );
 
     /**
@@ -315,7 +310,6 @@ class MediaTableMap extends TableMap
         $this->addColumn('userid', 'Userid', 'INTEGER', false, null, null);
         $this->addColumn('missing', 'Missing', 'BOOLEAN', false, null, null);
         $this->addColumn('known', 'Known', 'BOOLEAN', false, null, null);
-        $this->addColumn('index', 'Index', 'INTEGER', false, null, null);
         $this->addColumn('imagerepository', 'Imagerepository', 'VARCHAR', false, 255, null);
         $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
@@ -532,7 +526,6 @@ class MediaTableMap extends TableMap
             $criteria->addSelectColumn(MediaTableMap::COL_USERID);
             $criteria->addSelectColumn(MediaTableMap::COL_MISSING);
             $criteria->addSelectColumn(MediaTableMap::COL_KNOWN);
-            $criteria->addSelectColumn(MediaTableMap::COL_INDEX);
             $criteria->addSelectColumn(MediaTableMap::COL_IMAGEREPOSITORY);
             $criteria->addSelectColumn(MediaTableMap::COL_CREATED_AT);
             $criteria->addSelectColumn(MediaTableMap::COL_UPDATED_AT);
@@ -566,7 +559,6 @@ class MediaTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.userid');
             $criteria->addSelectColumn($alias . '.missing');
             $criteria->addSelectColumn($alias . '.known');
-            $criteria->addSelectColumn($alias . '.index');
             $criteria->addSelectColumn($alias . '.imagerepository');
             $criteria->addSelectColumn($alias . '.created_at');
             $criteria->addSelectColumn($alias . '.updated_at');

@@ -49,7 +49,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery orderByUserid($order = Criteria::ASC) Order by the userid column
  * @method     ChildMediaQuery orderByMissing($order = Criteria::ASC) Order by the missing column
  * @method     ChildMediaQuery orderByKnown($order = Criteria::ASC) Order by the known column
- * @method     ChildMediaQuery orderByIndex($order = Criteria::ASC) Order by the index column
  * @method     ChildMediaQuery orderByImagerepository($order = Criteria::ASC) Order by the imagerepository column
  * @method     ChildMediaQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     ChildMediaQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
@@ -83,7 +82,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMediaQuery groupByUserid() Group by the userid column
  * @method     ChildMediaQuery groupByMissing() Group by the missing column
  * @method     ChildMediaQuery groupByKnown() Group by the known column
- * @method     ChildMediaQuery groupByIndex() Group by the index column
  * @method     ChildMediaQuery groupByImagerepository() Group by the imagerepository column
  * @method     ChildMediaQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildMediaQuery groupByUpdatedAt() Group by the updated_at column
@@ -160,7 +158,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia findOneByUserid(int $userid) Return the first ChildMedia filtered by the userid column
  * @method     ChildMedia findOneByMissing(boolean $missing) Return the first ChildMedia filtered by the missing column
  * @method     ChildMedia findOneByKnown(boolean $known) Return the first ChildMedia filtered by the known column
- * @method     ChildMedia findOneByIndex(int $index) Return the first ChildMedia filtered by the index column
  * @method     ChildMedia findOneByImagerepository(string $imagerepository) Return the first ChildMedia filtered by the imagerepository column
  * @method     ChildMedia findOneByCreatedAt(string $created_at) Return the first ChildMedia filtered by the created_at column
  * @method     ChildMedia findOneByUpdatedAt(string $updated_at) Return the first ChildMedia filtered by the updated_at column *
@@ -197,7 +194,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia requireOneByUserid(int $userid) Return the first ChildMedia filtered by the userid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByMissing(boolean $missing) Return the first ChildMedia filtered by the missing column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByKnown(boolean $known) Return the first ChildMedia filtered by the known column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildMedia requireOneByIndex(int $index) Return the first ChildMedia filtered by the index column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByImagerepository(string $imagerepository) Return the first ChildMedia filtered by the imagerepository column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByCreatedAt(string $created_at) Return the first ChildMedia filtered by the created_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildMedia requireOneByUpdatedAt(string $updated_at) Return the first ChildMedia filtered by the updated_at column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -232,7 +228,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMedia[]|ObjectCollection findByUserid(int $userid) Return ChildMedia objects filtered by the userid column
  * @method     ChildMedia[]|ObjectCollection findByMissing(boolean $missing) Return ChildMedia objects filtered by the missing column
  * @method     ChildMedia[]|ObjectCollection findByKnown(boolean $known) Return ChildMedia objects filtered by the known column
- * @method     ChildMedia[]|ObjectCollection findByIndex(int $index) Return ChildMedia objects filtered by the index column
  * @method     ChildMedia[]|ObjectCollection findByImagerepository(string $imagerepository) Return ChildMedia objects filtered by the imagerepository column
  * @method     ChildMedia[]|ObjectCollection findByCreatedAt(string $created_at) Return ChildMedia objects filtered by the created_at column
  * @method     ChildMedia[]|ObjectCollection findByUpdatedAt(string $updated_at) Return ChildMedia objects filtered by the updated_at column
@@ -334,7 +329,7 @@ abstract class MediaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, source_id, pageid, title, url, mime, width, height, size, sha1, thumburl, thumbmime, thumbwidth, thumbheight, thumbsize, descriptionurl, descriptionurlshort, imagedescription, datetimeoriginal, artist, licenseshortname, usageterms, attributionrequired, restrictions, timestamp, user, userid, missing, known, index, imagerepository, created_at, updated_at FROM media WHERE id = :p0';
+        $sql = 'SELECT id, source_id, pageid, title, url, mime, width, height, size, sha1, thumburl, thumbmime, thumbwidth, thumbheight, thumbsize, descriptionurl, descriptionurlshort, imagedescription, datetimeoriginal, artist, licenseshortname, usageterms, attributionrequired, restrictions, timestamp, user, userid, missing, known, imagerepository, created_at, updated_at FROM media WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -1331,47 +1326,6 @@ abstract class MediaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MediaTableMap::COL_KNOWN, $known, $comparison);
-    }
-
-    /**
-     * Filter the query on the index column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIndex(1234); // WHERE index = 1234
-     * $query->filterByIndex(array(12, 34)); // WHERE index IN (12, 34)
-     * $query->filterByIndex(array('min' => 12)); // WHERE index > 12
-     * </code>
-     *
-     * @param     mixed $index The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return $this|ChildMediaQuery The current query, for fluid interface
-     */
-    public function filterByIndex($index = null, $comparison = null)
-    {
-        if (is_array($index)) {
-            $useMinMax = false;
-            if (isset($index['min'])) {
-                $this->addUsingAlias(MediaTableMap::COL_INDEX, $index['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($index['max'])) {
-                $this->addUsingAlias(MediaTableMap::COL_INDEX, $index['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(MediaTableMap::COL_INDEX, $index, $comparison);
     }
 
     /**
