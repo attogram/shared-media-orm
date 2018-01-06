@@ -83,7 +83,7 @@ plugins:
     config:
       languages:
         php:
-          mass_threshold: 60
+          mass_threshold: 65
   csslint:
     enabled: true
   stylelint:

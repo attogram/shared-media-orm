@@ -31,7 +31,7 @@ class PageQuery extends BasePageQuery
     {
         return $this->getPagesFromApiResponse($this->api->search($query));
     }
-	
+
     public function info()
     {
         return $this->getPagesFromApiResponse($this->api->info());
